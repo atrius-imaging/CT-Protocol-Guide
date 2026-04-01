@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -191,16 +191,25 @@
 
 <div class="ref-strip">
   <div class="ref-panel">
-    <div class="ref-title">&#9888; Oral Contrast Criteria &mdash; give oral prep if patient meets ANY:</div>
+    <div class="ref-title">&#9888; Oral Contrast Criteria</div>
     <div class="ref-body">
+      <strong style="font-size:11px;">Non-STAT</strong> &mdash; give if ANY apply:
       <ul>
         <li>BMI &lt; 25</li>
         <li>Oncology patient (if can tolerate)</li>
         <li>Recent abdominal surgery (within past 30 days)</li>
-        <li>Known IBD</li>
-        <li>Post gastric bypass (sip slowly, only as much as pouch holds)</li>
-        <li>Clinical indication includes &ldquo;weight loss&rdquo;</li>
+        <li>Known IBD (Crohn&rsquo;s / UC)</li>
+        <li>Post gastric bypass (sip slowly)</li>
+        <li>Weight loss indication</li>
       </ul>
+      <strong style="font-size:11px;">STAT</strong> &mdash; give if ANY apply:
+      <ul>
+        <li>BMI &lt; 25</li>
+        <li>Recent abdominal surgery</li>
+        <li>Known IBD</li>
+        <li>Post gastric bypass</li>
+      </ul>
+      <div style="margin-top:4px; font-size:11px; font-style:italic; color:#92400e;">Readi-Cat: contraindicated if suspected GI perforation or barium allergy. Berry smoothie: no strawberry allergy. Vanilla smoothie: no gluten allergy.</div>
     </div>
   </div>
   <div class="ref-panel">
@@ -289,10 +298,11 @@
       <div class="form-group" id="oralTypeGroup">
         <label>Oral Contrast Type</label>
         <select id="f_oral_type">
-          <option value="">â€” Select type â€”</option>
-          <option value="Redi Cat">Redi Cat</option>
-          <option value="Omnipaque Solution">Omnipaque Solution</option>
-          <option value="Breeza">Breeza</option>
+          <option value=””>— Select type —</option>
+          <option value=”Readi-Cat”>Readi-Cat</option>
+          <option value=”Gastro-Grafin”>Gastro-Grafin</option>
+          <option value=”Volumen”>Volumen</option>
+          <option value=”Breeza”>Breeza</option>
         </select>
       </div>
       <div class="form-group">
@@ -827,9 +837,25 @@ const protocols = [
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"IV contrast CTA.", source:"atrius" },
 
+  { indication:"Thoracic Aortic Aneurysm / Dilation Follow-Up", category:"cta", epic_order:"Chest CT W/O Contrast", epic_id:"71250C", cpt:"71250",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast needed for surveillance of known aneurysm. Initial study: Chest CTA (71275A).", source:"acr" },
+
+  { indication:"Aortic Repair / Post-TEVAR Follow-Up (Chest + Abdomen)", category:"cta", epic_order:"Chest CTA Aorta (71275AO) + Abdomen/Pelvis CTA (74174AA)", epic_id:"71275AO + 74174AA", cpt:"71275 + 74174",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"Dual order for post-surgical/post-TEVAR evaluation. IV contrast only.", source:"atrius", dual_order:true },
+
   { indication:"Thoracic Aorta Coarctation / Dissection (Chest + Abdomen)", category:"cta", epic_order:"Chest CTA Aorta (71275AO) + Abdomen/Pelvis CTA (74174AA)", epic_id:"71275AO + 74174AA", cpt:"71275 + 74174",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"Dual order: both Chest and Abd/Pel CTA required. IV contrast only.", source:"atrius", dual_order:true },
+
+  { indication:"Splenic Artery Aneurysm", category:"cta", epic_order:"Abdomen CTA", epic_id:"74175AA", cpt:"74175",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA.", source:"atrius" },
+
+  { indication:"SMA Disease / Mesenteric Ischemia / Bowel Ischemia (SMA)", category:"cta", epic_order:"Abdomen/Pelvis CTA", epic_id:"74174AA", cpt:"74174",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA. No oral prep for ischemia workup.", source:"acr" },
 
   { indication:"Endo Aneurysm Repair / Endoleak", category:"cta", epic_order:"Abdomen/Pelvis CTA", epic_id:"74174AA", cpt:"74174",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
@@ -839,21 +865,29 @@ const protocols = [
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"IV contrast CTA. No oral prep.", source:"atrius" },
 
-  { indication:"Renal Artery Stenosis", category:"cta", epic_order:"Abdomen CTA", epic_id:"74175AA", cpt:"74175",
+  { indication:"Renal Artery Stenosis / Renal Vascular Disease", category:"cta", epic_order:"Abdomen CTA", epic_id:"74175AA", cpt:"74175",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
-    notes:"IV contrast CTA.", source:"atrius" },
+    notes:"IV contrast CTA. If low eGFR, consider Renal MRA (74185RA) instead.", source:"atrius" },
 
   { indication:"Carotid / Neck CTA", category:"cta", epic_order:"Neck CTA", epic_id:"70498", cpt:"70498",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"IV contrast CTA.", source:"atrius" },
 
-  { indication:"Head CTA / Intracranial Vessels", category:"cta", epic_order:"Head CTA", epic_id:"70496", cpt:"70496",
+  { indication:"Head CTA / Intracranial Vessels / Brain Aneurysm", category:"cta", epic_order:"Head CTA", epic_id:"70496", cpt:"70496",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
-    notes:"IV contrast CTA.", source:"atrius" },
+    notes:"IV contrast CTA. Include I- head if patient has neurological symptoms.", source:"atrius" },
 
   { indication:"Head and Neck CTA", category:"cta", epic_order:"Head / Neck CTA", epic_id:"70496HN", cpt:"70496 / 70498",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
-    notes:"IV contrast CTA from arch to vertex.", source:"atrius" },
+    notes:"IV contrast CTA from arch to vertex. Include I- head if patient has neurological symptoms.", source:"atrius" },
+
+  { indication:"Dural Sinus Thrombosis / Cerebral Venous Thrombosis", category:"cta", epic_order:"Head CTA", epic_id:"70496", cpt:"70496",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA. MRV Brain W/O is preferred if available.", source:"acr" },
+
+  { indication:"Carotid / Vertebral Artery Dissection", category:"cta", epic_order:"Head / Neck CTA", epic_id:"70496HN", cpt:"70496 / 70498",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA head and neck. MRA Brain/Neck is alternative.", source:"acr" },
 
   { indication:"Runoff CTA (Peripheral Vascular / Lower Extremity)", category:"cta", epic_order:"Abdomen/Pelvis CTA W/ Runoff", epic_id:"75635", cpt:"75635",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
@@ -978,9 +1012,9 @@ const CAT_LABELS = { head:'Head / Neck', chest:'Chest', abdomen:'Abdomen / Pelvi
 const CAT_BADGE  = { head:'badge-head', chest:'badge-chest', abdomen:'badge-abdomen', cta:'badge-cta', cardiac:'badge-cardiac', spine:'badge-spine' };
 
 function ivLabel(iv) {
-  if (iv === 'with')  return { css:'cp-iv',    text:'IV Contrast' };
-  if (iv === 'wo_w')  return { css:'cp-iv-wo', text:'IV W/O then W/ Contrast' };
-  return { css:'cp-none', text:'No IV Contrast' };
+  if (iv === 'with')  return { css:'cp-iv',    text:'I+ (With Contrast)' };
+  if (iv === 'wo_w')  return { css:'cp-iv-wo', text:'I- then I+ (W/O & W/ Contrast)' };
+  return { css:'cp-none', text:'I- (Without Contrast)' };
 }
 
 function oralLabel(oral, oral_type) {
