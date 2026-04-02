@@ -180,48 +180,48 @@
 <body>
 
 <header>
-  <div class="header-logo">📋</div>
+  <div class="header-logo">ð</div>
   <div>
     <h1>CT Protocol Guide</h1>
-    <p>Atrius Imaging — CT Protocolling Assistant</p>
+    <p>Atrius Imaging â CT Protocolling Assistant</p>
   </div>
 </header>
 
-<div id="tokenBanner" style="display:none;">⚠ GitHub not connected — protocol additions will only save to <strong>this browser</strong>. <a onclick="openSettingsModal()">Connect in Settings</a> to sync to all users.</div>
+<div id="tokenBanner" style="display:none;">â  GitHub not connected â protocol additions will only save to <strong>this browser</strong>. <a onclick="openSettingsModal()">Connect in Settings</a> to sync to all users.</div>
 
 <div class="search-area">
   <div class="search-wrap">
-    <span class="search-icon">🔍</span>
-    <input type="text" id="searchInput" placeholder="Search by clinical indication or protocol name (e.g. “chest pain”, “PE”, “diverticulitis”)..." autocomplete="off">
-    <button class="clear-btn" id="clearBtn" onclick="clearSearch()">✕</button>
+    <span class="search-icon">ð</span>
+    <input type="text" id="searchInput" placeholder="Search by clinical indication or protocol name (e.g. âchest painâ, âPEâ, âdiverticulitisâ)..." autocomplete="off">
+    <button class="clear-btn" id="clearBtn" onclick="clearSearch()">â</button>
   </div>
   <div class="tabs">
     <button class="tab active" onclick="setCategory('all')">All</button>
-    <button class="tab" onclick="setCategory('head')">👀 Head / Neck</button>
-    <button class="tab" onclick="setCategory('chest')">🟦 Chest</button>
-    <button class="tab" onclick="setCategory('abdomen')">🟠 Abdomen / Pelvis</button>
-    <button class="tab" onclick="setCategory('cta')">🛠 CTA / Vascular</button>
-    <button class="tab" onclick="setCategory('cardiac')">♥ Cardiac</button>
-    <button class="tab" onclick="setCategory('spine')">🦴 Spine / Extremity</button>
+    <button class="tab" onclick="setCategory('head')">ð Head / Neck</button>
+    <button class="tab" onclick="setCategory('chest')">ð¦ Chest</button>
+    <button class="tab" onclick="setCategory('abdomen')">ð  Abdomen / Pelvis</button>
+    <button class="tab" onclick="setCategory('cta')">ð  CTA / Vascular</button>
+    <button class="tab" onclick="setCategory('cardiac')">â¥ Cardiac</button>
+    <button class="tab" onclick="setCategory('spine')">ð¦´ Spine / Extremity</button>
     <button class="tab" id="addTab" onclick="showAddPanel()" style="margin-left:auto; background:#e0f2fe; color:#075985;">+ Add Protocol</button>
-    <button class="tab" id="settingsTab" onclick="openSettingsModal()" title="GitHub Settings" style="background:#f8fafc; color:#475569; padding:7px 11px;">⚙</button>
+    <button class="tab" id="settingsTab" onclick="openSettingsModal()" title="GitHub Settings" style="background:#f8fafc; color:#475569; padding:7px 11px;">â</button>
   </div>
 </div>
 
 <div class="ref-strip">
   <div class="ref-panel">
-    <div class="ref-title">⚠ Oral Contrast Criteria</div>
+    <div class="ref-title">â  Oral Contrast Criteria</div>
     <div class="ref-body">
-      <strong style="font-size:11px;">Non-STAT</strong> — give if ANY apply:
+      <strong style="font-size:11px;">Non-STAT</strong> â give if ANY apply:
       <ul>
         <li>BMI &lt; 25</li>
         <li>Oncology patient (if can tolerate)</li>
         <li>Recent abdominal surgery (within past 30 days)</li>
-        <li>Known IBD (Crohn’s / UC)</li>
+        <li>Known IBD (Crohnâs / UC)</li>
         <li>Post gastric bypass (sip slowly)</li>
         <li>Weight loss indication</li>
       </ul>
-      <strong style="font-size:11px;">STAT</strong> — give if ANY apply:
+      <strong style="font-size:11px;">STAT</strong> â give if ANY apply:
       <ul>
         <li>BMI &lt; 25</li>
         <li>Recent abdominal surgery</li>
@@ -232,7 +232,7 @@
     </div>
   </div>
   <div class="ref-panel">
-    <div class="ref-title">📋 Creatinine / eGFR Labs — order if patient has ANY:</div>
+    <div class="ref-title">ð Creatinine / eGFR Labs â order if patient has ANY:</div>
     <div class="ref-body">
       <ul>
         <li>Diabetic</li>
@@ -242,13 +242,13 @@
     </div>
   </div>
   <div class="ref-panel">
-    <div class="ref-title">👤 Pediatric Age Guidelines:</div>
+    <div class="ref-title">ð¤ Pediatric Age Guidelines:</div>
     <div class="ref-body">
       <table class="pedi-table">
         <tbody><tr><th>Age</th><th>CT</th></tr>
-        <tr><td>Under 8 yrs (1–7y)</td><td>Send externally (Non-Atrius)</td></tr>
-        <tr><td>8–11 yrs</td><td>Non-contrast (I-) only</td></tr>
-        <tr><td>12–17 yrs</td><td>Non-contrast (I-) &amp; Contrast (I+) OK</td></tr>
+        <tr><td>Under 8 yrs (1â7y)</td><td>Send externally (Non-Atrius)</td></tr>
+        <tr><td>8â11 yrs</td><td>Non-contrast (I-) only</td></tr>
+        <tr><td>12â17 yrs</td><td>Non-contrast (I-) &amp; Contrast (I+) OK</td></tr>
       </tbody></table>
     </div>
   </div>
@@ -258,9 +258,9 @@
   <div class="results-count" id="resultsCount"></div>
   <div class="results-list" id="resultsGrid">
       <div class="welcome">
-        <div style="font-size:36px; margin-bottom:8px;">📋</div>
+        <div style="font-size:36px; margin-bottom:8px;">ð</div>
         <h3>CT Protocol Quick Reference</h3>
-        <p>Type a clinical indication above (e.g. “diverticulitis”, “PE”, “hematuria”)</p>
+        <p>Type a clinical indication above (e.g. âdiverticulitisâ, âPEâ, âhematuriaâ)</p>
         <p>Or select a category tab to browse all protocols</p>
         <div class="cat-grid">
           <button class="cat-btn" style="background:#ede9fe;color:#5b21b6" onclick="setCategory('head')">Head / Neck</button>
@@ -283,9 +283,9 @@
     </div>
 
     <div id="tokenSection" style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:7px;padding:10px 14px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;gap:10px;">
-      <div id="tokenConnected" style="font-size: 13px; color: rgb(22, 101, 52);">✓ GitHub connected — changes sync to all users.</div>
-      <div id="tokenNotConnected" style="font-size: 13px; color: rgb(3, 105, 161); display: none;">🔒 GitHub not connected — changes save to this browser only.</div>
-      <button onclick="openSettingsModal()" style="background:#0369a1;color:white;border:none;padding:6px 12px;border-radius:6px;font-size:12px;cursor:pointer;white-space:nowrap;">⚙ Settings</button>
+      <div id="tokenConnected" style="font-size: 13px; color: rgb(22, 101, 52);">â GitHub connected â changes sync to all users.</div>
+      <div id="tokenNotConnected" style="font-size: 13px; color: rgb(3, 105, 161); display: none;">ð GitHub not connected â changes save to this browser only.</div>
+      <button onclick="openSettingsModal()" style="background:#0369a1;color:white;border:none;padding:6px 12px;border-radius:6px;font-size:12px;cursor:pointer;white-space:nowrap;">â Settings</button>
     </div>
     <div id="newProtocolForm">
     <div class="form-grid">
@@ -331,7 +331,7 @@
       <div class="form-group" id="oralTypeGroup">
         <label>Oral Contrast Type</label>
         <select id="f_oral_type">
-          <option value="">— Select type —</option>
+          <option value="">â Select type â</option>
           <option value="Readi-Cat">Readi-Cat</option>
           <option value="Omnipaque Solution">Omnipaque Solution</option>
           <option value="Breeza">Breeza</option>
@@ -363,7 +363,7 @@
         <textarea id="f_notes" placeholder="e.g. IV contrast only, no oral prep"></textarea>
       </div>
       <div class="form-group full">
-        <label>Special Instructions <span style="font-weight:400;color:#94a3b8">(optional — site restrictions, self-pay, prep details)</span></label>
+        <label>Special Instructions <span style="font-weight:400;color:#94a3b8">(optional â site restrictions, self-pay, prep details)</span></label>
         <textarea id="f_special" placeholder="e.g. Kenmore only. No caffeine 12 hrs prior."></textarea>
       </div>
     </div>
@@ -395,7 +395,7 @@
       <div id="indError"></div>
     </div>
 
-    <div class="form-success" id="formSuccess">✓ Saved and synced to GitHub.</div>
+    <div class="form-success" id="formSuccess">â Saved and synced to GitHub.</div>
 
     <div class="manage-section">
       <h3>Custom Protocols Added</h3>
@@ -410,7 +410,7 @@
 <!-- PASSWORD MODAL -->
 <div class="modal-overlay" id="pwModal">
   <div class="modal-box">
-    <h3>🔒 Admin Access</h3>
+    <h3>ð Admin Access</h3>
     <p>Enter the password to add or manage protocols.</p>
     <input type="password" id="pwInput" placeholder="Password" onkeydown="if(event.key==='Enter')checkPassword()">
     <div class="modal-err" id="pwErr">Incorrect password. Try again.</div>
@@ -423,10 +423,10 @@
 
 <div class="modal-overlay show" id="settingsModal">
   <div class="modal-box" style="width:420px;">
-    <h3>⚙ GitHub Settings</h3>
-    <p>Connect once to sync protocol additions to all users — no PowerShell needed.</p>
+    <h3>â GitHub Settings</h3>
+    <p>Connect once to sync protocol additions to all users â no PowerShell needed.</p>
     <div id="settingConnected" class="settings-connected" style="">
-      <span>✓ Connected — changes sync to GitHub automatically.</span>
+      <span>â Connected â changes sync to GitHub automatically.</span>
       <button onclick="clearSettingToken()" style="background:none;border:1px solid #bbf7d0;color:#166534;border-radius:5px;padding:3px 10px;font-size:12px;cursor:pointer;white-space:nowrap;">Disconnect</button>
     </div>
     <div id="settingForm" style="display: none;">
@@ -436,16 +436,16 @@
     </div>
     <div id="pushSection" style="margin-top: 14px; padding-top: 14px; border-top: 1px solid rgb(226, 232, 240);">
       <div style="font-size:12px;font-weight:700;color:#374151;margin-bottom:6px;">Push Updates to Live Site</div>
-      <div style="font-size:12px;color:#6b7280;margin-bottom:8px;">When Claude updates the local file, open it in this browser then click below to publish to GitHub Pages — no PowerShell needed.</div>
+      <div style="font-size:12px;color:#6b7280;margin-bottom:8px;">When Claude updates the local file, open it in this browser then click below to publish to GitHub Pages â no PowerShell needed.</div>
       <button id="pushBtn" onclick="pushFullPage()" style="width:100%;background:#0f2d55;color:white;border:none;padding:9px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;" disabled="">Pushing...</button>
       <div id="pushStatus" style="font-size:12px;margin-top:7px;color:#64748b;"></div>
     </div>
     <div class="settings-instructions">
       <strong>How to get your token (do this once):</strong><br>
       1. Go to github.com and sign in<br>
-      2. Click your profile picture → Settings<br>
-      3. Scroll to bottom → Developer settings → Personal access tokens → Tokens (classic)<br>
-      4. Click Generate new token (classic) → check <strong>repo</strong> scope → Generate<br>
+      2. Click your profile picture â Settings<br>
+      3. Scroll to bottom â Developer settings â Personal access tokens â Tokens (classic)<br>
+      4. Click Generate new token (classic) â check <strong>repo</strong> scope â Generate<br>
       5. Copy the token and paste it above<br><br>
       Token is stored only in this browser and never shared.
     </div>
@@ -456,16 +456,16 @@
 </div>
 
 <script>
-// â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+// Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬
 // PROTOCOL DATA
 // Fields: indication, category, epic_order, epic_id, cpt,
 //         iv ("none"|"with"|"wo_w"), oral ("none"|"yes"|"oral_only"),
 //         oral_type, labs, arrival, slot, notes, source ("atrius"|"acr"),
 //         special, dual_order
-// â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+// Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬
 const protocols = [
 
-  // â"€â"€ HEAD / FACIAL â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+  // Ã¢"â¬Ã¢"â¬ HEAD / FACIAL Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬
   { indication:"Aneurysm (Intracranial)", category:"head", epic_order:"Head CTA", epic_id:"70496", cpt:"70496",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"IV contrast only. No oral prep.", source:"atrius" },
@@ -570,7 +570,7 @@ const protocols = [
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
     notes:"Dynamic inspiratory/expiratory protocol. No contrast.", source:"atrius" },
 
-  // â"€â"€ SOFT TISSUE NECK â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+  // Ã¢"â¬Ã¢"â¬ SOFT TISSUE NECK Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬
   { indication:"Adenopathy / Lymphadenopathy / Swollen Lymph Nodes (Neck)", category:"head", epic_order:"Neck Soft Tissue CT W/ Contrast", epic_id:"70491", cpt:"70491",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"IV contrast. Scan coverage: skull base to aortic arch.", source:"atrius" },
@@ -603,7 +603,7 @@ const protocols = [
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
     notes:"No contrast for thyroid/goiter evaluation.", source:"atrius" },
 
-  // â"€â"€ CHEST â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+  // Ã¢"â¬Ã¢"â¬ CHEST Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬
   { indication:"Pulmonary Embolism / PE / R/O PE", category:"chest", epic_order:"Chest CTA PE", epic_id:"71275PE", cpt:"71275",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"IV contrast CTA. Bolus tracking technique.", source:"atrius" },
@@ -712,7 +712,7 @@ const protocols = [
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"IV contrast CTA.", source:"atrius" },
 
-  // â"€â"€ LDCT â"€â"€
+  // Ã¢"â¬Ã¢"â¬ LDCT Ã¢"â¬Ã¢"â¬
   { indication:"Lung Cancer Screening (LDCT) - Initial / First Scan", category:"chest", epic_order:"Chest CT Lung Cancer Screening (LDCT) Initial", epic_id:"71271", cpt:"G0297",
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
     notes:"Low-dose, no contrast. Self-pay: $525 (CC only, collect at check-in). No respiratory infection (COVID, pneumonia, bronchitis) within 3 months of appt.", source:"atrius",
@@ -732,7 +732,7 @@ const protocols = [
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
     notes:"No contrast.", source:"atrius" },
 
-  // â"€â"€ ABDOMEN / PELVIS â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+  // Ã¢"â¬Ã¢"â¬ ABDOMEN / PELVIS Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬
   { indication:"Abdominal Pain", oral_type:"", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/ Contrast", epic_id:"74177A", cpt:"74177",
     iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
     notes:"IV contrast + oral prep per criteria. Exceptions may apply for STAT same-day add-ons.", source:"atrius" },
@@ -901,57 +901,57 @@ const protocols = [
     notes:"Special CTC prep from Endoscopy RN. No routine Friday scheduling.", source:"atrius",
     special:"40-min slot. CTC prep from Endoscopy RN. No routine Fridays." },
 
-  // ── HYPERVASCULAR PROTOCOLS ───────────────────────────────────────────────
+  // ââ HYPERVASCULAR PROTOCOLS âââââââââââââââââââââââââââââââââââââââââââââââ
   { indication:"Breast Cancer", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
     iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
     notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
-    special:"Hypervascular protocol — select Hypervascular in smartform." },
+    special:"Hypervascular protocol â select Hypervascular in smartform." },
 
   { indication:"Thyroid Cancer", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
     iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
     notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
-    special:"Hypervascular protocol — select Hypervascular in smartform." },
+    special:"Hypervascular protocol â select Hypervascular in smartform." },
 
   { indication:"Carcinoid Tumor", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
     iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
     notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
-    special:"Hypervascular protocol — select Hypervascular in smartform." },
+    special:"Hypervascular protocol â select Hypervascular in smartform." },
 
   { indication:"Renal Cell Carcinoma / Renal Cancer", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
     iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
     notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
-    special:"Hypervascular protocol — select Hypervascular in smartform." },
+    special:"Hypervascular protocol â select Hypervascular in smartform." },
 
   { indication:"Hepatoma / HCC / Hepatocellular Carcinoma", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
     iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
     notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
-    special:"Hypervascular protocol — select Hypervascular in smartform." },
+    special:"Hypervascular protocol â select Hypervascular in smartform." },
 
   { indication:"Neuroendocrine Tumor (NET)", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
     iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
     notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
-    special:"Hypervascular protocol — select Hypervascular in smartform." },
+    special:"Hypervascular protocol â select Hypervascular in smartform." },
 
   { indication:"Melanoma", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
     iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
     notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
-    special:"Hypervascular protocol — select Hypervascular in smartform." },
+    special:"Hypervascular protocol â select Hypervascular in smartform." },
 
   { indication:"Choriocarcinoma", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
     iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
     notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
-    special:"Hypervascular protocol — select Hypervascular in smartform." },
+    special:"Hypervascular protocol â select Hypervascular in smartform." },
 
   { indication:"Leiomyosarcoma", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
     iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
     notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
-    special:"Hypervascular protocol — select Hypervascular in smartform." },
+    special:"Hypervascular protocol â select Hypervascular in smartform." },
 
   { indication:"Pelvic Fracture", category:"abdomen", epic_order:"Pelvis Bone CT W/O Contrast", epic_id:"72192BP", cpt:"72192",
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
     notes:"No contrast for bony injury.", source:"atrius" },
 
-  // â"€â"€ CTA / VASCULAR â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+  // Ã¢"â¬Ã¢"â¬ CTA / VASCULAR Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬
   { indication:"Aortic Dissection (Thoracic)", category:"cta", epic_order:"Chest CTA Aorta", epic_id:"71275AO", cpt:"71275",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"IV contrast CTA. Must be performed as GATED Chest CTA if done at Kenmore. If dissection extends to abdomen, also order Abd/Pel CTA.", source:"atrius",
@@ -1031,10 +1031,10 @@ const protocols = [
     notes:"Performed with EKG leads. Available at Kenmore and Plymouth (Norwood and Weymouth pending). IV contrast only.", source:"atrius",
     special:"EKG leads required. Not a cardiac study. Kenmore / Plymouth only." },
 
-  // â"€â"€ CARDIAC â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+  // Ã¢"â¬Ã¢"â¬ CARDIAC Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬
   { indication:"Calcium Score (Coronary Artery)", category:"cardiac", epic_order:"Calcium Score CT", epic_id:"75571A", cpt:"75571",
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
-    notes:"No contrast. Self-pay: $175 (CC only — collect at check-in, check appt note). Calcium score slot.", source:"atrius",
+    notes:"No contrast. Self-pay: $175 (CC only â collect at check-in, check appt note). Calcium score slot.", source:"atrius",
     special:"Self-pay $175 (CC only, collect at check-in). No caffeine or exercise 12 hrs prior (coffee, tea, energy drinks, chocolate). No erectile dysfunction meds 4 days prior. If heart rate &gt; 80 bpm, request beta blockers from ordering provider before scheduling." },
 
   { indication:"Cardiac Coronary CTA / Coronary Artery Disease", category:"cardiac", epic_order:"Cardiac Coronary CTA", epic_id:"75574A", cpt:"75574",
@@ -1057,7 +1057,7 @@ const protocols = [
     notes:"Kenmore ONLY. Performed with cardiac radiologist.", source:"atrius",
     special:"KENMORE ONLY. 40-min slot. Verify with cardiac team." },
 
-  // â"€â"€ SPINE / EXTREMITY â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+  // Ã¢"â¬Ã¢"â¬ SPINE / EXTREMITY Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬
   { indication:"Cervical Spine - Trauma / Neck Pain (Bone)", category:"spine", epic_order:"Cervical Spine CT W/O Contrast", epic_id:"72125", cpt:"72125",
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
     notes:"No contrast.", source:"atrius" },
@@ -1096,15 +1096,15 @@ const protocols = [
 
 ];
 
-// â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+// Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬
 // STATE
-// â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+// Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬
 let currentCategory = 'all';
 let currentSearch = '';
 
-// â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+// Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬
 // SEARCH + FILTER
-// â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+// Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬
 function normalize(str) {
   return (str || '').toLowerCase()
     .replace(/[\/\-\(\)]/g, ' ')
@@ -1134,9 +1134,9 @@ function getResults() {
     .map(x => x.p);
 }
 
-// â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+// Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬
 // RENDER
-// â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+// Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬
 const CAT_LABELS = { head:'Head / Neck', chest:'Chest', abdomen:'Abdomen / Pelvis', cta:'CTA / Vascular', cardiac:'Cardiac', spine:'Spine / Extremity' };
 const CAT_BADGE  = { head:'badge-head', chest:'badge-chest', abdomen:'badge-abdomen', cta:'badge-cta', cardiac:'badge-cardiac', spine:'badge-spine' };
 
@@ -1185,7 +1185,7 @@ function renderGroup(g) {
     ? `<div class="item-note">${p.notes}</div>` : '';
   const specialHtml = p.special ? `<div class="item-special">&#9733; ${p.special}</div>` : '';
   const acrHtml = p.source === 'acr'
-    ? `<div class="item-acr">&#x2139; Per ACR CT Appropriateness Criteria — verify against Atrius site protocol.</div>` : '';
+    ? `<div class="item-acr">&#x2139; Per ACR CT Appropriateness Criteria â verify against Atrius site protocol.</div>` : '';
 
   return `
     <div class="list-item">
@@ -1256,9 +1256,9 @@ function render() {
   grid.innerHTML = groups.map(renderGroup).join('');
 }
 
-// â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+// Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬
 // EVENT HANDLERS
-// â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+// Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬
 document.getElementById('searchInput').addEventListener('input', function() {
   currentSearch = this.value;
   document.getElementById('clearBtn').classList.toggle('visible', this.value.length > 0);
@@ -1282,17 +1282,17 @@ function setCategory(cat) {
   render();
 }
 
-// â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+// Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬
 // ADD PROTOCOL PANEL + GITHUB SYNC
-// â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+// Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬
 const GH_REPO  = 'atrius-imaging/CT-Protocol-Guide';
 const GH_FILE  = 'index.html';
 const GH_API   = 'https://api.github.com';
 
-let customProtocols = (() => { try { return JSON.parse(localStorage.getItem('ct_custom_protocols') || '[]'); } catch(e) { localStorage.removeItem('ct_custom_protocols'); return []; } })();
+let customProtocols = [{"indication":"Pulmonary Hypertension","category":"chest","epic_order":"Chest CTA PE","epic_id":"71275PE","cpt":"71275","iv":"with","oral":"none","labs":true,"arrival":20,"slot":20,"notes":"IV contrast CTA. Bolus tracking technique.","source":"atrius","_custom":true}]; } catch(e) { localStorage.removeItem('ct_custom_protocols'); return []; } })();
 protocols.push(...customProtocols);
 
-// â"€â"€ Token management â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+// Ã¢"â¬Ã¢"â¬ Token management Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬
 function getToken() { return localStorage.getItem('gh_token') || ''; }
 
 function saveSettingToken() {
@@ -1363,7 +1363,7 @@ async function pushFullPage() {
   }
 }
 
-// â"€â"€ GitHub sync â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+// Ã¢"â¬Ã¢"â¬ GitHub sync Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬
 async function syncToGitHub(customArr) {
   const token = getToken();
   if (!token) return false;
@@ -1376,7 +1376,7 @@ async function syncToGitHub(customArr) {
     if (!infoRes.ok) throw new Error('Could not reach GitHub repo.');
     const info = await infoRes.json();
 
-    // 2. Decode → patch → encode
+    // 2. Decode â patch â encode
     const current = atob(info.content.replace(/\n/g, ''));
     const customJSON = JSON.stringify(customArr)
       .replace(/</g, '\\u003c').replace(/>/g, '\\u003e');
@@ -1395,13 +1395,13 @@ async function syncToGitHub(customArr) {
     document.getElementById('syncStatus').textContent = '\u2713 Synced to GitHub \u2014 visible to all users.';
     return true;
   } catch(e) {
-    document.getElementById('syncStatus').textContent = '⚠ Sync failed: ' + e.message;
+    document.getElementById('syncStatus').textContent = 'â  Sync failed: ' + e.message;
     return false;
   }
 }
 
-// â"€â"€ Show / hide panel â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
-// ── Password ──────────────────────────────────────────────────────────────────
+// Ã¢"â¬Ã¢"â¬ Show / hide panel Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬
+// ââ Password ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 const ADMIN_PW = 'CTadmin2026!';
 function checkPassword() {
   const val = document.getElementById('pwInput').value;
@@ -1512,7 +1512,7 @@ async function saveIndication() {
   populateProtoList();
 }
 
-// â"€â"€ Save â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+// Ã¢"â¬Ã¢"â¬ Save Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬
 async function saveProtocol() {
   const indication = document.getElementById('f_indication').value.trim();
   const epic_order = document.getElementById('f_epic_order').value.trim();
@@ -1528,7 +1528,7 @@ async function saveProtocol() {
     category:  document.getElementById('f_category').value,
     epic_order,
     epic_id:   '',
-    cpt:       document.getElementById('f_cpt').value.trim() || '—',
+    cpt:       document.getElementById('f_cpt').value.trim() || 'â',
     iv:        document.getElementById('f_iv').value,
     oral:      document.getElementById('f_oral').value,
     oral_type: document.getElementById('f_oral_type').value,
@@ -1554,15 +1554,15 @@ async function saveProtocol() {
   const synced = await syncToGitHub(customProtocols);
   const msg = document.getElementById('formSuccess');
   msg.textContent = synced
-    ? '✓ Protocol saved and synced to GitHub — everyone with the link will see it now.'
-    : '✓ Protocol saved locally. Connect a GitHub token to sync to all users.';
+    ? 'â Protocol saved and synced to GitHub â everyone with the link will see it now.'
+    : 'â Protocol saved locally. Connect a GitHub token to sync to all users.';
   msg.classList.add('show');
   setTimeout(() => msg.classList.remove('show'), 4000);
 
   renderCustomList();
 }
 
-// â"€â"€ Delete â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+// Ã¢"â¬Ã¢"â¬ Delete Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬
 async function deleteCustom(idx) {
   const entry = customProtocols[idx];
   customProtocols.splice(idx, 1);
@@ -1573,7 +1573,7 @@ async function deleteCustom(idx) {
   renderCustomList();
 }
 
-// â"€â"€ Custom list â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+// Ã¢"â¬Ã¢"â¬ Custom list Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬Ã¢"â¬
 function renderCustomList() {
   const el = document.getElementById('customList');
   if (customProtocols.length === 0) {
