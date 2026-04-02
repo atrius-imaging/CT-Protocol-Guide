@@ -1,6 +1,5 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html>
+<html lang="en"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CT Protocol Guide | Atrius Imaging</title>
@@ -181,48 +180,48 @@
 <body>
 
 <header>
-  <div class="header-logo">&#x1F4CB;</div>
+  <div class="header-logo">📋</div>
   <div>
     <h1>CT Protocol Guide</h1>
-    <p>Atrius Imaging &mdash; CT Protocolling Assistant</p>
+    <p>Atrius Imaging — CT Protocolling Assistant</p>
   </div>
 </header>
 
-<div id="tokenBanner" style="display:none;">&#9888; GitHub not connected &mdash; protocol additions will only save to <strong>this browser</strong>. <a onclick="openSettingsModal()">Connect in Settings</a> to sync to all users.</div>
+<div id="tokenBanner" style="display:none;">⚠ GitHub not connected — protocol additions will only save to <strong>this browser</strong>. <a onclick="openSettingsModal()">Connect in Settings</a> to sync to all users.</div>
 
 <div class="search-area">
   <div class="search-wrap">
-    <span class="search-icon">&#128269;</span>
-    <input type="text" id="searchInput" placeholder="Search by clinical indication or protocol name (e.g. &ldquo;chest pain&rdquo;, &ldquo;PE&rdquo;, &ldquo;diverticulitis&rdquo;)..." autocomplete="off" />
-    <button class="clear-btn" id="clearBtn" onclick="clearSearch()">&#x2715;</button>
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="Search by clinical indication or protocol name (e.g. “chest pain”, “PE”, “diverticulitis”)..." autocomplete="off">
+    <button class="clear-btn" id="clearBtn" onclick="clearSearch()">✕</button>
   </div>
   <div class="tabs">
     <button class="tab active" onclick="setCategory('all')">All</button>
-    <button class="tab" onclick="setCategory('head')">&#128064; Head / Neck</button>
-    <button class="tab" onclick="setCategory('chest')">&#x1F7E6; Chest</button>
-    <button class="tab" onclick="setCategory('abdomen')">&#x1F7E0; Abdomen / Pelvis</button>
-    <button class="tab" onclick="setCategory('cta')">&#128736; CTA / Vascular</button>
-    <button class="tab" onclick="setCategory('cardiac')">&#9829; Cardiac</button>
-    <button class="tab" onclick="setCategory('spine')">&#129460; Spine / Extremity</button>
-    <button class="tab" id="addTab" onclick="showAddPanel()" style="margin-left:auto; background:#e0f2fe; color:#075985;">&#43; Add Protocol</button>
-    <button class="tab" id="settingsTab" onclick="openSettingsModal()" title="GitHub Settings" style="background:#f8fafc; color:#475569; padding:7px 11px;">&#9881;</button>
+    <button class="tab" onclick="setCategory('head')">👀 Head / Neck</button>
+    <button class="tab" onclick="setCategory('chest')">🟦 Chest</button>
+    <button class="tab" onclick="setCategory('abdomen')">🟠 Abdomen / Pelvis</button>
+    <button class="tab" onclick="setCategory('cta')">🛠 CTA / Vascular</button>
+    <button class="tab" onclick="setCategory('cardiac')">♥ Cardiac</button>
+    <button class="tab" onclick="setCategory('spine')">🦴 Spine / Extremity</button>
+    <button class="tab" id="addTab" onclick="showAddPanel()" style="margin-left:auto; background:#e0f2fe; color:#075985;">+ Add Protocol</button>
+    <button class="tab" id="settingsTab" onclick="openSettingsModal()" title="GitHub Settings" style="background:#f8fafc; color:#475569; padding:7px 11px;">⚙</button>
   </div>
 </div>
 
 <div class="ref-strip">
   <div class="ref-panel">
-    <div class="ref-title">&#9888; Oral Contrast Criteria</div>
+    <div class="ref-title">⚠ Oral Contrast Criteria</div>
     <div class="ref-body">
-      <strong style="font-size:11px;">Non-STAT</strong> &mdash; give if ANY apply:
+      <strong style="font-size:11px;">Non-STAT</strong> — give if ANY apply:
       <ul>
         <li>BMI &lt; 25</li>
         <li>Oncology patient (if can tolerate)</li>
         <li>Recent abdominal surgery (within past 30 days)</li>
-        <li>Known IBD (Crohn&rsquo;s / UC)</li>
+        <li>Known IBD (Crohn’s / UC)</li>
         <li>Post gastric bypass (sip slowly)</li>
         <li>Weight loss indication</li>
       </ul>
-      <strong style="font-size:11px;">STAT</strong> &mdash; give if ANY apply:
+      <strong style="font-size:11px;">STAT</strong> — give if ANY apply:
       <ul>
         <li>BMI &lt; 25</li>
         <li>Recent abdominal surgery</li>
@@ -233,7 +232,7 @@
     </div>
   </div>
   <div class="ref-panel">
-    <div class="ref-title">&#128203; Creatinine / eGFR Labs &mdash; order if patient has ANY:</div>
+    <div class="ref-title">📋 Creatinine / eGFR Labs — order if patient has ANY:</div>
     <div class="ref-body">
       <ul>
         <li>Diabetic</li>
@@ -243,21 +242,35 @@
     </div>
   </div>
   <div class="ref-panel">
-    <div class="ref-title">&#128100; Pediatric Age Guidelines:</div>
+    <div class="ref-title">👤 Pediatric Age Guidelines:</div>
     <div class="ref-body">
       <table class="pedi-table">
-        <tr><th>Age</th><th>CT</th></tr>
-        <tr><td>Under 8 yrs (1&ndash;7y)</td><td>Send externally (Non-Atrius)</td></tr>
-        <tr><td>8&ndash;11 yrs</td><td>Non-contrast (I-) only</td></tr>
-        <tr><td>12&ndash;17 yrs</td><td>Non-contrast (I-) &amp; Contrast (I+) OK</td></tr>
-      </table>
+        <tbody><tr><th>Age</th><th>CT</th></tr>
+        <tr><td>Under 8 yrs (1–7y)</td><td>Send externally (Non-Atrius)</td></tr>
+        <tr><td>8–11 yrs</td><td>Non-contrast (I-) only</td></tr>
+        <tr><td>12–17 yrs</td><td>Non-contrast (I-) &amp; Contrast (I+) OK</td></tr>
+      </tbody></table>
     </div>
   </div>
 </div>
 
 <div class="main" id="mainPanel">
   <div class="results-count" id="resultsCount"></div>
-  <div class="results-list" id="resultsGrid"></div>
+  <div class="results-list" id="resultsGrid">
+      <div class="welcome">
+        <div style="font-size:36px; margin-bottom:8px;">📋</div>
+        <h3>CT Protocol Quick Reference</h3>
+        <p>Type a clinical indication above (e.g. “diverticulitis”, “PE”, “hematuria”)</p>
+        <p>Or select a category tab to browse all protocols</p>
+        <div class="cat-grid">
+          <button class="cat-btn" style="background:#ede9fe;color:#5b21b6" onclick="setCategory('head')">Head / Neck</button>
+          <button class="cat-btn" style="background:#e0f2fe;color:#075985" onclick="setCategory('chest')">Chest</button>
+          <button class="cat-btn" style="background:#fff7ed;color:#9a3412" onclick="setCategory('abdomen')">Abdomen / Pelvis</button>
+          <button class="cat-btn" style="background:#fee2e2;color:#991b1b" onclick="setCategory('cta')">CTA / Vascular</button>
+          <button class="cat-btn" style="background:#fce7f3;color:#9d174d" onclick="setCategory('cardiac')">Cardiac</button>
+          <button class="cat-btn" style="background:#dcfce7;color:#166534" onclick="setCategory('spine')">Spine / Extremity</button>
+        </div>
+      </div></div>
 </div>
 
 <div id="addPanel">
@@ -270,23 +283,23 @@
     </div>
 
     <div id="tokenSection" style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:7px;padding:10px 14px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;gap:10px;">
-      <div id="tokenConnected" style="font-size:13px;color:#166534;display:none;">&#10003; GitHub connected &mdash; changes sync to all users.</div>
-      <div id="tokenNotConnected" style="font-size:13px;color:#0369a1;">&#128274; GitHub not connected &mdash; changes save to this browser only.</div>
-      <button onclick="openSettingsModal()" style="background:#0369a1;color:white;border:none;padding:6px 12px;border-radius:6px;font-size:12px;cursor:pointer;white-space:nowrap;">&#9881; Settings</button>
+      <div id="tokenConnected" style="font-size: 13px; color: rgb(22, 101, 52);">✓ GitHub connected — changes sync to all users.</div>
+      <div id="tokenNotConnected" style="font-size: 13px; color: rgb(3, 105, 161); display: none;">🔒 GitHub not connected — changes save to this browser only.</div>
+      <button onclick="openSettingsModal()" style="background:#0369a1;color:white;border:none;padding:6px 12px;border-radius:6px;font-size:12px;cursor:pointer;white-space:nowrap;">⚙ Settings</button>
     </div>
     <div id="newProtocolForm">
     <div class="form-grid">
       <div class="form-group full">
         <label>Clinical Indication *</label>
-        <input type="text" id="f_indication" placeholder="e.g. Pelvic Pain, R/O Ovarian Cyst" />
+        <input type="text" id="f_indication" placeholder="e.g. Pelvic Pain, R/O Ovarian Cyst">
       </div>
       <div class="form-group full">
         <label>Epic Order Name * <span style="font-weight:400;color:#94a3b8">(exactly as it appears in Epic)</span></label>
-        <input type="text" id="f_epic_order" placeholder="e.g. Abdomen/Pelvis CT W/ Contrast" />
+        <input type="text" id="f_epic_order" placeholder="e.g. Abdomen/Pelvis CT W/ Contrast">
       </div>
       <div class="form-group">
         <label>CPT Code</label>
-        <input type="text" id="f_cpt" placeholder="e.g. 74177" />
+        <input type="text" id="f_cpt" placeholder="e.g. 74177">
       </div>
       <div class="form-group">
         <label>Category *</label>
@@ -350,7 +363,7 @@
         <textarea id="f_notes" placeholder="e.g. IV contrast only, no oral prep"></textarea>
       </div>
       <div class="form-group full">
-        <label>Special Instructions <span style="font-weight:400;color:#94a3b8">(optional &mdash; site restrictions, self-pay, prep details)</span></label>
+        <label>Special Instructions <span style="font-weight:400;color:#94a3b8">(optional — site restrictions, self-pay, prep details)</span></label>
         <textarea id="f_special" placeholder="e.g. Kenmore only. No caffeine 12 hrs prior."></textarea>
       </div>
     </div>
@@ -365,7 +378,7 @@
       <p style="font-size:12px;color:#64748b;margin-bottom:14px;">Select an existing protocol and type the new clinical indication to add to it.</p>
       <div class="form-group full" style="margin-bottom:12px;">
         <label>Filter protocols</label>
-        <input type="text" id="f_proto_filter" placeholder="Type to filter..." oninput="filterProtoList()" style="width:100%;padding:8px 10px;border:1.5px solid #cbd5e1;border-radius:6px;font-size:13px;font-family:inherit;outline:none;" />
+        <input type="text" id="f_proto_filter" placeholder="Type to filter..." oninput="filterProtoList()" style="width:100%;padding:8px 10px;border:1.5px solid #cbd5e1;border-radius:6px;font-size:13px;font-family:inherit;outline:none;">
       </div>
       <div class="form-group full" style="margin-bottom:12px;">
         <label>Existing Protocol *</label>
@@ -373,7 +386,7 @@
       </div>
       <div class="form-group full" style="margin-bottom:4px;">
         <label>New Clinical Indication *</label>
-        <input type="text" id="f_new_ind" placeholder="e.g. Pelvic Pain, R/O Ovarian Cyst" style="width:100%;padding:8px 10px;border:1.5px solid #cbd5e1;border-radius:6px;font-size:13px;font-family:inherit;outline:none;" />
+        <input type="text" id="f_new_ind" placeholder="e.g. Pelvic Pain, R/O Ovarian Cyst" style="width:100%;padding:8px 10px;border:1.5px solid #cbd5e1;border-radius:6px;font-size:13px;font-family:inherit;outline:none;">
       </div>
       <div class="form-row">
         <button class="btn-save" onclick="saveIndication()">Add Indication</button>
@@ -382,7 +395,7 @@
       <div id="indError"></div>
     </div>
 
-    <div class="form-success" id="formSuccess">&#10003; Saved and synced to GitHub.</div>
+    <div class="form-success" id="formSuccess">✓ Saved and synced to GitHub.</div>
 
     <div class="manage-section">
       <h3>Custom Protocols Added</h3>
@@ -397,9 +410,9 @@
 <!-- PASSWORD MODAL -->
 <div class="modal-overlay" id="pwModal">
   <div class="modal-box">
-    <h3>&#128274; Admin Access</h3>
+    <h3>🔒 Admin Access</h3>
     <p>Enter the password to add or manage protocols.</p>
-    <input type="password" id="pwInput" placeholder="Password" onkeydown="if(event.key==='Enter')checkPassword()" />
+    <input type="password" id="pwInput" placeholder="Password" onkeydown="if(event.key==='Enter')checkPassword()">
     <div class="modal-err" id="pwErr">Incorrect password. Try again.</div>
     <div class="modal-btns">
       <button class="btn-save" onclick="checkPassword()">Enter</button>
@@ -408,31 +421,31 @@
   </div>
 </div>
 
-<div class="modal-overlay" id="settingsModal">
+<div class="modal-overlay show" id="settingsModal">
   <div class="modal-box" style="width:420px;">
-    <h3>&#9881; GitHub Settings</h3>
-    <p>Connect once to sync protocol additions to all users &mdash; no PowerShell needed.</p>
-    <div id="settingConnected" class="settings-connected" style="display:none;">
-      <span>&#10003; Connected &mdash; changes sync to GitHub automatically.</span>
+    <h3>⚙ GitHub Settings</h3>
+    <p>Connect once to sync protocol additions to all users — no PowerShell needed.</p>
+    <div id="settingConnected" class="settings-connected" style="">
+      <span>✓ Connected — changes sync to GitHub automatically.</span>
       <button onclick="clearSettingToken()" style="background:none;border:1px solid #bbf7d0;color:#166534;border-radius:5px;padding:3px 10px;font-size:12px;cursor:pointer;white-space:nowrap;">Disconnect</button>
     </div>
-    <div id="settingForm">
+    <div id="settingForm" style="display: none;">
       <div class="settings-label">GitHub Personal Access Token</div>
-      <input type="password" id="settingToken" placeholder="ghp_xxxxxxxxxxxx" onkeydown="if(event.key==='Enter')saveSettingToken()" />
+      <input type="password" id="settingToken" placeholder="ghp_xxxxxxxxxxxx" onkeydown="if(event.key==='Enter')saveSettingToken()">
       <button class="btn-save" onclick="saveSettingToken()" style="width:100%;margin-top:4px;">Save Token</button>
     </div>
-    <div id="pushSection" style="display:none; margin-top:14px; padding-top:14px; border-top:1px solid #e2e8f0;">
+    <div id="pushSection" style="margin-top: 14px; padding-top: 14px; border-top: 1px solid rgb(226, 232, 240);">
       <div style="font-size:12px;font-weight:700;color:#374151;margin-bottom:6px;">Push Updates to Live Site</div>
-      <div style="font-size:12px;color:#6b7280;margin-bottom:8px;">When Claude updates the local file, open it in this browser then click below to publish to GitHub Pages &mdash; no PowerShell needed.</div>
-      <button id="pushBtn" onclick="pushFullPage()" style="width:100%;background:#0f2d55;color:white;border:none;padding:9px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;">&#8593; Push This Page to GitHub</button>
+      <div style="font-size:12px;color:#6b7280;margin-bottom:8px;">When Claude updates the local file, open it in this browser then click below to publish to GitHub Pages — no PowerShell needed.</div>
+      <button id="pushBtn" onclick="pushFullPage()" style="width:100%;background:#0f2d55;color:white;border:none;padding:9px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;" disabled="">Pushing...</button>
       <div id="pushStatus" style="font-size:12px;margin-top:7px;color:#64748b;"></div>
     </div>
     <div class="settings-instructions">
       <strong>How to get your token (do this once):</strong><br>
       1. Go to github.com and sign in<br>
-      2. Click your profile picture &rarr; Settings<br>
-      3. Scroll to bottom &rarr; Developer settings &rarr; Personal access tokens &rarr; Tokens (classic)<br>
-      4. Click Generate new token (classic) &rarr; check <strong>repo</strong> scope &rarr; Generate<br>
+      2. Click your profile picture → Settings<br>
+      3. Scroll to bottom → Developer settings → Personal access tokens → Tokens (classic)<br>
+      4. Click Generate new token (classic) → check <strong>repo</strong> scope → Generate<br>
       5. Copy the token and paste it above<br><br>
       Token is stored only in this browser and never shared.
     </div>
@@ -1581,7 +1594,8 @@ function renderCustomList() {
 render();
 updateTokenUI();
 </script>
-</body>
-</html>
 
 
+
+
+</body></html>
