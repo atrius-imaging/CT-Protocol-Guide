@@ -300,8 +300,6 @@
         <select id="f_oral_type">
           <option value=””>— Select type —</option>
           <option value=”Readi-Cat”>Readi-Cat</option>
-          <option value=”Gastro-Grafin”>Gastro-Grafin</option>
-          <option value=”Volumen”>Volumen</option>
           <option value=”Breeza”>Breeza</option>
         </select>
       </div>
@@ -437,9 +435,17 @@ const protocols = [
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
     notes:"No contrast for bony trauma evaluation.", source:"atrius" },
 
-  { indication:"Cholesteatoma / Ear Disorder / Trauma", category:"head", epic_order:"Temporal Bone CT W/O Contrast", epic_id:"70480O", cpt:"70480",
-    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
-    notes:"No contrast.", source:"atrius" },
+  { indication:"Cholesteatoma", category:"head", epic_order:"Temporal Bone CT W/ Contrast", epic_id:"70482T", cpt:"70482",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast.", source:"atrius" },
+
+  { indication:"Ear Drainage / Ear Infection / Otitis Media", category:"head", epic_order:"Temporal Bone CT W/ Contrast", epic_id:"70482T", cpt:"70482",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast.", source:"atrius" },
+
+  { indication:"Acoustic Neuroma (MRI Contraindicated)", category:"head", epic_order:"Temporal Bone CT W/ Contrast", epic_id:"70482T", cpt:"70482",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast. Use when MRI is contraindicated. MRI IAC is preferred when possible.", source:"atrius" },
 
   { indication:"Sinus Disease / Sinusitis / Nasal Polyp", category:"head", epic_order:"Maxillofacial CT W/O Contrast (STEALTH)", epic_id:"70486ST", cpt:"70486",
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
