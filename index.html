@@ -493,15 +493,19 @@ const protocols = [
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"IV contrast. Coverage: skull base to aortic arch.", source:"atrius" },
 
-  { indication:"Parotid Mass", category:"head", epic_order:"Maxillofacial CT W/O & W/ Contrast", epic_id:"70488MF", cpt:"70488",
+  { indication:"Parotid Mass", category:"head", epic_order:"Neck Soft Tissue CT W/O & W/ Contrast", epic_id:"70492", cpt:"70492",
     iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
-    notes:"W/O then W/ contrast.", source:"atrius" },
+    notes:"Parotid-specific protocol. I- then I+. Coverage: skull base to aortic arch.", source:"atrius" },
 
-  { indication:"Parotid Stone", category:"head", epic_order:"Maxillofacial CT W/O Contrast", epic_id:"70486MF", cpt:"70486",
+  { indication:"Parotid Stone", category:"head", epic_order:"Neck Soft Tissue CT W/O Contrast", epic_id:"70490", cpt:"70490",
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
-    notes:"No contrast for stone evaluation.", source:"atrius" },
+    notes:"No contrast for stone evaluation. Coverage: skull base to aortic arch.", source:"atrius" },
 
-  { indication:"Vocal Cord Paralysis / Dysphagia / Lymphoma (Neck) / Esophageal Cancer", category:"head", epic_order:"Neck Soft Tissue CT W/ Contrast", epic_id:"70491", cpt:"70491",
+  { indication:"Vocal Cord Paralysis", category:"head", epic_order:"Neck Soft Tissue CT W/ Contrast", epic_id:"70491V", cpt:"70491",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"Vocal cord paralysis-specific protocol. Coverage: skull base to aortic arch.", source:"atrius" },
+
+  { indication:"Dysphagia / Lymphoma (Neck) / Esophageal Cancer", category:"head", epic_order:"Neck Soft Tissue CT W/ Contrast", epic_id:"70491", cpt:"70491",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"IV contrast. Coverage: skull base to aortic arch.", source:"atrius" },
 
