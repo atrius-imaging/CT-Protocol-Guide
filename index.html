@@ -72,7 +72,7 @@
 
   .list-indications { font-size: 13px; color: #334155; margin-bottom: 7px; line-height: 1.6; }
   .ind-tag { display: inline; }
-  .ind-tag + .ind-tag::before { content: ' Â· '; color: #94a3b8; }
+  .ind-tag + .ind-tag::before { content: ' \00B7 '; color: #94a3b8; }
 
   /* CONTRAST ROW */
   .contrast-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 5px; align-items: center; }
@@ -258,7 +258,7 @@
 
     <div id="tokenSection" style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:7px;padding:12px 14px;margin-bottom:18px;">
       <div style="font-size:12px;font-weight:700;color:#0369a1;margin-bottom:6px;">&#128274; GitHub Connection</div>
-      <div id="tokenConnected" style="display:none;font-size:13px;color:#166534;">&#10003; Connected â€” changes will sync to GitHub automatically.</div>
+      <div id="tokenConnected" style="display:none;font-size:13px;color:#166534;">&#10003; Connected &mdash; changes will sync to GitHub automatically.</div>
       <div id="tokenForm" style="display:flex;gap:8px;align-items:center;">
         <input type="password" id="ghToken" placeholder="Paste GitHub token here..." style="flex:1;padding:7px 10px;border:1.5px solid #bae6fd;border-radius:6px;font-size:13px;font-family:inherit;outline:none;" />
         <button onclick="saveToken()" style="background:#0369a1;color:white;border:none;padding:7px 14px;border-radius:6px;font-size:13px;cursor:pointer;white-space:nowrap;">Save Token</button>
@@ -342,7 +342,7 @@
         <textarea id="f_notes" placeholder="e.g. IV contrast only, no oral prep"></textarea>
       </div>
       <div class="form-group full">
-        <label>Special Instructions <span style="font-weight:400;color:#94a3b8">(optional â€” site restrictions, self-pay, prep details)</span></label>
+        <label>Special Instructions <span style="font-weight:400;color:#94a3b8">(optional &mdash; site restrictions, self-pay, prep details)</span></label>
         <textarea id="f_special" placeholder="e.g. Kenmore only. No caffeine 12 hrs prior."></textarea>
       </div>
     </div>
@@ -583,11 +583,15 @@ const protocols = [
 
   { indication:"Lung Nodules (eval / follow-up)", category:"chest", epic_order:"Chest CT W/O Contrast", epic_id:"71250C", cpt:"71250",
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
-    notes:"No contrast for nodule characterization.", source:"atrius" },
+    notes:"No contrast. Use chest follow-up nodule protocol.", source:"atrius" },
 
   { indication:"Pulmonary Nodules", category:"chest", epic_order:"Chest CT W/O Contrast", epic_id:"71250C", cpt:"71250",
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
-    notes:"No contrast.", source:"atrius" },
+    notes:"No contrast. Use chest follow-up nodule protocol.", source:"atrius" },
+
+  { indication:"Pulmonary Nodule Follow-Up", category:"chest", epic_order:"Chest CT W/O Contrast", epic_id:"71250C", cpt:"71250",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast. Use chest follow-up nodule protocol.", source:"atrius" },
 
   { indication:"Lymphoma (Chest)", category:"chest", epic_order:"Chest CT W/ Contrast", epic_id:"71260", cpt:"71260",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
@@ -657,17 +661,17 @@ const protocols = [
   { indication:"Lung Cancer Screening (LDCT) - Initial / First Scan", category:"chest", epic_order:"Chest CT Lung Cancer Screening (LDCT) Initial", epic_id:"71271", cpt:"G0297",
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
     notes:"Low-dose, no contrast. Self-pay: $525 (CC only, collect at check-in). No respiratory infection (COVID, pneumonia, bronchitis) within 3 months of appt.", source:"atrius",
-    special:"Self-pay $525 (CC only). No active respiratory infection within 3 months." },
+    special:"DO NOT PROTOCOL \u2014 All LDCT cancer screening is handled by the LDCT Coordinator. Self-pay $525 (CC only). No active respiratory infection within 3 months." },
 
   { indication:"Lung Cancer Screening (LDCT) - 6 Month F/U (Short-Term)", category:"chest", epic_order:"Chest CT Lung Cancer Screening (LDCT) Short Term F/U", epic_id:"71250D", cpt:"71250",
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
     notes:"Low-dose, no contrast. F/U for indeterminate nodule.", source:"atrius",
-    special:"No active respiratory infection within 3 months." },
+    special:"DO NOT PROTOCOL \u2014 All LDCT cancer screening is handled by the LDCT Coordinator. No active respiratory infection within 3 months." },
 
   { indication:"Lung Cancer Screening (LDCT) - 1 Year F/U (Subsequent)", category:"chest", epic_order:"Chest CT Lung Cancer Screening (LDCT) Subsequent", epic_id:"71271T", cpt:"G0297",
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
     notes:"Low-dose, no contrast. Annual subsequent screening.", source:"atrius",
-    special:"No active respiratory infection within 3 months." },
+    special:"DO NOT PROTOCOL \u2014 All LDCT cancer screening is handled by the LDCT Coordinator. No active respiratory infection within 3 months." },
 
   { indication:"Lung Nodule F/U (after CT W/ Contrast)", category:"chest", epic_order:"Chest CT W/O Contrast F/U to LDCT", epic_id:"71250F", cpt:"71250",
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
@@ -726,7 +730,7 @@ const protocols = [
     iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
     notes:"IV contrast + oral prep per criteria.", source:"atrius" },
 
-  { indication:"Weight Loss (Abdomen)", oral_type:"", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/ Contrast â€” Panel w/ Chest", epic_id:"71260CP", cpt:"71260 + 74177",
+  { indication:"Weight Loss (Abdomen)", oral_type:"", category:"abdomen", epic_order:”Abdomen/Pelvis CT W/ Contrast \u2014 Panel w/ Chest”, epic_id:"71260CP", cpt:"71260 + 74177",
     iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
     notes:"Usually ordered as panel: Chest/Abdomen/Pelvis CT W/ Contrast (71260CP). IV contrast + oral prep per criteria.", source:"atrius", dual_order:true },
 
@@ -804,7 +808,7 @@ const protocols = [
 
   { indication:"GU Fistula", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/O & W/ Contrast (CTU)", epic_id:"74178CTU", cpt:"74178",
     iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
-    notes:"IV contrast only. Rectal contrast may be needed â€” verify with radiologist.", source:"atrius" },
+    notes:”IV contrast only. Rectal contrast may be needed \u2014 verify with radiologist.”, source:"atrius" },
 
   { indication:"Hernia - Inguinal", oral_type:"", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/O Contrast", epic_id:"74176A", cpt:"74176",
     iv:"none", oral:"oral_only", labs:false, arrival:60, slot:20,
@@ -834,7 +838,7 @@ const protocols = [
 
   { indication:"CT Colonography (CTC) - F/U Incomplete Colonoscopy", category:"abdomen", epic_order:"CT Colonography F/U to Incomplete Colonoscopy", epic_id:"74261", cpt:"74261",
     iv:"none", oral:"none", labs:false, arrival:20, slot:40,
-    notes:"Special CTC prep given by Endoscopy RN (pool P 104092, cc: Cheryl Whyte). Do NOT book routine appts on Fridays. Check if biopsy was done during colonoscopy â€” if yes, schedule CTC 5 weeks post biopsy.", source:"atrius",
+    notes:”Special CTC prep given by Endoscopy RN (pool P 104092, cc: Cheryl Whyte). Do NOT book routine appts on Fridays. Check if biopsy was done during colonoscopy \u2014 if yes, schedule CTC 5 weeks post biopsy.”, source:"atrius",
     special:"40-min slot. CTC prep from Endoscopy RN. No routine Fridays. If biopsy done: wait 5 weeks." },
 
   { indication:"CT Colonography Screening (CTC)", category:"abdomen", epic_order:"CT Colonography Screening", epic_id:"74263", cpt:"74263",
@@ -980,7 +984,7 @@ const protocols = [
 
   { indication:"Cardiac Coronary CTA / Coronary Artery Disease", category:"cardiac", epic_order:"Cardiac Coronary CTA", epic_id:"75574A", cpt:"75574",
     iv:"with", oral:"none", labs:true, arrival:20, slot:40,
-    notes:"Kenmore ONLY â€” Tuesday & Thursday cardiac slots. Performed with cardiac radiologist + cardiology RN in dept.", source:"atrius",
+    notes:”Kenmore ONLY \u2014 Tuesday & Thursday cardiac slots. Performed with cardiac radiologist + cardiology RN in dept.", source:"atrius",
     special:"KENMORE ONLY (Tue & Thu). 40-min slot. Cardiac radiologist + cardiology RN present. No caffeine 12 hrs prior. No ED meds 4 days prior." },
 
   { indication:"Cardiac CT Chamber Analysis", category:"cardiac", epic_order:"Cardiac CT Chamber Analysis", epic_id:"75572A", cpt:"75572",
@@ -1126,7 +1130,7 @@ function renderGroup(g) {
     ? `<div class="item-note">${p.notes}</div>` : '';
   const specialHtml = p.special ? `<div class="item-special">&#9733; ${p.special}</div>` : '';
   const acrHtml = p.source === 'acr'
-    ? `<div class="item-acr">&#x2139; Per ACR CT Appropriateness Criteria â€” verify against Atrius site protocol.</div>` : '';
+    ? `<div class="item-acr">&#x2139; Per ACR CT Appropriateness Criteria — verify against Atrius site protocol.</div>` : '';
 
   return `
     <div class="list-item">
@@ -1230,7 +1234,7 @@ const GH_REPO  = 'atrius-imaging/CT-Protocol-Guide';
 const GH_FILE  = 'index.html';
 const GH_API   = 'https://api.github.com';
 
-let customProtocols = JSON.parse(localStorage.getItem('ct_custom_protocols') || '[]');
+let customProtocols = (() => { try { return JSON.parse(localStorage.getItem('ct_custom_protocols') || '[]'); } catch(e) { localStorage.removeItem('ct_custom_protocols'); return []; } })();
 protocols.push(...customProtocols);
 
 // â”€â”€ Token management â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -1258,7 +1262,7 @@ async function syncToGitHub(customArr) {
   const token = getToken();
   if (!token) return false;
   try {
-    document.getElementById('syncStatus').textContent = 'Syncing to GitHubâ€¦';
+    document.getElementById('syncStatus').textContent = 'Syncing to GitHub\u2026';
     // 1. Get current file SHA
     const infoRes = await fetch(`${GH_API}/repos/${GH_REPO}/contents/${GH_FILE}`, {
       headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' }
@@ -1266,7 +1270,7 @@ async function syncToGitHub(customArr) {
     if (!infoRes.ok) throw new Error('Could not reach GitHub repo.');
     const info = await infoRes.json();
 
-    // 2. Decode â†’ patch â†’ encode
+    // 2. Decode → patch → encode
     const current = atob(info.content.replace(/\n/g, ''));
     const customJSON = JSON.stringify(customArr)
       .replace(/</g, '\\u003c').replace(/>/g, '\\u003e');
@@ -1282,10 +1286,10 @@ async function syncToGitHub(customArr) {
       body: JSON.stringify({ message: 'Update custom protocols', content: btoa(unescape(encodeURIComponent(updated))), sha: info.sha })
     });
     if (!pushRes.ok) throw new Error('Push to GitHub failed.');
-    document.getElementById('syncStatus').textContent = 'âœ“ Synced to GitHub â€” visible to all users.';
+    document.getElementById('syncStatus').textContent = '\u2713 Synced to GitHub \u2014 visible to all users.';
     return true;
   } catch(e) {
-    document.getElementById('syncStatus').textContent = 'âš  Sync failed: ' + e.message;
+    document.getElementById('syncStatus').textContent = '⚠ Sync failed: ' + e.message;
     return false;
   }
 }
@@ -1397,7 +1401,7 @@ async function saveIndication() {
     : '\u2713 Indication saved locally. Connect a GitHub token to sync to all users.';
   msg.style.display = 'block';
   setTimeout(() => msg.style.display = 'none', 4000);
-  renderResults();
+  render();
   renderCustomList();
   populateProtoList();
 }
@@ -1418,7 +1422,7 @@ async function saveProtocol() {
     category:  document.getElementById('f_category').value,
     epic_order,
     epic_id:   '',
-    cpt:       document.getElementById('f_cpt').value.trim() || 'â€”',
+    cpt:       document.getElementById('f_cpt').value.trim() || '—',
     iv:        document.getElementById('f_iv').value,
     oral:      document.getElementById('f_oral').value,
     oral_type: document.getElementById('f_oral_type').value,
@@ -1444,8 +1448,8 @@ async function saveProtocol() {
   const synced = await syncToGitHub(customProtocols);
   const msg = document.getElementById('formSuccess');
   msg.textContent = synced
-    ? 'âœ“ Protocol saved and synced to GitHub â€” everyone with the link will see it now.'
-    : 'âœ“ Protocol saved locally. Connect a GitHub token to sync to all users.';
+    ? '✓ Protocol saved and synced to GitHub — everyone with the link will see it now.'
+    : '✓ Protocol saved locally. Connect a GitHub token to sync to all users.';
   msg.classList.add('show');
   setTimeout(() => msg.classList.remove('show'), 4000);
 
