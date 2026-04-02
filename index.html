@@ -1046,9 +1046,10 @@ function getResults() {
 const CAT_LABELS = { head:'Head / Neck', chest:'Chest', abdomen:'Abdomen / Pelvis', cta:'CTA / Vascular', cardiac:'Cardiac', spine:'Spine / Extremity' };
 const CAT_BADGE  = { head:'badge-head', chest:'badge-chest', abdomen:'badge-abdomen', cta:'badge-cta', cardiac:'badge-cardiac', spine:'badge-spine' };
 
-function ivLabel(iv) {
-  if (iv === 'with')  return { css:'cp-iv',    text:'I+ (With Contrast)' };
-  if (iv === 'wo_w')  return { css:'cp-iv-wo', text:'I- then I+ (W/O & W/ Contrast)' };
+function ivLabel(iv, epic_order) {
+  const isCTA = epic_order && epic_order.toUpperCase().includes('CTA');
+  if (iv === 'with')  return { css:'cp-iv',    text: isCTA ? 'I+ CTA' : 'I+ (With Contrast)' };
+  if (iv === 'wo_w')  return { css:'cp-iv-wo', text: isCTA ? 'I- then I+ CTA' : 'I- then I+ (W/O & W/ Contrast)' };
   return { css:'cp-none', text:'I- (Without Contrast)' };
 }
 
@@ -1081,7 +1082,7 @@ function groupResults(matched) {
 
 function renderGroup(g) {
   const p = g.proto;
-  const iv   = ivLabel(p.iv);
+  const iv   = ivLabel(p.iv, p.epic_order);
   const oral = oralLabel(p.oral, p.oral_type);
   const dualHtml = p.dual_order ? `<span class="dual-tag">DUAL ORDER</span>` : '';
   const oralHtml = oral ? `<span class="contrast-pill ${oral.css}">${oral.text}</span>` : '';
