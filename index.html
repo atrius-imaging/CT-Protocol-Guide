@@ -157,6 +157,13 @@
   .modal-btns { display:flex; gap:8px; }
   .modal-btns .btn-save { flex:1; }
 
+  /* FORM MODE TOGGLE */
+  .form-mode-toggle { display:flex; gap:6px; margin-bottom:18px; }
+  .mode-btn { padding:7px 16px; border:2px solid #cbd5e1; border-radius:7px; font-size:13px; font-weight:600; background:white; color:#64748b; cursor:pointer; transition:all 0.15s; }
+  .mode-btn.active { background:#0f2d55; color:white; border-color:#0f2d55; }
+  .mode-btn:hover:not(.active) { background:#f1f5f9; }
+  #indError { display:none; background:#fee2e2; border:1px solid #fca5a5; border-radius:7px; padding:10px 14px; color:#991b1b; font-size:13px; margin-top:12px; }
+
   /* ORAL TYPE FIELD */
   #oralTypeGroup { display:none; }
 </style>
@@ -242,8 +249,12 @@
 
 <div id="addPanel">
   <div class="form-card">
-    <h2>Add New Protocol</h2>
-    <p>Fill in the details below. The entry will be saved to GitHub and visible to everyone with the link instantly.</p>
+    <h2>Manage Protocols</h2>
+
+    <div class="form-mode-toggle">
+      <button id="modeNewBtn" class="mode-btn active" onclick="setFormMode('new')">New Protocol</button>
+      <button id="modeAddIndBtn" class="mode-btn" onclick="setFormMode('ind')">Add Indication to Existing</button>
+    </div>
 
     <div id="tokenSection" style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:7px;padding:12px 14px;margin-bottom:18px;">
       <div style="font-size:12px;font-weight:700;color:#0369a1;margin-bottom:6px;">&#128274; GitHub Connection</div>
@@ -255,6 +266,7 @@
       </div>
       <div style="font-size:11px;color:#0369a1;margin-top:5px;">Token is stored only on this browser and never shared. Use the same token as the credential tracker.</div>
     </div>
+    <div id="newProtocolForm">
     <div class="form-grid">
       <div class="form-group full">
         <label>Clinical Indication *</label>
@@ -334,12 +346,35 @@
         <textarea id="f_special" placeholder="e.g. Kenmore only. No caffeine 12 hrs prior."></textarea>
       </div>
     </div>
-    <div class="form-row">
-      <button class="btn-save" onclick="saveProtocol()">Save Protocol</button>
-      <button class="btn-cancel" onclick="hideAddPanel()">Cancel</button>
+    <div class=”form-row”>
+      <button class=”btn-save” onclick=”saveProtocol()”>Save Protocol</button>
+      <button class=”btn-cancel” onclick=”hideAddPanel()”>Cancel</button>
     </div>
-    <div class="form-success" id="formSuccess">&#10003; Protocol saved and synced to GitHub â€” everyone with the link will see it now.</div>
-    <div id="formError" style="display:none;background:#fee2e2;border:1px solid #fca5a5;border-radius:7px;padding:10px 14px;color:#991b1b;font-size:13px;margin-top:12px;"></div>
+    <div id=”formError” style=”display:none;background:#fee2e2;border:1px solid #fca5a5;border-radius:7px;padding:10px 14px;color:#991b1b;font-size:13px;margin-top:12px;”></div>
+    </div><!-- end newProtocolForm -->
+
+    <div id=”addIndicationForm” style=”display:none;”>
+      <p style=”font-size:12px;color:#64748b;margin-bottom:14px;”>Select an existing protocol and type the new clinical indication to add to it.</p>
+      <div class=”form-group full” style=”margin-bottom:12px;”>
+        <label>Filter protocols</label>
+        <input type=”text” id=”f_proto_filter” placeholder=”Type to filter...” oninput=”filterProtoList()” style=”width:100%;padding:8px 10px;border:1.5px solid #cbd5e1;border-radius:6px;font-size:13px;font-family:inherit;outline:none;” />
+      </div>
+      <div class=”form-group full” style=”margin-bottom:12px;”>
+        <label>Existing Protocol *</label>
+        <select id=”f_existing_proto” size=”8” style=”width:100%;border:1.5px solid #cbd5e1;border-radius:6px;font-size:13px;font-family:inherit;padding:4px;”></select>
+      </div>
+      <div class=”form-group full” style=”margin-bottom:4px;”>
+        <label>New Clinical Indication *</label>
+        <input type=”text” id=”f_new_ind” placeholder=”e.g. Pelvic Pain, R/O Ovarian Cyst” style=”width:100%;padding:8px 10px;border:1.5px solid #cbd5e1;border-radius:6px;font-size:13px;font-family:inherit;outline:none;” />
+      </div>
+      <div class=”form-row”>
+        <button class=”btn-save” onclick=”saveIndication()”>Add Indication</button>
+        <button class=”btn-cancel” onclick=”hideAddPanel()”>Cancel</button>
+      </div>
+      <div id=”indError”></div>
+    </div>
+
+    <div class=”form-success” id=”formSuccess”>&#10003; Saved and synced to GitHub.</div>
 
     <div class="manage-section">
       <h3>Custom Protocols Added</h3>
@@ -938,10 +973,10 @@ const protocols = [
     special:"EKG leads required. Not a cardiac study. Kenmore / Plymouth only." },
 
   // â”€â”€ CARDIAC â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  { indication:"Calcium Score (Coronary Artery)", category:"cardiac", epic_order:"Calcium Score CT", epic_id:"75571A", cpt:"75571",
-    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
-    notes:"No contrast. Self-pay: $175 (CC only â€” collect at check-in, check appt note). Calcium score slot.", source:"atrius",
-    special:"Self-pay $175 (CC only, collect at check-in). No caffeine or exercise 12 hrs prior (coffee, tea, energy drinks, chocolate). No erectile dysfunction meds 4 days prior." },
+  { indication:”Calcium Score (Coronary Artery)”, category:”cardiac”, epic_order:”Calcium Score CT”, epic_id:”75571A”, cpt:”75571”,
+    iv:”none”, oral:”none”, labs:false, arrival:20, slot:20,
+    notes:”No contrast. Self-pay: $175 (CC only — collect at check-in, check appt note). Calcium score slot.”, source:”atrius”,
+    special:”Self-pay $175 (CC only, collect at check-in). No caffeine or exercise 12 hrs prior (coffee, tea, energy drinks, chocolate). No erectile dysfunction meds 4 days prior. If heart rate &gt; 80 bpm, request beta blockers from ordering provider before scheduling.” },
 
   { indication:"Cardiac Coronary CTA / Coronary Artery Disease", category:"cardiac", epic_order:"Cardiac Coronary CTA", epic_id:"75574A", cpt:"75574",
     iv:"with", oral:"none", labs:true, arrival:20, slot:40,
@@ -1301,6 +1336,70 @@ function hideAddPanel() {
 function toggleOralType() {
   const oral = document.getElementById('f_oral').value;
   document.getElementById('oralTypeGroup').style.display = (oral === 'none') ? 'none' : '';
+}
+
+function setFormMode(mode) {
+  const isNew = mode === 'new';
+  document.getElementById('newProtocolForm').style.display = isNew ? '' : 'none';
+  document.getElementById('addIndicationForm').style.display = isNew ? 'none' : '';
+  document.getElementById('modeNewBtn').classList.toggle('active', isNew);
+  document.getElementById('modeAddIndBtn').classList.toggle('active', !isNew);
+  if (!isNew) populateProtoList();
+}
+
+let _allProtoOptions = [];
+function populateProtoList() {
+  const seen = new Map();
+  protocols.forEach(p => {
+    const key = p.epic_order + '|' + p.iv + '|' + p.oral + '|' + p.category;
+    if (!seen.has(key)) seen.set(key, p);
+  });
+  _allProtoOptions = [...seen.values()].sort((a, b) => a.epic_order.localeCompare(b.epic_order));
+  renderProtoList(_allProtoOptions);
+}
+
+function renderProtoList(list) {
+  const sel = document.getElementById('f_existing_proto');
+  sel.innerHTML = '';
+  list.forEach(p => {
+    const opt = document.createElement('option');
+    opt.value = JSON.stringify(p);
+    opt.textContent = p.epic_order + '  [' + CAT_LABELS[p.category] + ']';
+    sel.appendChild(opt);
+  });
+}
+
+function filterProtoList() {
+  const q = document.getElementById('f_proto_filter').value.toLowerCase();
+  const filtered = q ? _allProtoOptions.filter(p =>
+    p.epic_order.toLowerCase().includes(q) || CAT_LABELS[p.category].toLowerCase().includes(q)
+  ) : _allProtoOptions;
+  renderProtoList(filtered);
+}
+
+async function saveIndication() {
+  const sel = document.getElementById('f_existing_proto');
+  const newInd = document.getElementById('f_new_ind').value.trim();
+  const errEl = document.getElementById('indError');
+  errEl.style.display = 'none';
+  if (!sel.value) { errEl.textContent = 'Please select an existing protocol.'; errEl.style.display = ''; return; }
+  if (!newInd) { errEl.textContent = 'Please enter a clinical indication.'; errEl.style.display = ''; return; }
+  const proto = JSON.parse(sel.value);
+  const entry = Object.assign({}, proto, { indication: newInd, _custom: true });
+  customProtocols.push(entry);
+  protocols.push(entry);
+  localStorage.setItem('ct_custom_protocols', JSON.stringify(customProtocols));
+  document.getElementById('f_new_ind').value = '';
+  const synced = await syncToGitHub(customProtocols);
+  const msg = document.getElementById('formSuccess');
+  msg.textContent = synced
+    ? '\u2713 Indication added and synced to GitHub \u2014 visible to everyone now.'
+    : '\u2713 Indication saved locally. Connect a GitHub token to sync to all users.';
+  msg.style.display = 'block';
+  setTimeout(() => msg.style.display = 'none', 4000);
+  renderResults();
+  renderCustomList();
+  populateProtoList();
 }
 
 // â”€â”€ Save â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
