@@ -1,0 +1,1796 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CT Protocol Guide | Atrius Imaging</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f4f8; color: #1e293b; font-size: 14px; }
+
+  /* HEADER */
+  header { background: #0f2d55; color: white; padding: 14px 24px; display: flex; align-items: center; gap: 16px; }
+  header h1 { font-size: 20px; font-weight: 700; letter-spacing: 0.3px; }
+  header p { font-size: 12px; color: #94b8d8; margin-top: 2px; }
+  .header-logo { width: 36px; height: 36px; background: #1e5fa0; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+
+  /* SEARCH BAR */
+  .search-area { background: white; padding: 14px 24px 0; border-bottom: 1px solid #dde5ef; }
+  .search-wrap { position: relative; margin-bottom: 12px; }
+  .search-wrap input { width: 100%; padding: 10px 14px 10px 40px; font-size: 15px; border: 2px solid #cbd5e1; border-radius: 8px; outline: none; transition: border-color 0.2s; }
+  .search-wrap input:focus { border-color: #1e5fa0; }
+  .search-icon { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 15px; }
+  .clear-btn { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: #e2e8f0; border: none; border-radius: 50%; width: 22px; height: 22px; cursor: pointer; font-size: 12px; color: #64748b; display: none; align-items: center; justify-content: center; }
+  .clear-btn.visible { display: flex; }
+
+  /* CATEGORY TABS */
+  .tabs { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 0; }
+  .tab { padding: 7px 14px; border: none; border-radius: 6px 6px 0 0; cursor: pointer; font-size: 13px; font-weight: 500; background: #e8f0fa; color: #334155; transition: all 0.15s; white-space: nowrap; border-bottom: 3px solid transparent; }
+  .tab:hover { background: #d0e0f5; }
+  .tab.active { background: white; color: #0f2d55; border-bottom: 3px solid #1e5fa0; font-weight: 600; }
+
+  /* REFERENCE PANELS */
+  .ref-strip { background: #fff7ed; border-bottom: 1px solid #fed7aa; padding: 0 24px; display: flex; gap: 0; flex-wrap: wrap; }
+  .ref-panel { flex: 1; min-width: 280px; padding: 10px 0; }
+  .ref-panel + .ref-panel { border-left: 1px solid #fed7aa; padding-left: 20px; margin-left: 0; }
+  .ref-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #9a3412; margin-bottom: 5px; display: flex; align-items: center; gap: 5px; cursor: pointer; }
+  .ref-body { font-size: 12px; color: #7c2d12; line-height: 1.6; }
+  .ref-body ul { margin-left: 14px; }
+  .pedi-table { font-size: 11px; border-collapse: collapse; }
+  .pedi-table th, .pedi-table td { padding: 2px 10px 2px 0; }
+  .pedi-table th { font-weight: 600; color: #9a3412; }
+
+  /* MAIN CONTENT */
+  .main { padding: 16px 24px; }
+  .results-count { font-size: 12px; color: #64748b; margin-bottom: 12px; }
+  .results-count strong { color: #0f2d55; }
+
+  /* RESULTS LIST */
+  .results-list { display: flex; flex-direction: column; gap: 0; }
+
+  /* LIST ITEM */
+  .list-item { background: white; border-bottom: 1px solid #e2e8f0; padding: 12px 16px; display: flex; gap: 14px; align-items: flex-start; transition: background 0.1s; }
+  .list-item:first-child { border-top: 1px solid #e2e8f0; border-radius: 8px 8px 0 0; }
+  .list-item:last-child  { border-radius: 0 0 8px 8px; }
+  .list-item:only-child  { border-radius: 8px; }
+  .list-item:hover { background: #f8fafc; }
+
+  .list-left { flex: 0 0 120px; }
+  .list-right { flex: 1; min-width: 0; }
+
+  /* BADGES */
+  .badge { padding: 3px 9px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; display: inline-block; white-space: nowrap; }
+  .badge-head   { background: #ede9fe; color: #5b21b6; }
+  .badge-chest  { background: #e0f2fe; color: #075985; }
+  .badge-abdomen{ background: #fff7ed; color: #9a3412; }
+  .badge-cta    { background: #fee2e2; color: #991b1b; }
+  .badge-cardiac{ background: #fce7f3; color: #9d174d; }
+  .badge-spine  { background: #dcfce7; color: #166534; }
+
+  .list-order-name { font-size: 14px; font-weight: 700; color: #0f2d55; margin: 6px 0 2px; line-height: 1.3; }
+  .list-cpt { font-size: 11px; color: #64748b; }
+
+  .list-indications { font-size: 13px; color: #334155; margin-bottom: 7px; line-height: 1.6; }
+  .ind-tag { display: inline; }
+  .ind-tag + .ind-tag::before { content: ' \00B7 '; color: #94a3b8; }
+
+  /* CONTRAST ROW */
+  .contrast-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 5px; align-items: center; }
+  .contrast-pill { display: inline-flex; align-items: center; gap: 3px; padding: 2px 8px; border-radius: 5px; font-size: 12px; font-weight: 600; }
+  .cp-none  { background: #f1f5f9; color: #475569; }
+  .cp-iv    { background: #dbeafe; color: #1d4ed8; }
+  .cp-iv-wo { background: #fef3c7; color: #92400e; }
+  .cp-oral  { background: #dcfce7; color: #166534; }
+  .cp-oral-only { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+  .meta-info { font-size: 12px; color: #64748b; display: inline; margin-left: 6px; }
+
+  /* NOTES */
+  .item-note  { font-size: 12px; color: #64748b; margin-top: 4px; line-height: 1.5; }
+  .item-special { font-size: 12px; color: #78350f; background: #fffbeb; border-left: 3px solid #f59e0b; border-radius: 0 4px 4px 0; padding: 4px 8px; margin-top: 4px; line-height: 1.5; }
+  .item-acr { font-size: 12px; color: #92400e; background: #fffbeb; border-left: 3px solid #fbbf24; border-radius: 0 4px 4px 0; padding: 4px 8px; margin-top: 4px; }
+
+  /* DUAL ORDER */
+  .dual-tag { font-size: 11px; background: #ffe4e6; color: #9f1239; padding: 1px 6px; border-radius: 4px; font-weight: 600; margin-right: 4px; }
+
+  /* EMPTY STATE */
+  .empty-state { text-align: center; padding: 60px 20px; color: #64748b; }
+  .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+  .empty-state h3 { font-size: 18px; color: #334155; margin-bottom: 6px; }
+
+  /* WELCOME */
+  .welcome { text-align: center; padding: 40px 20px; color: #64748b; background: white; border-radius: 8px; border: 1px solid #e2e8f0; }
+  .welcome h3 { font-size: 18px; color: #0f2d55; margin-bottom: 8px; }
+  .welcome p { font-size: 13px; margin-bottom: 4px; }
+  .cat-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 20px; }
+  .cat-btn { padding: 8px 16px; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: #f1f5f9; }
+  ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 3px; }
+
+  /* ADD PROTOCOL FORM */
+  #addPanel { display: none; padding: 20px 24px; }
+  #addPanel.visible { display: block; }
+  .form-card { background: white; border-radius: 10px; border: 1px solid #e2e8f0; padding: 24px; max-width: 760px; }
+  .form-card h2 { font-size: 16px; font-weight: 700; color: #0f2d55; margin-bottom: 4px; }
+  .form-card p  { font-size: 12px; color: #64748b; margin-bottom: 20px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-grid .full { grid-column: 1 / -1; }
+  .form-group label { display: block; font-size: 12px; font-weight: 600; color: #374151; margin-bottom: 4px; }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; padding: 8px 10px; border: 1.5px solid #cbd5e1; border-radius: 6px;
+    font-size: 13px; font-family: inherit; outline: none; transition: border-color 0.15s; }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #1e5fa0; }
+  .form-group textarea { resize: vertical; min-height: 60px; }
+  .form-row { display: flex; gap: 8px; margin-top: 16px; }
+  .btn-save { background: #1e5fa0; color: white; border: none; padding: 9px 22px; border-radius: 7px; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .btn-save:hover { background: #1a4f87; }
+  .btn-cancel { background: #e2e8f0; color: #374151; border: none; padding: 9px 18px; border-radius: 7px; font-size: 13px; cursor: pointer; }
+  .btn-cancel:hover { background: #cbd5e1; }
+  .form-success { display: none; background: #dcfce7; border: 1px solid #86efac; border-radius: 7px; padding: 10px 14px; color: #166534; font-size: 13px; margin-top: 12px; }
+  .form-success.show { display: block; }
+
+  /* MANAGE CUSTOM */
+  .manage-section { margin-top: 24px; }
+  .manage-section h3 { font-size: 14px; font-weight: 700; color: #0f2d55; margin-bottom: 10px; }
+  .custom-row { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 7px; padding: 10px 14px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .custom-row-info { flex: 1; }
+  .custom-row-title { font-size: 13px; font-weight: 600; color: #0f2d55; }
+  .custom-row-sub   { font-size: 12px; color: #64748b; margin-top: 2px; }
+  .btn-delete { background: none; border: 1px solid #fca5a5; color: #dc2626; border-radius: 5px; padding: 3px 10px; font-size: 12px; cursor: pointer; white-space: nowrap; }
+  .btn-delete:hover { background: #fee2e2; }
+  .no-custom { font-size: 13px; color: #94a3b8; font-style: italic; }
+
+  /* EXPORT */
+  .export-section { margin-top: 20px; padding-top: 16px; border-top: 1px solid #e2e8f0; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+  /* PASSWORD MODAL */
+  .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:1000; align-items:center; justify-content:center; }
+  .modal-overlay.show { display:flex; }
+  .modal-box { background:white; border-radius:12px; padding:28px; width:340px; box-shadow:0 8px 32px rgba(0,0,0,0.18); }
+  .modal-box h3 { font-size:16px; font-weight:700; color:#0f2d55; margin-bottom:6px; }
+  .modal-box p  { font-size:13px; color:#64748b; margin-bottom:16px; }
+  .modal-box input { width:100%; padding:9px 12px; border:1.5px solid #cbd5e1; border-radius:7px; font-size:14px; outline:none; margin-bottom:8px; }
+  .modal-box input:focus { border-color:#1e5fa0; }
+  .modal-err { font-size:12px; color:#dc2626; margin-bottom:10px; display:none; }
+  .modal-btns { display:flex; gap:8px; }
+  .modal-btns .btn-save { flex:1; }
+
+  /* FORM MODE TOGGLE */
+  .form-mode-toggle { display:flex; gap:6px; margin-bottom:18px; }
+  .mode-btn { padding:7px 16px; border:2px solid #cbd5e1; border-radius:7px; font-size:13px; font-weight:600; background:white; color:#64748b; cursor:pointer; transition:all 0.15s; }
+  .mode-btn.active { background:#0f2d55; color:white; border-color:#0f2d55; }
+  .mode-btn:hover:not(.active) { background:#f1f5f9; }
+  #indError { display:none; background:#fee2e2; border:1px solid #fca5a5; border-radius:7px; padding:10px 14px; color:#991b1b; font-size:13px; margin-top:12px; }
+
+  /* ORAL TYPE FIELD */
+  #oralTypeGroup { display:none; }
+
+  /* UNDO TOAST */
+  #undoToast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:#1e293b; color:white; padding:10px 18px; border-radius:8px; font-size:13px; display:none; align-items:center; gap:12px; z-index:2000; box-shadow:0 4px 16px rgba(0,0,0,0.25); }
+  #undoToast.show { display:flex; }
+  #undoBtn { background:#3b82f6; color:white; border:none; border-radius:5px; padding:4px 12px; font-size:12px; font-weight:600; cursor:pointer; }
+
+  /* REMOVE INDICATION BUTTON ON TAG */
+  .ind-remove { display:none; background:none; border:none; color:#94a3b8; font-size:11px; cursor:pointer; padding:0 0 0 3px; line-height:1; vertical-align:middle; }
+  .ind-remove:hover { color:#dc2626; }
+  body.admin-mode .ind-remove { display:inline; }
+
+  /* EDIT SPECIAL BUTTON */
+  .edit-special-btn { display:none; background:none; border:1px solid #fcd34d; border-radius:4px; color:#92400e; font-size:11px; cursor:pointer; padding:1px 6px; margin-left:6px; vertical-align:middle; white-space:nowrap; }
+  .edit-special-btn:hover { background:#fef3c7; }
+  body.admin-mode .edit-special-btn { display:inline; }
+  .special-edit-row { display:none; margin-top:6px; }
+  body.admin-mode .special-edit-row { display:flex; gap:6px; align-items:flex-start; }
+  .special-edit-row textarea { flex:1; font-size:12px; font-family:inherit; border:1.5px solid #fcd34d; border-radius:6px; padding:6px 8px; resize:vertical; min-height:48px; outline:none; }
+  .special-edit-row textarea:focus { border-color:#f59e0b; }
+  .special-save-btn { background:#0f2d55; color:white; border:none; border-radius:6px; padding:6px 12px; font-size:12px; cursor:pointer; white-space:nowrap; }
+  .special-clear-btn { background:#fee2e2; color:#dc2626; border:none; border-radius:6px; padding:6px 10px; font-size:12px; cursor:pointer; white-space:nowrap; }
+
+  /* TOKEN BANNER */
+  #tokenBanner { background:#fffbeb; border-bottom:1px solid #fcd34d; padding:8px 24px; font-size:12px; color:#92400e; display:flex; align-items:center; gap:8px; }
+  #tokenBanner a { color:#0f2d55; font-weight:700; cursor:pointer; text-decoration:underline; }
+
+  /* SETTINGS MODAL */
+  #settingsModal .modal-box { width:420px; }
+  .settings-label { font-size:12px; font-weight:600; color:#374151; margin-bottom:4px; margin-top:12px; }
+  .settings-connected { background:#f0fdf4; border:1px solid #bbf7d0; border-radius:7px; padding:10px 14px; color:#166534; font-size:13px; display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .settings-instructions { font-size:11px; color:#6b7280; margin-top:14px; line-height:1.7; background:#f8fafc; border-radius:6px; padding:10px 12px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-logo">&#x1F4CB;</div>
+  <div>
+    <h1>CT Protocol Guide</h1>
+    <p>Atrius Imaging &mdash; CT Protocolling Assistant</p>
+  </div>
+</header>
+
+<div id="tokenBanner" style="display:none;">&#9888; GitHub not connected &mdash; protocol additions will only save to <strong>this browser</strong>. <a onclick="openSettingsModal()">Connect in Settings</a> to sync to all users.</div>
+
+<div class="search-area">
+  <div class="search-wrap">
+    <span class="search-icon">&#128269;</span>
+    <input type="text" id="searchInput" placeholder="Search by clinical indication or protocol name (e.g. &ldquo;chest pain&rdquo;, &ldquo;PE&rdquo;, &ldquo;diverticulitis&rdquo;)..." autocomplete="off" />
+    <button class="clear-btn" id="clearBtn" onclick="clearSearch()">&#x2715;</button>
+  </div>
+  <div class="tabs">
+    <button class="tab active" onclick="setCategory('all')">All</button>
+    <button class="tab" onclick="setCategory('head')">&#128064; Head / Neck</button>
+    <button class="tab" onclick="setCategory('chest')">&#x1F7E6; Chest</button>
+    <button class="tab" onclick="setCategory('abdomen')">&#x1F7E0; Abdomen / Pelvis</button>
+    <button class="tab" onclick="setCategory('cta')">&#128736; CTA / Vascular</button>
+    <button class="tab" onclick="setCategory('cardiac')">&#9829; Cardiac</button>
+    <button class="tab" onclick="setCategory('spine')">&#129460; Spine / Extremity</button>
+    <button class="tab" id="addTab" onclick="showAddPanel()" style="margin-left:auto; background:#e0f2fe; color:#075985;">&#43; Add Protocol</button>
+    <button class="tab" id="settingsTab" onclick="openSettingsModal()" title="GitHub Settings" style="background:#f8fafc; color:#475569; padding:7px 11px;">&#9881;</button>
+  </div>
+</div>
+
+<div class="ref-strip">
+  <div class="ref-panel">
+    <div class="ref-title">&#9888; Oral Contrast Criteria</div>
+    <div class="ref-body">
+      <strong style="font-size:11px;">Non-STAT</strong> &mdash; give if ANY apply:
+      <ul>
+        <li>BMI &lt; 25</li>
+        <li>Oncology patient (if can tolerate)</li>
+        <li>Recent abdominal surgery (within past 30 days)</li>
+        <li>Known IBD (Crohn&rsquo;s / UC)</li>
+        <li>Post gastric bypass (sip slowly)</li>
+        <li>Weight loss indication</li>
+      </ul>
+      <strong style="font-size:11px;">STAT</strong> &mdash; give if ANY apply:
+      <ul>
+        <li>BMI &lt; 25</li>
+        <li>Recent abdominal surgery</li>
+        <li>Known IBD</li>
+        <li>Post gastric bypass</li>
+      </ul>
+      <div style="margin-top:4px; font-size:11px; font-style:italic; color:#92400e;">Readi-Cat: contraindicated if suspected GI perforation or barium allergy. Berry smoothie: no strawberry allergy. Vanilla smoothie: no gluten allergy.</div>
+    </div>
+  </div>
+  <div class="ref-panel">
+    <div class="ref-title">&#128203; Creatinine / eGFR Labs &mdash; order if patient has ANY:</div>
+    <div class="ref-body">
+      <ul>
+        <li>Diabetic</li>
+        <li>History of kidney disease</li>
+        <li>Creatinine on file is more than 30 days old</li>
+      </ul>
+    </div>
+  </div>
+  <div class="ref-panel">
+    <div class="ref-title">&#128100; Pediatric Age Guidelines:</div>
+    <div class="ref-body">
+      <table class="pedi-table">
+        <tr><th>Age</th><th>CT</th></tr>
+        <tr><td>Under 8 yrs (1&ndash;7y)</td><td>Send externally (Non-Atrius)</td></tr>
+        <tr><td>8&ndash;11 yrs</td><td>Non-contrast (I-) only</td></tr>
+        <tr><td>12&ndash;17 yrs</td><td>Non-contrast (I-) &amp; Contrast (I+) OK</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="main" id="mainPanel">
+  <div class="results-count" id="resultsCount"></div>
+  <div class="results-list" id="resultsGrid"></div>
+</div>
+
+<div id="addPanel">
+  <div class="form-card">
+    <h2>Manage Protocols</h2>
+
+    <div class="form-mode-toggle">
+      <button id="modeNewBtn" class="mode-btn active" onclick="setFormMode('new')">New Protocol</button>
+      <button id="modeAddIndBtn" class="mode-btn" onclick="setFormMode('ind')">Add Indication to Existing</button>
+    </div>
+
+    <div id="tokenSection" style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:7px;padding:10px 14px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;gap:10px;">
+      <div id="tokenConnected" style="font-size:13px;color:#166534;display:none;">&#10003; GitHub connected &mdash; changes sync to all users.</div>
+      <div id="tokenNotConnected" style="font-size:13px;color:#0369a1;">&#128274; GitHub not connected &mdash; changes save to this browser only.</div>
+      <button onclick="openSettingsModal()" style="background:#0369a1;color:white;border:none;padding:6px 12px;border-radius:6px;font-size:12px;cursor:pointer;white-space:nowrap;">&#9881; Settings</button>
+    </div>
+    <div id="newProtocolForm">
+    <div class="form-grid">
+      <div class="form-group full">
+        <label>Clinical Indication *</label>
+        <input type="text" id="f_indication" placeholder="e.g. Pelvic Pain, R/O Ovarian Cyst" />
+      </div>
+      <div class="form-group full">
+        <label>Epic Order Name * <span style="font-weight:400;color:#94a3b8">(exactly as it appears in Epic)</span></label>
+        <input type="text" id="f_epic_order" placeholder="e.g. Abdomen/Pelvis CT W/ Contrast" />
+      </div>
+      <div class="form-group">
+        <label>CPT Code</label>
+        <input type="text" id="f_cpt" placeholder="e.g. 74177" />
+      </div>
+      <div class="form-group">
+        <label>Category *</label>
+        <select id="f_category">
+          <option value="abdomen">Abdomen / Pelvis</option>
+          <option value="chest">Chest</option>
+          <option value="head">Head / Neck</option>
+          <option value="cta">CTA / Vascular</option>
+          <option value="cardiac">Cardiac</option>
+          <option value="spine">Spine / Extremity</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>IV Contrast</label>
+        <select id="f_iv">
+          <option value="none">No IV Contrast</option>
+          <option value="with">IV Contrast (With)</option>
+          <option value="wo_w">IV W/O then W/ Contrast</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Oral Contrast</label>
+        <select id="f_oral" onchange="toggleOralType()">
+          <option value="none">No Oral Contrast</option>
+          <option value="yes">Oral Contrast (per criteria)</option>
+          <option value="oral_only">Oral Only (no IV)</option>
+        </select>
+      </div>
+      <div class="form-group" id="oralTypeGroup">
+        <label>Oral Contrast Type</label>
+        <select id="f_oral_type">
+          <option value="">— Select type —</option>
+          <option value="Readi-Cat">Readi-Cat</option>
+          <option value="Omnipaque Solution">Omnipaque Solution</option>
+          <option value="Breeza">Breeza</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Arrival Time</label>
+        <select id="f_arrival">
+          <option value="20">20 min prior</option>
+          <option value="60">60 min prior</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Appointment Slot</label>
+        <select id="f_slot">
+          <option value="20">20 min</option>
+          <option value="40">40 min</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Source</label>
+        <select id="f_source">
+          <option value="atrius">Atrius Protocol</option>
+          <option value="acr">ACR Guideline</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <label>Notes <span style="font-weight:400;color:#94a3b8">(optional)</span></label>
+        <textarea id="f_notes" placeholder="e.g. IV contrast only, no oral prep"></textarea>
+      </div>
+      <div class="form-group full">
+        <label>Special Instructions <span style="font-weight:400;color:#94a3b8">(optional &mdash; site restrictions, self-pay, prep details)</span></label>
+        <textarea id="f_special" placeholder="e.g. Kenmore only. No caffeine 12 hrs prior."></textarea>
+      </div>
+    </div>
+    <div class="form-row">
+      <button class="btn-save" onclick="saveProtocol()">Save Protocol</button>
+      <button class="btn-cancel" onclick="hideAddPanel()">Cancel</button>
+    </div>
+    <div id="formError" style="display:none;background:#fee2e2;border:1px solid #fca5a5;border-radius:7px;padding:10px 14px;color:#991b1b;font-size:13px;margin-top:12px;"></div>
+    </div><!-- end newProtocolForm -->
+
+    <div id="addIndicationForm" style="display:none;">
+      <p style="font-size:12px;color:#64748b;margin-bottom:14px;">Select an existing protocol and type the new clinical indication to add to it.</p>
+      <div class="form-group full" style="margin-bottom:12px;">
+        <label>Filter protocols</label>
+        <input type="text" id="f_proto_filter" placeholder="Type to filter..." oninput="filterProtoList()" style="width:100%;padding:8px 10px;border:1.5px solid #cbd5e1;border-radius:6px;font-size:13px;font-family:inherit;outline:none;" />
+      </div>
+      <div class="form-group full" style="margin-bottom:12px;">
+        <label>Existing Protocol *</label>
+        <select id="f_existing_proto" size="8" style="width:100%;border:1.5px solid #cbd5e1;border-radius:6px;font-size:13px;font-family:inherit;padding:4px;"></select>
+      </div>
+      <div class="form-group full" style="margin-bottom:4px;">
+        <label>New Clinical Indication *</label>
+        <input type="text" id="f_new_ind" placeholder="e.g. Pelvic Pain, R/O Ovarian Cyst" style="width:100%;padding:8px 10px;border:1.5px solid #cbd5e1;border-radius:6px;font-size:13px;font-family:inherit;outline:none;" />
+      </div>
+      <div class="form-row">
+        <button class="btn-save" onclick="saveIndication()">Add Indication</button>
+        <button class="btn-cancel" onclick="hideAddPanel()">Cancel</button>
+      </div>
+      <div id="indError"></div>
+    </div>
+
+    <div class="form-success" id="formSuccess">&#10003; Saved and synced to GitHub.</div>
+
+    <div class="manage-section">
+      <h3>Custom Protocols Added</h3>
+      <div id="customList"></div>
+      <div style="margin-top:16px;padding:10px 12px;background:#f0f9ff;border-radius:7px;border:1px solid #bae6fd;font-size:12px;color:#0369a1;">
+        &#128161; While logged in, a <strong>&times;</strong> button appears on each indication tag in the protocol list. Click it to remove that indication.
+      </div>
+      <div class="export-section">
+        <div id="syncStatus" style="font-size:12px;color:#64748b;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PASSWORD MODAL -->
+<div class="modal-overlay" id="pwModal">
+  <div class="modal-box">
+    <h3>&#128274; Admin Access</h3>
+    <p>Enter the password to add or manage protocols.</p>
+    <input type="password" id="pwInput" placeholder="Password" onkeydown="if(event.key==='Enter')checkPassword()" />
+    <div class="modal-err" id="pwErr">Incorrect password. Try again.</div>
+    <div class="modal-btns">
+      <button class="btn-save" onclick="checkPassword()">Enter</button>
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="settingsModal">
+  <div class="modal-box" style="width:420px;">
+    <h3>&#9881; GitHub Settings</h3>
+    <p>Connect once to sync protocol additions to all users &mdash; no PowerShell needed.</p>
+    <div id="settingConnected" class="settings-connected" style="display:none;">
+      <span>&#10003; Connected &mdash; changes sync to GitHub automatically.</span>
+      <button onclick="clearSettingToken()" style="background:none;border:1px solid #bbf7d0;color:#166534;border-radius:5px;padding:3px 10px;font-size:12px;cursor:pointer;white-space:nowrap;">Disconnect</button>
+    </div>
+    <div id="settingForm">
+      <div class="settings-label">GitHub Personal Access Token</div>
+      <input type="password" id="settingToken" placeholder="ghp_xxxxxxxxxxxx" onkeydown="if(event.key==='Enter')saveSettingToken()" />
+      <button class="btn-save" onclick="saveSettingToken()" style="width:100%;margin-top:4px;">Save Token</button>
+    </div>
+    <div id="pushSection" style="display:none; margin-top:14px; padding-top:14px; border-top:1px solid #e2e8f0;">
+      <div style="font-size:12px;font-weight:700;color:#374151;margin-bottom:6px;">Push Updates to Live Site</div>
+      <div style="font-size:12px;color:#6b7280;margin-bottom:8px;">When Claude updates the local file, open it in this browser then click below to publish to GitHub Pages &mdash; no PowerShell needed.</div>
+      <button id="pushBtn" onclick="pushFullPage()" style="width:100%;background:#0f2d55;color:white;border:none;padding:9px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;">&#8593; Push This Page to GitHub</button>
+      <div id="pushStatus" style="font-size:12px;margin-top:7px;color:#64748b;"></div>
+    </div>
+    <div class="settings-instructions">
+      <strong>How to get your token (do this once):</strong><br>
+      1. Go to github.com and sign in<br>
+      2. Click your profile picture &rarr; Settings<br>
+      3. Scroll to bottom &rarr; Developer settings &rarr; Personal access tokens &rarr; Tokens (classic)<br>
+      4. Click Generate new token (classic) &rarr; check <strong>repo</strong> scope &rarr; Generate<br>
+      5. Copy the token and paste it above<br><br>
+      Token is stored only in this browser and never shared.
+    </div>
+    <div class="modal-btns" style="margin-top:16px;">
+      <button class="btn-cancel" style="flex:1;" onclick="closeSettingsModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+// PROTOCOL DATA
+// Fields: indication, category, epic_order, epic_id, cpt,
+//         iv ("none"|"with"|"wo_w"), oral ("none"|"yes"|"oral_only"),
+//         oral_type, labs, arrival, slot, notes, source ("atrius"|"acr"),
+//         special, dual_order
+// â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+let protocols = [
+
+  // â"€â"€ HEAD / FACIAL â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+  { indication:"Aneurysm (Intracranial)", category:"head", epic_order:"Head CTA", epic_id:"70496", cpt:"70496",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast only. No oral prep.", source:"atrius" },
+
+  { indication:"Bleed / Hemorrhage / Subdural Hematoma / Subarachnoid Hemorrhage", category:"head", epic_order:"Head CT W/O Contrast", epic_id:"70450", cpt:"70450",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast required.", source:"atrius" },
+
+  { indication:"Cancer / Mets / Brain Mass (Brain)", category:"head", epic_order:"Head CT W/O & W/ Contrast", epic_id:"70470", cpt:"70470",
+    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"I- then I+.", source:"atrius" },
+
+  { indication:"Headache", category:"head", epic_order:"Head CT W/O Contrast", epic_id:"70450", cpt:"70450",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast. If sudden severe (thunderclap) headache, consider CTA Head to r/o aneurysm.", source:"atrius" },
+
+  { indication:"CVA / Stroke / TIA", category:"head", epic_order:"Head CT W/O Contrast", epic_id:"70450", cpt:"70450",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast. Urgent/STAT protocol.", source:"atrius" },
+
+  { indication:"Trauma (Head)", category:"head", epic_order:"Head CT W/O Contrast", epic_id:"70450", cpt:"70450",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast.", source:"atrius" },
+
+  { indication:"Memory Loss / Dementia / Alzheimer's / Confusion / Change in Mental Status", category:"head", epic_order:"Head CT W/O Contrast", epic_id:"70450", cpt:"70450",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast.", source:"atrius" },
+
+  { indication:"Hydrocephalus", category:"head", epic_order:"Head CT W/O Contrast", epic_id:"70450", cpt:"70450",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast.", source:"atrius" },
+
+  { indication:"Shunt Check / VP Shunt Evaluation", category:"head", epic_order:"Head CT W/O Contrast", epic_id:"70450", cpt:"70450",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast.", source:"atrius" },
+
+  { indication:"Vertigo / Dizziness", category:"head", epic_order:"Head CT W/O Contrast", epic_id:"70450", cpt:"70450",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast.", source:"atrius" },
+
+  { indication:"AVM / Vascular Anomaly (Brain)", category:"head", epic_order:"Head CTA", epic_id:"70496", cpt:"70496",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA. Brain MRA is an alternative.", source:"atrius" },
+
+  { indication:"Dissection (Cervical / Carotid)", category:"head", epic_order:"Head / Neck CTA", epic_id:"70496HN", cpt:"70496 / 70498",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast. CTA from arch through head.", source:"atrius" },
+
+  { indication:"Facial Cellulitis", category:"head", epic_order:"Maxillofacial CT W/ Contrast", epic_id:"70487MF", cpt:"70487",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast.", source:"atrius" },
+
+  { indication:"Facial Swelling", category:"head", epic_order:"Maxillofacial CT W/ Contrast", epic_id:"70487MF", cpt:"70487",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast.", source:"atrius" },
+
+  { indication:"Facial Infection / Abscess", category:"head", epic_order:"Maxillofacial CT W/ Contrast", epic_id:"70487MF", cpt:"70487",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast.", source:"atrius" },
+
+  { indication:"Facial Bones - Trauma", category:"head", epic_order:"Maxillofacial CT W/O Contrast", epic_id:"70486MF", cpt:"70486",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast for bony trauma evaluation.", source:"atrius" },
+
+  { indication:"Cholesteatoma", category:"head", epic_order:"Temporal Bone CT W/ Contrast", epic_id:"70482T", cpt:"70482",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast.", source:"atrius" },
+
+  { indication:"Ear Drainage / Ear Infection / Otitis Media", category:"head", epic_order:"Temporal Bone CT W/ Contrast", epic_id:"70482T", cpt:"70482",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast.", source:"atrius" },
+
+  { indication:"Acoustic Neuroma (MRI Contraindicated)", category:"head", epic_order:"Temporal Bone CT W/ Contrast", epic_id:"70482T", cpt:"70482",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast. Use when MRI is contraindicated. MRI IAC is preferred when possible.", source:"atrius" },
+
+  { indication:"Hearing Loss / Tinnitus (Ringing in Ears)", category:"head", epic_order:"Temporal Bone CT W/O Contrast", epic_id:"70480T", cpt:"70480",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast.", source:"atrius" },
+
+  { indication:"Parathyroid Adenoma / Hyperparathyroidism", category:"head", epic_order:"Parathyroid CT 4D W/O & W/ Contrast", epic_id:"70492P", cpt:"70492",
+    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:30,
+    notes:"4D parathyroid protocol: unenhanced phase, arterial phase (25 sec), venous phase (60 sec), 4-minute delayed phase. IV contrast only, no oral prep.", source:"atrius",
+    special:"4D parathyroid protocol \u2014 30-min slot. Must use dedicated 4D parathyroid protocol." },
+
+  { indication:"Parathyroid Localization Pre-op", category:"head", epic_order:"Parathyroid CT 4D W/O & W/ Contrast", epic_id:"70492P", cpt:"70492",
+    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:30,
+    notes:"4D parathyroid protocol: unenhanced phase, arterial phase (25 sec), venous phase (60 sec), 4-minute delayed phase. IV contrast only, no oral prep.", source:"atrius",
+    special:"4D parathyroid protocol \u2014 30-min slot. Must use dedicated 4D parathyroid protocol." },
+
+  { indication:"Hypercalcemia / Elevated PTH", category:"head", epic_order:"Parathyroid CT 4D W/O & W/ Contrast", epic_id:"70492P", cpt:"70492",
+    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:30,
+    notes:"4D parathyroid protocol: unenhanced phase, arterial phase (25 sec), venous phase (60 sec), 4-minute delayed phase. IV contrast only, no oral prep.", source:"atrius",
+    special:"4D parathyroid protocol \u2014 30-min slot. Must use dedicated 4D parathyroid protocol." },
+
+  { indication:"Sinus Disease / Sinusitis / Congestion / Deviated Septum / Nasal Polyp / Sinus Headache", category:"head", epic_order:"Maxillofacial CT W/O Contrast Stealth", epic_id:"70486MF", cpt:"70486",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast. Stealth protocol.", source:"atrius" },
+
+  { indication:"Mandible / Dental / Jaw Injury", category:"head", epic_order:"Mandible CT W/O Contrast", epic_id:"70486M", cpt:"70486",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast.", source:"atrius" },
+
+  { indication:"Orbit - Cellulitis / Infection / Abscess / Pain / Mass / Tumor / Cancer", category:"head", epic_order:"Orbit CT W/ Contrast", epic_id:"70481O", cpt:"70481",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast.", source:"atrius" },
+
+  { indication:"Orbit - Graves Disease / Visual Defects", category:"head", epic_order:"Orbit CT W/O Contrast", epic_id:"70480O", cpt:"70480",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast.", source:"atrius" },
+
+  { indication:"Orbit - Trauma / Fracture / Bony Abnormality / Foreign Body", category:"head", epic_order:"Orbit CT W/O Contrast", epic_id:"70489O", cpt:"70489",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast.", source:"atrius" },
+
+  { indication:"Tracheomalacia", category:"head", epic_order:"Neck and Chest CT W/O Contrast (Tracheomalacia)", epic_id:"70490TR", cpt:"70490",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"Dynamic inspiratory/expiratory protocol. No contrast.", source:"atrius" },
+
+  // â"€â"€ SOFT TISSUE NECK â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+  { indication:"Adenopathy / Lymphadenopathy / Swollen Lymph Nodes (Neck)", category:"head", epic_order:"Neck Soft Tissue CT W/ Contrast", epic_id:"70491", cpt:"70491",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast. Scan coverage: skull base to aortic arch.", source:"atrius" },
+
+  { indication:"Carotid Bruit / Stenosis", category:"head", epic_order:"Neck CTA", epic_id:"70498", cpt:"70498",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA.", source:"atrius" },
+
+  { indication:"Neck Mass", category:"head", epic_order:"Neck Soft Tissue CT W/ Contrast", epic_id:"70491", cpt:"70491",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast. Coverage: skull base to aortic arch.", source:"atrius" },
+
+  { indication:"Parotid Mass", category:"head", epic_order:"Neck Soft Tissue CT W/O & W/ Contrast", epic_id:"70488MF", cpt:"70488",
+    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"Parotid-specific protocol. I- then I+. Coverage: skull base to aortic arch.", source:"atrius" },
+
+  { indication:"Parotid Stone", category:"head", epic_order:"Neck Soft Tissue CT W/O Contrast", epic_id:"70486MF", cpt:"70486",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast for stone evaluation. Coverage: skull base to aortic arch.", source:"atrius" },
+
+  { indication:"Vocal Cord Paralysis", category:"head", epic_order:"Neck Soft Tissue CT W/ Contrast", epic_id:"70491V", cpt:"70491",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"Vocal cord paralysis-specific protocol. Coverage: skull base to aortic arch.", source:"atrius" },
+
+  { indication:"Dysphagia / Lymphoma (Neck) / Esophageal Cancer", category:"head", epic_order:"Neck Soft Tissue CT W/ Contrast", epic_id:"70491", cpt:"70491",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast. Coverage: skull base to aortic arch.", source:"atrius" },
+
+  { indication:"Thyroid / Goiter / Nodule (Neck)", category:"head", epic_order:"Neck Soft Tissue CT W/O Contrast", epic_id:"70486MF", cpt:"70486",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast for thyroid/goiter evaluation.", source:"atrius" },
+
+  // â"€â"€ CHEST â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+  { indication:"Pulmonary Embolism / PE / R/O PE", category:"chest", epic_order:"Chest CTA PE", epic_id:"71275PE", cpt:"71275",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA. Bolus tracking technique.", source:"atrius" },
+
+  { indication:"Shortness of Breath - R/O PE", category:"chest", epic_order:"Chest CTA PE", epic_id:"71275PE", cpt:"71275",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA.", source:"atrius" },
+
+  { indication:"Shortness of Breath - NOT R/O PE / Dyspnea", category:"chest", epic_order:"Chest CT W/O Contrast", epic_id:"71250C", cpt:"71250",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast when PE not suspected.", source:"atrius" },
+
+  { indication:"Hemoptysis", category:"chest", epic_order:"Chest CT W/ Contrast", epic_id:"71260", cpt:"71260",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast.", source:"atrius" },
+
+  { indication:"Cough (Persistent / Chronic)", category:"chest", epic_order:"Chest CT W/O Contrast", epic_id:"71250C", cpt:"71250",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast.", source:"atrius" },
+
+  { indication:"Abnormal Chest X-Ray / FUO (Fever of Unknown Origin)", category:"chest", epic_order:"Chest CT W/ Contrast", epic_id:"71260", cpt:"71260",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast.", source:"atrius" },
+
+  { indication:"Lung Mass", category:"chest", epic_order:"Chest CT W/ Contrast", epic_id:"71260", cpt:"71260",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast.", source:"atrius" },
+
+  { indication:"Lung Cancer (staging / eval)", category:"chest", epic_order:"Chest CT W/ Contrast", epic_id:"71260", cpt:"71260",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast.", source:"atrius" },
+
+  { indication:"Lung Nodules (eval / follow-up)", category:"chest", epic_order:"Chest CT W/O Contrast", epic_id:"71250C", cpt:"71250",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast. Use chest follow-up nodule protocol.", source:"atrius" },
+
+  { indication:"Pulmonary Nodules", category:"chest", epic_order:"Chest CT W/O Contrast", epic_id:"71250C", cpt:"71250",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast. Use chest follow-up nodule protocol.", source:"atrius" },
+
+  { indication:"Pulmonary Nodule Follow-Up", category:"chest", epic_order:"Chest CT W/O Contrast", epic_id:"71250C", cpt:"71250",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast. Use chest follow-up nodule protocol.", source:"atrius" },
+
+  { indication:"Lymphoma (Chest)", category:"chest", epic_order:"Chest CT W/ Contrast", epic_id:"71260", cpt:"71260",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast.", source:"atrius" },
+
+  { indication:"Mediastinum Adenopathy / Mass", category:"chest", epic_order:"Chest CT W/ Contrast", epic_id:"71260", cpt:"71260",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast.", source:"atrius" },
+
+  { indication:"Hilar Adenopathy / Hilar Mass", category:"chest", epic_order:"Chest CT W/ Contrast", epic_id:"71260", cpt:"71260",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast.", source:"atrius" },
+
+  { indication:"Metastatic Disease - METS (Chest)", category:"chest", epic_order:"Chest CT W/ Contrast", epic_id:"71260", cpt:"71260",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast.", source:"atrius" },
+
+  { indication:"Malignancy (Chest)", category:"chest", epic_order:"Chest CT W/ Contrast", epic_id:"71260", cpt:"71260",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast.", source:"atrius" },
+
+  { indication:"Sarcoidosis", category:"chest", epic_order:"Chest CT W/ Contrast", epic_id:"71260", cpt:"71260",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast.", source:"atrius" },
+
+  { indication:"COPD", category:"chest", epic_order:"Chest CT W/O Contrast", epic_id:"71250C", cpt:"71250",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast.", source:"atrius" },
+
+  { indication:"Asthma", category:"chest", epic_order:"Chest CT W/O Contrast", epic_id:"71250C", cpt:"71250",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast.", source:"atrius" },
+
+  { indication:"Interstitial Lung Disease (ILD) / Pulmonary Fibrosis", category:"chest", epic_order:"Chest CT W/O Contrast", epic_id:"71250C", cpt:"71250",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast for HRCT pattern evaluation.", source:"atrius" },
+
+  { indication:"Bronchiectasis", category:"chest", epic_order:"Chest CT W/O Contrast", epic_id:"71250C", cpt:"71250",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast.", source:"atrius" },
+
+  { indication:"Pneumonia / Pneumatocele", category:"chest", epic_order:"Chest CT W/O Contrast", epic_id:"71250C", cpt:"71250",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast.", source:"atrius" },
+
+  { indication:"Infiltrate / Ground Glass Opacities", category:"chest", epic_order:"Chest CT W/O Contrast", epic_id:"71250C", cpt:"71250",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast.", source:"atrius" },
+
+  { indication:"Pleural Effusion", category:"chest", epic_order:"Chest CT W/ Contrast", epic_id:"71260", cpt:"71260",
+    iv:"with", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"IV contrast.", source:"atrius" },
+
+  { indication:"Weight Loss (Chest + Abd/Pel panel)", category:"chest", epic_order:"Chest/Abdomen/Pelvis CT W/ Contrast", epic_id:"71260CP", cpt:"71260 + 74177",
+    iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
+    notes:"Panel order: Chest W/ Contrast + Abd/Pel W/ Contrast. IV contrast + oral prep per criteria.", source:"atrius", dual_order:true },
+
+  { indication:"Night Sweats - R/O Adenopathy / Lesion", category:"chest", epic_order:"Chest/Abdomen/Pelvis CT W/ Contrast", epic_id:"71260CP", cpt:"71260 + 74177",
+    iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
+    notes:"Panel order covers chest + abd/pel. IV contrast + oral prep per criteria.", source:"atrius", dual_order:true },
+
+  { indication:"Aortic Arch Anomaly", category:"chest", epic_order:"Chest CTA Aorta", epic_id:"71275AO", cpt:"71275",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA.", source:"atrius" },
+
+  // â"€â"€ LDCT â"€â"€
+  { indication:"Lung Cancer Screening (LDCT) - Initial / First Scan", category:"chest", epic_order:"Chest CT Lung Cancer Screening (LDCT) Initial", epic_id:"71271", cpt:"G0297",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"Low-dose, no contrast. Self-pay: $525 (CC only, collect at check-in). No respiratory infection (COVID, pneumonia, bronchitis) within 3 months of appt.", source:"atrius",
+    special:"DO NOT PROTOCOL \u2014 All LDCT cancer screening is handled by the LDCT Coordinator. Self-pay $525 (CC only). No active respiratory infection within 3 months." },
+
+  { indication:"Lung Cancer Screening (LDCT) - 6 Month F/U (Short-Term)", category:"chest", epic_order:"Chest CT Lung Cancer Screening (LDCT) Short Term F/U", epic_id:"71250D", cpt:"71250",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"Low-dose, no contrast. F/U for indeterminate nodule.", source:"atrius",
+    special:"DO NOT PROTOCOL \u2014 All LDCT cancer screening is handled by the LDCT Coordinator. No active respiratory infection within 3 months." },
+
+  { indication:"Lung Cancer Screening (LDCT) - 1 Year F/U (Subsequent)", category:"chest", epic_order:"Chest CT Lung Cancer Screening (LDCT) Subsequent", epic_id:"71271T", cpt:"G0297",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"Low-dose, no contrast. Annual subsequent screening.", source:"atrius",
+    special:"DO NOT PROTOCOL \u2014 All LDCT cancer screening is handled by the LDCT Coordinator. No active respiratory infection within 3 months." },
+
+  { indication:"Lung Nodule F/U (after CT W/ Contrast)", category:"chest", epic_order:"Chest CT W/O Contrast F/U to LDCT", epic_id:"71250F", cpt:"71250",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast.", source:"atrius" },
+
+  // â"€â"€ ABDOMEN / PELVIS â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+  { indication:"Abdominal Pain", oral_type:"", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/ Contrast", epic_id:"74177A", cpt:"74177",
+    iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
+    notes:"IV contrast + oral prep per criteria. Exceptions may apply for STAT same-day add-ons.", source:"atrius" },
+
+  { indication:"Abdominal Pain - Upper Quadrant Only (above iliac crest)", oral_type:"", category:"abdomen", epic_order:"Abdomen CT W/ Contrast", epic_id:"74160ABD", cpt:"74160",
+    iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
+    notes:"IV contrast + oral prep per criteria. Pelvis not included.", source:"atrius" },
+
+  { indication:"Appendicitis", oral_type:"", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/ Contrast", epic_id:"74177A", cpt:"74177",
+    iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
+    notes:"IV contrast + oral prep per criteria. STAT exceptions may apply.", source:"atrius" },
+
+  { indication:"Diverticulitis", oral_type:"", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/ Contrast", epic_id:"74177A", cpt:"74177",
+    iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
+    notes:"IV contrast + oral prep per criteria.", source:"atrius" },
+
+  { indication:"Colitis", oral_type:"", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/ Contrast", epic_id:"74177A", cpt:"74177",
+    iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
+    notes:"IV contrast + oral prep per criteria.", source:"atrius" },
+
+  { indication:"Bowel Obstruction", oral_type:"", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/ Contrast", epic_id:"74177A", cpt:"74177",
+    iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
+    notes:"IV contrast + oral prep per criteria.", source:"atrius" },
+
+  { indication:"GI Bleed / Hematochezia / Melena", oral_type:"", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/ Contrast", epic_id:"74177A", cpt:"74177",
+    iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
+    notes:"IV contrast + oral prep per criteria.", source:"atrius" },
+
+  { indication:"Diarrhea", oral_type:"", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/ Contrast", epic_id:"74177A", cpt:"74177",
+    iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
+    notes:"IV contrast + oral prep per criteria.", source:"atrius" },
+
+  { indication:"Nausea / Vomiting / Fever (Abdominal)", oral_type:"", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/ Contrast", epic_id:"74177A", cpt:"74177",
+    iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
+    notes:"IV contrast + oral prep per criteria.", source:"atrius" },
+
+  { indication:"Abdominal Mass", oral_type:"", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/ Contrast", epic_id:"74177A", cpt:"74177",
+    iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
+    notes:"IV contrast + oral prep per criteria.", source:"atrius" },
+
+  { indication:"Cancer - Any Staging (Abdomen)", oral_type:"", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/ Contrast", epic_id:"74177A", cpt:"74177",
+    iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
+    notes:"IV contrast + oral prep per criteria.", source:"atrius" },
+
+  { indication:"Malignancy (Abdomen)", oral_type:"", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/ Contrast", epic_id:"74177A", cpt:"74177",
+    iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
+    notes:"IV contrast + oral prep per criteria.", source:"atrius" },
+
+  { indication:"Varicocele", oral_type:"", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/ Contrast", epic_id:"74177A", cpt:"74177",
+    iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
+    notes:"IV contrast + oral prep per criteria.", source:"atrius" },
+
+  { indication:"Weight Loss (Abdomen)", oral_type:"", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/ Contrast \u2014 Panel w/ Chest", epic_id:"71260CP", cpt:"71260 + 74177",
+    iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
+    notes:"Usually ordered as panel: Chest/Abdomen/Pelvis CT W/ Contrast (71260CP). IV contrast + oral prep per criteria.", source:"atrius", dual_order:true },
+
+  { indication:"Hepatitis", category:"abdomen", epic_order:"Abdomen CT W/ Contrast", epic_id:"74160ABD", cpt:"74160",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast only.", source:"atrius" },
+
+  { indication:"Cirrhosis", category:"abdomen", epic_order:"Abdomen CT W/O & W/ Contrast", epic_id:"74170A", cpt:"74170",
+    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"W/O then W/ contrast (biphasic). IV only, no oral.", source:"atrius" },
+
+  { indication:"Liver Lesion / Mass", category:"abdomen", epic_order:"Abdomen CT W/ Contrast", epic_id:"74160ABD", cpt:"74160",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast only, no oral prep.", source:"atrius" },
+
+  { indication:"Cholangiocarcinoma", category:"abdomen", epic_order:"Abdomen CT W/ Contrast", epic_id:"74160ABD", cpt:"74160",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast only.", source:"atrius" },
+
+  { indication:"Pancreas Lesion / Mass / Pancreatitis", oral_type:"", category:"abdomen", epic_order:"Abdomen CT W/ Contrast", epic_id:"74160ABD", cpt:"74160",
+    iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
+    notes:"IV contrast + 1 bottle oral prep.", source:"atrius" },
+
+  { indication:"Spleen Lesion / Mass / Splenomegaly", oral_type:"", category:"abdomen", epic_order:"Abdomen CT W/O & W/ Contrast", epic_id:"74170A", cpt:"74170",
+    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"I- then I+ for lesion characterization. No oral prep.", source:"atrius" },
+
+  { indication:"Fatty Liver", category:"abdomen", epic_order:"Abdomen CT W/O Contrast", epic_id:"74150", cpt:"74150",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast.", source:"atrius" },
+
+  { indication:"F/U Adrenal Adenoma", category:"abdomen", epic_order:"Abdomen CT W/O Contrast", epic_id:"74150", cpt:"74150",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast for adenoma follow-up.", source:"atrius" },
+
+  { indication:"Adrenal Washout / Lesion Characterization", category:"abdomen", epic_order:"Abdomen CT W/O & W/ Contrast", epic_id:"74170ADR", cpt:"74170",
+    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"Adrenal washout protocol: unenhanced phase, portal venous phase (60 sec), 15-minute delayed phase. IV contrast only, no oral prep.", source:"atrius",
+    special:"Adrenal washout protocol \u2014 must use dedicated adrenal washout protocol." },
+
+  { indication:"R/O Adrenal Adenoma / Adrenal Mass Characterization", category:"abdomen", epic_order:"Abdomen CT W/O & W/ Contrast", epic_id:"74170ADR", cpt:"74170",
+    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"Adrenal washout protocol: unenhanced phase, portal venous phase (60 sec), 15-minute delayed phase. IV contrast only, no oral prep.", source:"atrius",
+    special:"Adrenal washout protocol \u2014 must use dedicated adrenal washout protocol." },
+
+  { indication:"Adrenal Incidentaloma", category:"abdomen", epic_order:"Abdomen CT W/O & W/ Contrast", epic_id:"74170ADR", cpt:"74170",
+    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"Adrenal washout protocol: unenhanced phase, portal venous phase (60 sec), 15-minute delayed phase. IV contrast only, no oral prep.", source:"atrius",
+    special:"Adrenal washout protocol \u2014 must use dedicated adrenal washout protocol." },
+
+  { indication:"Renal Mass - Characterization", category:"abdomen", epic_order:"Abdomen CT W/O & W/ Contrast", epic_id:"74170A", cpt:"74170",
+    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"W/O then W/ contrast. IV only.", source:"atrius" },
+
+  { indication:"Renal Cyst", category:"abdomen", epic_order:"Abdomen CT W/O & W/ Contrast", epic_id:"74170A", cpt:"74170",
+    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"W/O then W/ contrast for Bosniak characterization.", source:"atrius" },
+
+  { indication:"Spleen Lesion / Mass", category:"abdomen", epic_order:"Abdomen CT W/O & W/ Contrast", epic_id:"74170A", cpt:"74170",
+    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"W/O then W/ contrast. IV only.", source:"atrius" },
+
+  { indication:"Kidney / Ureteral Stones - R/O (Flank Pain)", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/O Contrast", epic_id:"74176A", cpt:"74176",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast for stone detection.", source:"atrius" },
+
+  { indication:"Nephrolithiasis / Renal Stones", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/O Contrast", epic_id:"74176A", cpt:"74176",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast.", source:"atrius" },
+
+  { indication:"Hematuria", category:"abdomen", epic_order:"CT Urogram (CTU)", epic_id:"74178CTU", cpt:"74178",
+    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast only. Delayed phase for ureters/bladder.", source:"atrius" },
+
+  { indication:"Flank Pain + Hematuria (Kidney Stones + Urinary Eval)", category:"abdomen", epic_order:"CT Urogram (CTU)", epic_id:"74178CTU", cpt:"74178",
+    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast only.", source:"atrius" },
+
+  { indication:"Kidney / Urinary Tract Evaluation", category:"abdomen", epic_order:"CT Urogram (CTU)", epic_id:"74178CTU", cpt:"74178",
+    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast only.", source:"atrius" },
+
+  { indication:"UTI / Recurrent UTI", category:"abdomen", epic_order:"CT Urogram (CTU)", epic_id:"74178CTU", cpt:"74178",
+    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast only.", source:"atrius" },
+
+  { indication:"GU Fistula", category:"abdomen", epic_order:"CT Urogram (CTU)", epic_id:"74178CTU", cpt:"74178",
+    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast only. Rectal contrast may be needed \u2014 verify with radiologist.", source:"atrius" },
+
+  { indication:"Hernia - Inguinal", oral_type:"", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/O Contrast", epic_id:"74176A", cpt:"74176",
+    iv:"none", oral:"oral_only", labs:false, arrival:60, slot:20,
+    notes:"No IV contrast. Oral prep only for bowel marking.", source:"atrius",
+    special:"Oral prep only. No IV contrast." },
+
+  { indication:"Hernia - Ventral", oral_type:"", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/O Contrast", epic_id:"74176A", cpt:"74176",
+    iv:"none", oral:"oral_only", labs:false, arrival:60, slot:20,
+    notes:"No IV contrast. Oral prep only. If hernia is high above umbilicus, may order Abdomen CT W/O only (74150).", source:"atrius",
+    special:"Oral prep only. If hernia is high enough above umbilicus, pelvis scan may not be needed \u2014 order Abdomen CT W/O Contrast only (74150) instead." },
+
+  { indication:"Pyelonephritis", oral_type:"", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/ Contrast", epic_id:"74177A", cpt:"74177",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast. 90-second delay scan.", source:"atrius" },
+
+  { indication:"Spleen Laceration / Abdominal Trauma", oral_type:"", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/ Contrast", epic_id:"74177A", cpt:"74177",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast. 90-second delay scan.", source:"atrius" },
+
+  { indication:"IBD - Inflammatory Bowel Disease / Crohn's Disease", oral_type:"Breeza", category:"abdomen", epic_order:"CT Enterography (CTE)", epic_id:"74177CTE", cpt:"74177",
+    iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
+    notes:"Oral prep: Breeza administered in dept. IV contrast.", source:"atrius",
+    special:"CTE oral prep (Breeza) given in department only. Patient arrives 60 min early." },
+
+  { indication:"Enterocolic Fistula", oral_type:"Breeza", category:"abdomen", epic_order:"CT Enterography (CTE)", epic_id:"74177CTE", cpt:"74177",
+    iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
+    notes:"Oral prep: Breeza in dept. IV contrast.", source:"atrius",
+    special:"CTE oral prep (Breeza) given in department only." },
+
+  { indication:"CT Colonography (CTC) - F/U Incomplete Colonoscopy", category:"abdomen", epic_order:"CT Colonography F/U to Incomplete Colonoscopy", epic_id:"74261", cpt:"74261",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:40,
+    notes:"Special CTC prep given by Endoscopy RN (pool P 104092, cc: Cheryl Whyte). Do NOT book routine appts on Fridays. Check if biopsy was done during colonoscopy \u2014 if yes, schedule CTC 5 weeks post biopsy.", source:"atrius",
+    special:"40-min slot. CTC prep from Endoscopy RN. No routine Fridays. If biopsy done: wait 5 weeks." },
+
+  { indication:"CT Colonography Screening (CTC)", category:"abdomen", epic_order:"CT Colonography Screening", epic_id:"74263", cpt:"74263",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:40,
+    notes:"Special CTC prep from Endoscopy RN. No routine Friday scheduling.", source:"atrius",
+    special:"40-min slot. CTC prep from Endoscopy RN. No routine Fridays." },
+
+  // ── HYPERVASCULAR PROTOCOLS ───────────────────────────────────────────────
+  { indication:"Breast Cancer", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
+    iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
+    notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
+    special:"Hypervascular protocol — select Hypervascular in smartform." },
+
+  { indication:"Thyroid Cancer", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
+    iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
+    notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
+    special:"Hypervascular protocol — select Hypervascular in smartform." },
+
+  { indication:"Carcinoid Tumor", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
+    iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
+    notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
+    special:"Hypervascular protocol — select Hypervascular in smartform." },
+
+  { indication:"Renal Cell Carcinoma / Renal Cancer", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
+    iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
+    notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
+    special:"Hypervascular protocol — select Hypervascular in smartform." },
+
+  { indication:"Hepatoma / HCC / Hepatocellular Carcinoma", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
+    iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
+    notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
+    special:"Hypervascular protocol — select Hypervascular in smartform." },
+
+  { indication:"Neuroendocrine Tumor (NET)", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
+    iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
+    notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
+    special:"Hypervascular protocol — select Hypervascular in smartform." },
+
+  { indication:"Melanoma", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
+    iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
+    notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
+    special:"Hypervascular protocol — select Hypervascular in smartform." },
+
+  { indication:"Choriocarcinoma", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
+    iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
+    notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
+    special:"Hypervascular protocol — select Hypervascular in smartform." },
+
+  { indication:"Leiomyosarcoma", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
+    iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
+    notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
+    special:"Hypervascular protocol — select Hypervascular in smartform." },
+
+  { indication:"Pelvic Fracture", category:"abdomen", epic_order:"Pelvis Bone CT W/O Contrast", epic_id:"72192BP", cpt:"72192",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast for bony injury.", source:"atrius" },
+
+  // â"€â"€ CTA / VASCULAR â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+  { indication:"Aortic Dissection (Thoracic)", category:"cta", epic_order:"Chest CTA Aorta", epic_id:"71275AO", cpt:"71275",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA. Must be performed as GATED Chest CTA if done at Kenmore. If dissection extends to abdomen, also order Abd/Pel CTA.", source:"atrius",
+    special:"GATED study required at Kenmore site." },
+
+  { indication:"Thoracic Aortic Aneurysm / Coarctation", category:"cta", epic_order:"Chest CTA Aorta", epic_id:"71275AO", cpt:"71275",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA. GATED at Kenmore.", source:"atrius",
+    special:"GATED study required at Kenmore site." },
+
+  { indication:"Abdominal Aortic Aneurysm (AAA) / R/O", category:"cta", epic_order:"Abdomen/Pelvis CTA", epic_id:"74174AA", cpt:"74174",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA.", source:"atrius" },
+
+  { indication:"Thoracic Aortic Aneurysm / Dilation Follow-Up", category:"cta", epic_order:"Chest CT W/O Contrast", epic_id:"71250C", cpt:"71250",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast needed for surveillance of known aneurysm. Initial study: Chest CTA (71275A).", source:"acr" },
+
+  { indication:"Aortic Repair / Post-TEVAR Follow-Up (Chest + Abdomen)", category:"cta", epic_order:"Chest CTA Aorta (71275AO) + Abdomen/Pelvis CTA (74174AA)", epic_id:"71275AO + 74174AA", cpt:"71275 + 74174",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"Dual order for post-surgical/post-TEVAR evaluation. IV contrast only.", source:"atrius", dual_order:true },
+
+  { indication:"Thoracic Aorta Coarctation / Dissection (Chest + Abdomen)", category:"cta", epic_order:"Chest CTA Aorta (71275AO) + Abdomen/Pelvis CTA (74174AA)", epic_id:"71275AO + 74174AA", cpt:"71275 + 74174",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"Dual order: both Chest and Abd/Pel CTA required. IV contrast only.", source:"atrius", dual_order:true },
+
+  { indication:"Splenic Artery Aneurysm", category:"cta", epic_order:"Abdomen CTA", epic_id:"74175AA", cpt:"74175",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA.", source:"atrius" },
+
+  { indication:"SMA Disease / Mesenteric Ischemia / Bowel Ischemia (SMA)", category:"cta", epic_order:"Abdomen/Pelvis CTA", epic_id:"74174AA", cpt:"74174",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA. No oral prep for ischemia workup.", source:"acr" },
+
+  { indication:"Endo Aneurysm Repair / Endoleak", category:"cta", epic_order:"Abdomen/Pelvis CTA", epic_id:"74174AA", cpt:"74174",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA. Post-EVAR evaluation.", source:"atrius" },
+
+  { indication:"Abdominal Pain - R/O Ischemia / Bowel Ischemia", category:"cta", epic_order:"Abdomen/Pelvis CTA", epic_id:"74174AA", cpt:"74174",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA. No oral prep.", source:"atrius" },
+
+  { indication:"Renal Artery Stenosis / Renal Vascular Disease", category:"cta", epic_order:"Abdomen CTA", epic_id:"74175AA", cpt:"74175",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA. If low eGFR, consider Renal MRA (74185RA) instead.", source:"atrius" },
+
+  { indication:"Carotid / Neck CTA", category:"cta", epic_order:"Neck CTA", epic_id:"70498", cpt:"70498",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA.", source:"atrius" },
+
+  { indication:"Head CTA / Intracranial Vessels / Brain Aneurysm", category:"cta", epic_order:"Head CTA", epic_id:"70496", cpt:"70496",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA. Include I- head if patient has neurological symptoms.", source:"atrius" },
+
+  { indication:"Head and Neck CTA", category:"cta", epic_order:"Head / Neck CTA", epic_id:"70496HN", cpt:"70496 / 70498",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA from arch to vertex. Include I- head if patient has neurological symptoms.", source:"atrius" },
+
+  { indication:"Dural Sinus Thrombosis / Cerebral Venous Thrombosis", category:"cta", epic_order:"Head CTA", epic_id:"70496", cpt:"70496",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA. MRV Brain W/O is preferred if available.", source:"acr" },
+
+  { indication:"Carotid / Vertebral Artery Dissection", category:"cta", epic_order:"Head / Neck CTA", epic_id:"70496HN", cpt:"70496 / 70498",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA head and neck. MRA Brain/Neck is alternative.", source:"acr" },
+
+  { indication:"Runoff CTA (Peripheral Vascular / Lower Extremity)", category:"cta", epic_order:"Abdomen/Pelvis CTA W/ Runoff", epic_id:"75635", cpt:"75635",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA aorta to feet.", source:"atrius" },
+
+  { indication:"Lower Extremity CTA (without aorta)", category:"cta", epic_order:"CTA Lower Extremity W/O Aorta", epic_id:"73706CTA", cpt:"73706",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA.", source:"atrius" },
+
+  { indication:"Thoracic Outlet Syndrome (TOS)", category:"cta", epic_order:"CTA Thoracic Outlet Syndrome", epic_id:"71275TOS", cpt:"71275",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA. Arterial and venous phases. Affected arm elevated. IV contrast only, no oral prep.", source:"atrius",
+    special:"Thoracic outlet protocol \u2014 arterial and venous phase imaging with affected arm elevated to assess vascular compression." },
+
+  { indication:"Upper Extremity Vascular / Subclavian / Axillary Artery Stenosis", category:"cta", epic_order:"CTA Upper Extremity", epic_id:"73206CTA", cpt:"73206",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA. Imaging performed in neutral and provocative positions (arms raised). IV contrast only, no oral prep.", source:"atrius",
+    special:"Thoracic outlet protocol \u2014 images acquired in both neutral and arms-elevated positions to assess vascular compression." },
+
+  { indication:"Arm Claudication / Arm Pain / Brachial Artery Disease", category:"cta", epic_order:"CTA Upper Extremity", epic_id:"73206CTA", cpt:"73206",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA. IV contrast only, no oral prep.", source:"atrius" },
+
+  { indication:"Gated CTA Aorta (NOT a cardiac study)", category:"cta", epic_order:"Chest CTA Gated", epic_id:"71275G", cpt:"71275",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"Performed with EKG leads. Available at Kenmore and Plymouth (Norwood and Weymouth pending). IV contrast only.", source:"atrius",
+    special:"EKG leads required. Not a cardiac study. Kenmore / Plymouth only." },
+
+  // â"€â"€ CARDIAC â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+  { indication:"Calcium Score (Coronary Artery)", category:"cardiac", epic_order:"Calcium Score CT", epic_id:"75571A", cpt:"75571",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast. Self-pay: $175 (CC only — collect at check-in, check appt note). Calcium score slot.", source:"atrius",
+    special:"Self-pay $175 (CC only, collect at check-in). No caffeine or exercise 12 hrs prior (coffee, tea, energy drinks, chocolate). No erectile dysfunction meds 4 days prior. If heart rate &gt; 80 bpm, request beta blockers from ordering provider before scheduling." },
+
+  { indication:"Cardiac Coronary CTA / Coronary Artery Disease", category:"cardiac", epic_order:"Cardiac Coronary CTA", epic_id:"75574A", cpt:"75574",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:40,
+    notes:"Kenmore ONLY \u2014 Tuesday & Thursday cardiac slots. Performed with cardiac radiologist + cardiology RN in dept.", source:"atrius",
+    special:"KENMORE ONLY (Tue & Thu). 40-min slot. Cardiac radiologist + cardiology RN present. No caffeine 12 hrs prior. No ED meds 4 days prior." },
+
+  { indication:"Cardiac CT Chamber Analysis", category:"cardiac", epic_order:"Cardiac CT Chamber Analysis", epic_id:"75572A", cpt:"75572",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:40,
+    notes:"Kenmore ONLY. Cardiac radiologist + cardiology RN.", source:"atrius",
+    special:"KENMORE ONLY (Tue & Thu). 40-min slot." },
+
+  { indication:"Cardiac CT Pulmonary Vein Evaluation (Pre-ablation)", category:"cardiac", epic_order:"Cardiac CT Pulmonary Vein Evaluation", epic_id:"75572B", cpt:"75572",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:40,
+    notes:"Kenmore ONLY. Cardiac radiologist + cardiology RN.", source:"atrius",
+    special:"KENMORE ONLY (Tue & Thu). 40-min slot." },
+
+  { indication:"TAVR CT Mapping", category:"cardiac", epic_order:"Cardiac Coronary CTA (TAVR protocol)", epic_id:"75574A", cpt:"75574",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:40,
+    notes:"Kenmore ONLY. Performed with cardiac radiologist.", source:"atrius",
+    special:"KENMORE ONLY. 40-min slot. Verify with cardiac team." },
+
+  // â"€â"€ SPINE / EXTREMITY â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+  { indication:"Cervical Spine - Trauma / Neck Pain (Bone)", category:"spine", epic_order:"Cervical Spine CT W/O Contrast", epic_id:"72125", cpt:"72125",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast.", source:"atrius" },
+
+  { indication:"Cervical Spine - W/ Contrast (myelopathy / infection)", category:"spine", epic_order:"Cervical Spine CT W/ Contrast", epic_id:"72126", cpt:"72126",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast.", source:"atrius" },
+
+  { indication:"Lumbar Spine - Disk / Degenerative / Back Pain", category:"spine", epic_order:"Lumbar Spine CT W/O Contrast", epic_id:"72131", cpt:"72131",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast for disk/degenerative evaluation.", source:"atrius" },
+
+  { indication:"Thoracic Spine - Bone / Fracture", category:"spine", epic_order:"Thoracic Spine CT W/O Contrast", epic_id:"367398D", cpt:"72128",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast.", source:"atrius" },
+
+  { indication:"Extremity - Trauma / Fracture / Osteoarthritis", category:"spine", epic_order:"Extremity CT W/O Contrast (specify body part + side)", epic_id:"73700", cpt:"73200",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast. Specify body part and laterality (e.g. Knee Right, Hip Left).", source:"atrius" },
+
+  { indication:"Extremity - Tumor / Mass / Cancer / Infection", category:"spine", epic_order:"Extremity CT W/ Contrast (specify body part + side)", epic_id:"73701", cpt:"73201",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast. Specify body part and laterality.", source:"atrius" },
+
+  { indication:"Hip CT - Pre-op Planning / MAKO", category:"spine", epic_order:"Lower Ext Hip CT W/O Contrast (MAKO)", epic_id:"73700H", cpt:"73700",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast. Specify side (Left: 73700HLT, Right: 73700HRT).", source:"atrius" },
+
+  { indication:"Knee CT - Pre-op Planning / MAKO", category:"spine", epic_order:"Lower Ext Knee CT W/O Contrast (MAKO)", epic_id:"73700KBM", cpt:"73700",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast. Left MAKO: 73700KLTM, Right MAKO: 73700KRTM, Bilateral MAKO: 73700KBM.", source:"atrius" },
+
+  { indication:"Conformis Knee (Custom Implant Planning)", category:"spine", epic_order:"Conformis Knee CT", epic_id:"73700CRT / 73700CLT / 73700CBL", cpt:"73700",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast. Right: 73700CRT, Left: 73700CLT, Bilateral: 73700CBL.", source:"atrius" },
+
+];
+
+// â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+// STATE
+// â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+let currentCategory = 'all';
+let currentSearch = '';
+
+// â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+// SEARCH + FILTER
+// â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+function normalize(str) {
+  return (str || '').toLowerCase()
+    .replace(/[\/\-\(\)]/g, ' ')
+    .replace(/\s+/g, ' ').trim();
+}
+
+// Levenshtein distance for typo tolerance
+function editDistance(a, b) {
+  if (a.length === 0) return b.length;
+  if (b.length === 0) return a.length;
+  const dp = Array.from({length: a.length + 1}, (_, i) => [i]);
+  for (let j = 1; j <= b.length; j++) dp[0][j] = j;
+  for (let i = 1; i <= a.length; i++)
+    for (let j = 1; j <= b.length; j++)
+      dp[i][j] = a[i-1] === b[j-1] ? dp[i-1][j-1]
+        : 1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]);
+  return dp[a.length][b.length];
+}
+
+// Returns true if term fuzzy-matches any word in text (1 typo allowed for 5+ char words)
+function fuzzyIncludes(text, term) {
+  if (text.includes(term)) return true;
+  if (term.length < 4) return false;
+  const allowed = term.length >= 7 ? 2 : 1;
+  const words = text.split(/\s+/);
+  return words.some(w => w.length >= term.length - allowed && editDistance(w, term) <= allowed);
+}
+
+function scoreMatch(p, terms) {
+  const ind   = normalize(p.indication);
+  const order = normalize(p.epic_order);
+  const fields = [p.indication, p.epic_order, p.notes, p.cpt, p.epic_id].map(normalize);
+  let score = 0;
+  for (const t of terms) {
+    if (fuzzyIncludes(ind, t))   score += 3;
+    else if (fuzzyIncludes(order, t)) score += 2;
+    else if (fields.some(f => fuzzyIncludes(f, t))) score += 1;
+    else return 0;
+  }
+  return score;
+}
+
+function getResults() {
+  const terms = currentSearch.trim().split(/\s+/).filter(Boolean).map(normalize);
+  const isSearching = terms.length > 0;
+  return protocols
+    .filter(p => isSearching || currentCategory === 'all' || p.category === currentCategory)
+    .map(p => ({ p, score: isSearching ? scoreMatch(p, terms) : 1 }))
+    .filter(x => x.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .map(x => x.p);
+}
+
+// â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+// RENDER
+// â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+const CAT_LABELS = { head:'Head / Neck', chest:'Chest', abdomen:'Abdomen / Pelvis', cta:'CTA / Vascular', cardiac:'Cardiac', spine:'Spine / Extremity' };
+const CAT_BADGE  = { head:'badge-head', chest:'badge-chest', abdomen:'badge-abdomen', cta:'badge-cta', cardiac:'badge-cardiac', spine:'badge-spine' };
+
+function ivLabel(iv, epic_order) {
+  const isCTA = epic_order && epic_order.toUpperCase().includes('CTA');
+  if (iv === 'with')  return { css:'cp-iv',    text: isCTA ? 'I+ CTA' : 'I+ (With Contrast)' };
+  if (iv === 'wo_w')  return { css:'cp-iv-wo', text: isCTA ? 'I- then I+ CTA' : 'I- then I+ (W/O & W/ Contrast)' };
+  return { css:'cp-none', text:'I- (Without Contrast)' };
+}
+
+function oralLabel(oral, oral_type) {
+  if (oral === 'yes') {
+    const type = oral_type ? ` \u2014 ${oral_type}` : ' (per criteria)';
+    return { css:'cp-oral', text:`Oral Contrast${type}` };
+  }
+  if (oral === 'oral_only') {
+    const type = oral_type ? ` \u2014 ${oral_type}` : '';
+    return { css:'cp-oral-only', text:`Oral Only${type}` };
+  }
+  return null;
+}
+
+// Group matched protocols by their unique exam key
+function groupResults(matched) {
+  const map = new Map();
+  for (const { p, score } of matched) {
+    const key = p.epic_order + '|' + p.iv + '|' + p.oral + '|' + p.category + '|' + (p.epic_id || '');
+    if (!map.has(key)) {
+      map.set(key, { proto: p, indications: [], maxScore: 0 });
+    }
+    const g = map.get(key);
+    g.indications.push(p.indication);
+    if (score > g.maxScore) g.maxScore = score;
+  }
+  return [...map.values()].sort((a, b) => b.maxScore - a.maxScore);
+}
+
+let _removeKeys = [];
+let _specialKeys = [];
+function renderGroup(g) {
+  const p = g.proto;
+  const iv   = ivLabel(p.iv, p.epic_order);
+  const oral = oralLabel(p.oral, p.oral_type);
+  const dualHtml = p.dual_order ? `<span class="dual-tag">DUAL ORDER</span>` : '';
+  const oralHtml = oral ? `<span class="contrast-pill ${oral.css}">${oral.text}</span>` : '';
+  const indHtml  = g.indications.map(i => {
+    const idx = _removeKeys.push(i + '|' + p.epic_order) - 1;
+    return `<span class="ind-tag">${i}<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(${idx})">&#x2715;</button></span>`;
+  }).join('');
+  const cardKey = p.epic_order + '|' + p.iv + '|' + p.oral + '|' + p.category + '|' + (p.epic_id || '');
+  // Build default combined text from notes + special
+  const builtinNotes   = (p.notes && p.notes !== 'No contrast.' && p.notes !== 'IV contrast.') ? p.notes : '';
+  const builtinSpecial = p.special || '';
+  const builtinText    = [builtinNotes, builtinSpecial].filter(Boolean).join('\n');
+  // customSpecial overrides the whole combined field
+  const infoText = customSpecial.hasOwnProperty(cardKey) ? customSpecial[cardKey] : builtinText;
+  const sIdx = _specialKeys.push(cardKey) - 1;
+  const infoHtml = infoText
+    ? `<div class="item-note" style="white-space:pre-line;">${infoText}<button class="edit-special-btn" onclick="toggleSpecialEdit(${sIdx})">&#9998; Edit</button></div>`
+    : `<div class="item-note" style="color:#94a3b8;font-style:italic;"><button class="edit-special-btn" style="margin-left:0;" onclick="toggleSpecialEdit(${sIdx})">&#9998; Add notes</button></div>`;
+  const editHtml = `<div class="special-edit-row" id="spedit-${sIdx}">
+    <textarea id="sptext-${sIdx}" placeholder="Enter notes and instructions..." rows="3">${infoText}</textarea>
+    <div style="display:flex;flex-direction:column;gap:4px;">
+      <button class="special-save-btn" onclick="saveSpecial(${sIdx})">Save</button>
+      <button class="special-clear-btn" onclick="clearSpecial(${sIdx})">Reset</button>
+    </div>
+  </div>`;
+  const acrHtml = p.source === 'acr'
+    ? `<div class="item-acr">&#x2139; Per ACR CT Appropriateness Criteria — verify against Atrius site protocol.</div>` : '';
+
+  return `
+    <div class="list-item">
+      <div class="list-left">
+        <span class="badge ${CAT_BADGE[p.category]}">${CAT_LABELS[p.category]}</span>
+        <div class="list-order-name">${dualHtml}${p.epic_order}</div>
+        <div class="list-cpt">CPT: ${p.cpt}</div>
+      </div>
+      <div class="list-right">
+        <div class="list-indications">${indHtml}</div>
+        <div class="contrast-row">
+          <span class="contrast-pill ${iv.css}">${iv.text}</span>
+          ${oralHtml}
+          <span class="meta-info">Arrive ${p.arrival} min prior &nbsp;&bull;&nbsp; ${p.slot}-min slot</span>
+        </div>
+        ${infoHtml}${editHtml}${acrHtml}
+      </div>
+    </div>`;
+}
+
+function removeIndicationByIdx(idx) {
+  removeIndication(_removeKeys[idx]);
+}
+
+function toggleSpecialEdit(idx) {
+  const row = document.getElementById('spedit-' + idx);
+  row.style.display = row.style.display === 'flex' ? 'none' : 'flex';
+  if (row.style.display === 'flex') document.getElementById('sptext-' + idx).focus();
+}
+
+let _undoStack = null;
+let _undoTimer = null;
+
+function showUndoToast(msg) {
+  clearTimeout(_undoTimer);
+  document.getElementById('undoMsg').textContent = msg;
+  document.getElementById('undoToast').classList.add('show');
+  _undoTimer = setTimeout(() => document.getElementById('undoToast').classList.remove('show'), 6000);
+}
+
+async function undoSpecial() {
+  if (!_undoStack) return;
+  document.getElementById('undoToast').classList.remove('show');
+  const { key, prev } = _undoStack;
+  _undoStack = null;
+  if (prev === undefined) {
+    delete customSpecial[key];
+  } else {
+    customSpecial[key] = prev;
+  }
+  await syncToGitHub(customProtocols);
+  render();
+}
+
+async function saveSpecial(idx) {
+  const key  = _specialKeys[idx];
+  const text = document.getElementById('sptext-' + idx).value.trim();
+  const prev = customSpecial.hasOwnProperty(key) ? customSpecial[key] : undefined;
+  _undoStack = { key, prev };
+  customSpecial[key] = text;
+  document.getElementById('spedit-' + idx).style.display = 'none';
+  await syncToGitHub(customProtocols);
+  render();
+  showUndoToast('Notes saved.');
+}
+
+async function clearSpecial(idx) {
+  const key  = _specialKeys[idx];
+  const prev = customSpecial.hasOwnProperty(key) ? customSpecial[key] : undefined;
+  _undoStack = { key, prev };
+  delete customSpecial[key];  // remove override — restores built-in notes+special
+  document.getElementById('spedit-' + idx).style.display = 'none';
+  await syncToGitHub(customProtocols);
+  render();
+  showUndoToast('Notes reset to default.');
+}
+
+function render() {
+  _removeKeys = [];
+  _specialKeys = [];
+  const grid  = document.getElementById('resultsGrid');
+  const count = document.getElementById('resultsCount');
+  const terms = currentSearch.trim().split(/\s+/).filter(Boolean).map(normalize);
+  const isSearching = terms.length > 0;
+  const isFiltered  = currentCategory !== 'all';
+
+  if (!isSearching && !isFiltered) {
+    grid.innerHTML = `
+      <div class="welcome">
+        <div style="font-size:36px; margin-bottom:8px;">&#128203;</div>
+        <h3>CT Protocol Quick Reference</h3>
+        <p>Type a clinical indication above (e.g. &ldquo;diverticulitis&rdquo;, &ldquo;PE&rdquo;, &ldquo;hematuria&rdquo;)</p>
+        <p>Or select a category tab to browse all protocols</p>
+        <div class="cat-grid">
+          <button class="cat-btn" style="background:#ede9fe;color:#5b21b6" onclick="setCategory('head')">Head / Neck</button>
+          <button class="cat-btn" style="background:#e0f2fe;color:#075985" onclick="setCategory('chest')">Chest</button>
+          <button class="cat-btn" style="background:#fff7ed;color:#9a3412" onclick="setCategory('abdomen')">Abdomen / Pelvis</button>
+          <button class="cat-btn" style="background:#fee2e2;color:#991b1b" onclick="setCategory('cta')">CTA / Vascular</button>
+          <button class="cat-btn" style="background:#fce7f3;color:#9d174d" onclick="setCategory('cardiac')">Cardiac</button>
+          <button class="cat-btn" style="background:#dcfce7;color:#166534" onclick="setCategory('spine')">Spine / Extremity</button>
+        </div>
+      </div>`;
+    count.textContent = '';
+    return;
+  }
+
+  const matched = protocols
+    .filter(p => isSearching || p.category === currentCategory)
+    .map(p => ({ p, score: isSearching ? scoreMatch(p, terms) : 1 }))
+    .filter(x => x.score > 0);
+
+  const groups = groupResults(matched);
+
+  if (groups.length === 0) {
+    grid.innerHTML = `
+      <div class="empty-state">
+        <div class="icon">&#128269;</div>
+        <h3>No results found</h3>
+        <p>Try different keywords or check the ACR CT Appropriateness Criteria for less common indications.</p>
+      </div>`;
+    count.innerHTML = '';
+    return;
+  }
+
+  const totalIndications = groups.reduce((n, g) => n + g.indications.length, 0);
+  count.innerHTML = `<strong>${groups.length}</strong> protocol${groups.length !== 1 ? 's' : ''} &nbsp;&bull;&nbsp; <strong>${totalIndications}</strong> matched indication${totalIndications !== 1 ? 's' : ''}`;
+  grid.innerHTML = groups.map(renderGroup).join('');
+}
+
+// â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+// EVENT HANDLERS
+// â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+document.getElementById('searchInput').addEventListener('input', function() {
+  currentSearch = this.value;
+  document.getElementById('clearBtn').classList.toggle('visible', this.value.length > 0);
+  render();
+});
+
+function clearSearch() {
+  currentSearch = '';
+  document.getElementById('searchInput').value = '';
+  document.getElementById('clearBtn').classList.remove('visible');
+  render();
+}
+
+function setCategory(cat) {
+  hideAddPanel();
+  currentCategory = cat;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  const tabs = document.querySelectorAll('.tab');
+  const map = ['all','head','chest','abdomen','cta','cardiac','spine'];
+  tabs[map.indexOf(cat)].classList.add('active');
+  render();
+}
+
+// â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+// ADD PROTOCOL PANEL + GITHUB SYNC
+// â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+const GH_REPO  = 'atrius-imaging/CT-Protocol-Guide';
+const GH_FILE  = 'index.html';
+const GH_API   = 'https://api.github.com';
+
+let customProtocols = (() => { try { return JSON.parse(localStorage.getItem('ct_custom_protocols') || '[]'); } catch(e) { localStorage.removeItem('ct_custom_protocols'); return []; } })();
+let removedIndications = [];
+let customSpecial = {};
+
+// Filter out removed built-in indications, then add customs
+protocols = protocols.filter(p => !removedIndications.includes(p.indication + '|' + p.epic_order));
+protocols.push(...customProtocols);
+
+// â"€â"€ Token management â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+function getToken() { return localStorage.getItem('gh_token') || ''; }
+
+function saveSettingToken() {
+  const t = document.getElementById('settingToken').value.trim();
+  if (!t) return;
+  localStorage.setItem('gh_token', t);
+  document.getElementById('settingToken').value = '';
+  updateTokenUI();
+}
+function clearSettingToken() {
+  localStorage.removeItem('gh_token');
+  updateTokenUI();
+}
+function openSettingsModal() {
+  updateTokenUI();
+  document.getElementById('settingsModal').classList.add('show');
+  if (!getToken()) setTimeout(() => document.getElementById('settingToken').focus(), 50);
+}
+function closeSettingsModal() {
+  document.getElementById('settingsModal').classList.remove('show');
+}
+function updateTokenUI() {
+  const has = !!getToken();
+  // Banner
+  document.getElementById('tokenBanner').style.display = has ? 'none' : '';
+  // Add panel status strip
+  document.getElementById('tokenConnected').style.display    = has ? '' : 'none';
+  document.getElementById('tokenNotConnected').style.display = has ? 'none' : '';
+  // Settings modal
+  document.getElementById('settingConnected').style.display = has ? '' : 'none';
+  document.getElementById('settingForm').style.display      = has ? 'none' : '';
+  document.getElementById('pushSection').style.display      = has ? '' : 'none';
+}
+
+async function pushFullPage() {
+  const token = getToken();
+  if (!token) return;
+  const btn    = document.getElementById('pushBtn');
+  const status = document.getElementById('pushStatus');
+  btn.disabled = true;
+  btn.textContent = 'Pushing...';
+  status.textContent = '';
+  try {
+    const api     = GH_API + '/repos/' + GH_REPO + '/contents/' + GH_FILE;
+    const headers = { Authorization: 'token ' + token, Accept: 'application/vnd.github.v3+json' };
+    // Get current SHA
+    const infoRes = await fetch(api, { headers });
+    if (!infoRes.ok) throw new Error('Could not reach GitHub. Check your token.');
+    const info = await infoRes.json();
+    // Serialize page to clean HTML
+    const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+    const content = btoa(unescape(encodeURIComponent(html)));
+    // Push
+    const pushRes = await fetch(api, {
+      method: 'PUT',
+      headers: { ...headers, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: 'Update CT Protocol Guide', content, sha: info.sha })
+    });
+    if (!pushRes.ok) throw new Error('Push failed. Check token permissions (needs repo scope).');
+    status.style.color = '#166534';
+    status.textContent = '\u2713 Published to GitHub Pages. Allow 30 seconds to go live.';
+    btn.textContent = '\u2713 Done';
+  } catch(e) {
+    status.style.color = '#dc2626';
+    status.textContent = '\u26A0 ' + e.message;
+    btn.disabled = false;
+    btn.textContent = '\u2191 Push This Page to GitHub';
+  }
+}
+
+// â"€â"€ GitHub sync â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+async function syncToGitHub(customArr) {
+  const token = getToken();
+  if (!token) return false;
+  try {
+    document.getElementById('syncStatus').textContent = 'Syncing to GitHub\u2026';
+    // 1. Get current file SHA
+    const infoRes = await fetch(`${GH_API}/repos/${GH_REPO}/contents/${GH_FILE}`, {
+      headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' }
+    });
+    if (!infoRes.ok) throw new Error('Could not reach GitHub repo.');
+    const info = await infoRes.json();
+
+    // 2. Decode → patch → encode
+    const current = atob(info.content.replace(/\n/g, ''));
+    const customJSON = JSON.stringify(customArr)
+      .replace(/</g, '\\u003c').replace(/>/g, '\\u003e');
+    const removedJSON = JSON.stringify(removedIndications)
+      .replace(/</g, '\\u003c').replace(/>/g, '\\u003e');
+    let updated = current.replace(
+      /let customProtocols = .*?;/s,
+      `let customProtocols = ${customJSON};`
+    );
+    updated = updated.replace(
+      /let removedIndications = .*?;/s,
+      `let removedIndications = ${removedJSON};`
+    );
+    const specialJSON = JSON.stringify(customSpecial)
+      .replace(/</g, '\\u003c').replace(/>/g, '\\u003e');
+    updated = updated.replace(
+      /let customSpecial = .*?;/s,
+      `let customSpecial = ${specialJSON};`
+    );
+
+    // 3. Push
+    const pushRes = await fetch(`${GH_API}/repos/${GH_REPO}/contents/${GH_FILE}`, {
+      method: 'PUT',
+      headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: 'Update custom protocols', content: btoa(unescape(encodeURIComponent(updated))), sha: info.sha })
+    });
+    if (!pushRes.ok) throw new Error('Push to GitHub failed.');
+    document.getElementById('syncStatus').textContent = '\u2713 Synced to GitHub \u2014 visible to all users.';
+    return true;
+  } catch(e) {
+    document.getElementById('syncStatus').textContent = '⚠ Sync failed: ' + e.message;
+    return false;
+  }
+}
+
+// â"€â"€ Show / hide panel â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+// ── Password ──────────────────────────────────────────────────────────────────
+const ADMIN_PW = 'CTadmin2026!';
+function checkPassword() {
+  const val = document.getElementById('pwInput').value;
+  if (val === ADMIN_PW) {
+    sessionStorage.setItem('ct_authed', '1');
+    document.body.classList.add('admin-mode');
+    document.getElementById('pwModal').classList.remove('show');
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwErr').style.display = 'none';
+    openAddPanel();
+  } else {
+    document.getElementById('pwErr').style.display = '';
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwInput').focus();
+  }
+}
+function closeModal() {
+  document.getElementById('pwModal').classList.remove('show');
+  document.getElementById('pwInput').value = '';
+  document.getElementById('pwErr').style.display = 'none';
+}
+
+function showAddPanel() {
+  if (sessionStorage.getItem('ct_authed')) {
+    openAddPanel();
+  } else {
+    document.getElementById('pwModal').classList.add('show');
+    setTimeout(() => document.getElementById('pwInput').focus(), 50);
+  }
+}
+function openAddPanel() {
+  document.getElementById('mainPanel').style.display = 'none';
+  document.getElementById('addPanel').classList.add('visible');
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('addTab').classList.add('active');
+  updateTokenUI();
+  renderCustomList();
+}
+function hideAddPanel() {
+  document.getElementById('addPanel').classList.remove('visible');
+  document.getElementById('mainPanel').style.display = '';
+}
+function toggleOralType() {
+  const oral = document.getElementById('f_oral').value;
+  document.getElementById('oralTypeGroup').style.display = (oral === 'none') ? 'none' : '';
+}
+
+function setFormMode(mode) {
+  const isNew = mode === 'new';
+  document.getElementById('newProtocolForm').style.display = isNew ? '' : 'none';
+  document.getElementById('addIndicationForm').style.display = isNew ? 'none' : '';
+  document.getElementById('modeNewBtn').classList.toggle('active', isNew);
+  document.getElementById('modeAddIndBtn').classList.toggle('active', !isNew);
+  if (!isNew) populateProtoList();
+}
+
+let _allProtoOptions = [];
+function populateProtoList() {
+  const seen = new Map();
+  protocols.forEach(p => {
+    const key = p.epic_order + '|' + p.iv + '|' + p.oral + '|' + p.category + '|' + (p.epic_id || '');
+    if (!seen.has(key)) seen.set(key, p);
+  });
+  _allProtoOptions = [...seen.values()].sort((a, b) => a.epic_order.localeCompare(b.epic_order));
+  renderProtoList(_allProtoOptions);
+}
+
+function renderProtoList(list) {
+  const sel = document.getElementById('f_existing_proto');
+  sel.innerHTML = '';
+  list.forEach(p => {
+    const opt = document.createElement('option');
+    opt.value = JSON.stringify(p);
+    opt.textContent = p.epic_order + '  [' + CAT_LABELS[p.category] + ']';
+    sel.appendChild(opt);
+  });
+}
+
+function filterProtoList() {
+  const q = document.getElementById('f_proto_filter').value.toLowerCase();
+  const filtered = q ? _allProtoOptions.filter(p =>
+    p.epic_order.toLowerCase().includes(q) || CAT_LABELS[p.category].toLowerCase().includes(q)
+  ) : _allProtoOptions;
+  renderProtoList(filtered);
+}
+
+async function saveIndication() {
+  const sel = document.getElementById('f_existing_proto');
+  const newInd = document.getElementById('f_new_ind').value.trim();
+  const errEl = document.getElementById('indError');
+  errEl.style.display = 'none';
+  if (!sel.value) { errEl.textContent = 'Please select an existing protocol.'; errEl.style.display = ''; return; }
+  if (!newInd) { errEl.textContent = 'Please enter a clinical indication.'; errEl.style.display = ''; return; }
+  const proto = JSON.parse(sel.value);
+  const entry = Object.assign({}, proto, { indication: newInd, _custom: true });
+  customProtocols.push(entry);
+  protocols.push(entry);
+  localStorage.setItem('ct_custom_protocols', JSON.stringify(customProtocols));
+  document.getElementById('f_new_ind').value = '';
+  const synced = await syncToGitHub(customProtocols);
+  const msg = document.getElementById('formSuccess');
+  msg.textContent = synced
+    ? '\u2713 Indication added and synced to GitHub \u2014 visible to everyone now.'
+    : '\u2713 Indication saved locally. Connect a GitHub token to sync to all users.';
+  msg.style.display = 'block';
+  setTimeout(() => msg.style.display = 'none', 4000);
+  render();
+  renderCustomList();
+  populateProtoList();
+}
+
+// â"€â"€ Save â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+async function saveProtocol() {
+  const indication = document.getElementById('f_indication').value.trim();
+  const epic_order = document.getElementById('f_epic_order').value.trim();
+  const errEl = document.getElementById('formError');
+  errEl.style.display = 'none';
+  if (!indication || !epic_order) {
+    errEl.textContent = 'Clinical Indication and Epic Order Name are required.';
+    errEl.style.display = '';
+    return;
+  }
+  const entry = {
+    indication,
+    category:  document.getElementById('f_category').value,
+    epic_order,
+    epic_id:   '',
+    cpt:       document.getElementById('f_cpt').value.trim() || '—',
+    iv:        document.getElementById('f_iv').value,
+    oral:      document.getElementById('f_oral').value,
+    oral_type: document.getElementById('f_oral_type').value,
+    labs:      false,
+    arrival:   parseInt(document.getElementById('f_arrival').value),
+    slot:      parseInt(document.getElementById('f_slot').value),
+    notes:     document.getElementById('f_notes').value.trim(),
+    special:   document.getElementById('f_special').value.trim(),
+    source:    document.getElementById('f_source').value,
+    _custom:   true
+  };
+
+  customProtocols.push(entry);
+  protocols.push(entry);
+  localStorage.setItem('ct_custom_protocols', JSON.stringify(customProtocols));
+
+  // Reset form fields
+  ['f_indication','f_epic_order','f_cpt','f_notes','f_special'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+
+  // Sync to GitHub
+  const synced = await syncToGitHub(customProtocols);
+  const msg = document.getElementById('formSuccess');
+  msg.textContent = synced
+    ? '✓ Protocol saved and synced to GitHub — everyone with the link will see it now.'
+    : '✓ Protocol saved locally. Connect a GitHub token to sync to all users.';
+  msg.classList.add('show');
+  setTimeout(() => msg.classList.remove('show'), 4000);
+
+  renderCustomList();
+}
+
+// â"€â"€ Delete â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+async function deleteCustom(idx) {
+  const entry = customProtocols[idx];
+  customProtocols.splice(idx, 1);
+  const pi = protocols.indexOf(entry);
+  if (pi !== -1) protocols.splice(pi, 1);
+  localStorage.setItem('ct_custom_protocols', JSON.stringify(customProtocols));
+  await syncToGitHub(customProtocols);
+  renderCustomList();
+}
+
+// â"€â"€ Custom list â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+function renderCustomList() {
+  const el = document.getElementById('customList');
+  if (customProtocols.length === 0) {
+    el.innerHTML = '<div class="no-custom">No custom protocols added yet.</div>';
+    return;
+  }
+  el.innerHTML = customProtocols.map((p, i) => `
+    <div class="custom-row">
+      <div class="custom-row-info">
+        <div class="custom-row-title">${p.indication}</div>
+        <div class="custom-row-sub">${p.epic_order} &nbsp;|&nbsp; ${CAT_LABELS[p.category]}</div>
+      </div>
+      <button class="btn-delete" onclick="deleteCustom(${i})">Remove</button>
+    </div>`).join('');
+}
+
+
+async function removeIndication(key) {
+  if (!confirm('Remove this indication from the guide?\nThis will remove it for all users.')) return;
+  // If custom, remove from customProtocols
+  const ci = customProtocols.findIndex(p => (p.indication + '|' + p.epic_order) === key);
+  if (ci !== -1) {
+    customProtocols.splice(ci, 1);
+    localStorage.setItem('ct_custom_protocols', JSON.stringify(customProtocols));
+  } else {
+    // Built-in — add to removedIndications
+    if (!removedIndications.includes(key)) removedIndications.push(key);
+  }
+  // Remove from live protocols array
+  const pi = protocols.findIndex(p => (p.indication + '|' + p.epic_order) === key);
+  if (pi !== -1) protocols.splice(pi, 1);
+  await syncToGitHub(customProtocols);
+  render();
+  renderCustomList();
+}
+
+// Initial render
+render();
+updateTokenUI();
+if (sessionStorage.getItem('ct_authed')) document.body.classList.add('admin-mode');
+</script>
+<div id="undoToast"><span id="undoMsg"></span><button id="undoBtn" onclick="undoSpecial()">Undo</button></div>
+</body>
+</html>
+
+
