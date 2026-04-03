@@ -759,6 +759,157 @@ let protocols = [
     notes:"No contrast.", source:"atrius" },
 
   // â"€â"€ ABDOMEN / PELVIS â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+
+  // â"€â"€ ABDOMEN ONLY â"€â"€
+  { indication:"Abdominal Pain - Upper Quadrant Only (above iliac crest)", oral_type:"", category:"abdomen", epic_order:"Abdomen CT W/ Contrast", epic_id:"74160ABD", cpt:"74160",
+    iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
+    notes:"IV contrast + oral prep per criteria. Pelvis not included.", source:"atrius" },
+
+  { indication:"Hepatitis", category:"abdomen", epic_order:"Abdomen CT W/ Contrast", epic_id:"74160ABD", cpt:"74160",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast only.", source:"atrius" },
+
+  { indication:"Liver Lesion / Mass", category:"abdomen", epic_order:"Abdomen CT W/ Contrast", epic_id:"74160ABD", cpt:"74160",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast only, no oral prep.", source:"atrius" },
+
+  { indication:"Cholangiocarcinoma", category:"abdomen", epic_order:"Abdomen CT W/ Contrast", epic_id:"74160ABD", cpt:"74160",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast only.", source:"atrius" },
+
+  { indication:"Pancreas Lesion / Mass / Pancreatitis", oral_type:"", category:"abdomen", epic_order:"Abdomen CT W/ Contrast", epic_id:"74160ABD", cpt:"74160",
+    iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
+    notes:"IV contrast + 1 bottle oral prep.", source:"atrius" },
+
+  { indication:"Breast Cancer", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
+    iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
+    notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
+    special:"Hypervascular protocol — select Hypervascular in smartform." },
+
+  { indication:"Thyroid Cancer", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
+    iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
+    notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
+    special:"Hypervascular protocol — select Hypervascular in smartform." },
+
+  { indication:"Carcinoid Tumor", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
+    iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
+    notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
+    special:"Hypervascular protocol — select Hypervascular in smartform." },
+
+  { indication:"Renal Cell Carcinoma / Renal Cancer", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
+    iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
+    notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
+    special:"Hypervascular protocol — select Hypervascular in smartform." },
+
+  { indication:"Hepatoma / HCC / Hepatocellular Carcinoma", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
+    iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
+    notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
+    special:"Hypervascular protocol — select Hypervascular in smartform." },
+
+  { indication:"Neuroendocrine Tumor (NET)", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
+    iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
+    notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
+    special:"Hypervascular protocol — select Hypervascular in smartform." },
+
+  { indication:"Melanoma", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
+    iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
+    notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
+    special:"Hypervascular protocol — select Hypervascular in smartform." },
+
+  { indication:"Choriocarcinoma", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
+    iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
+    notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
+    special:"Hypervascular protocol — select Hypervascular in smartform." },
+
+  { indication:"Leiomyosarcoma", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
+    iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
+    notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
+    special:"Hypervascular protocol — select Hypervascular in smartform." },
+
+  { indication:"Cirrhosis", category:"abdomen", epic_order:"Abdomen CT W/O & W/ Contrast", epic_id:"74170A", cpt:"74170",
+    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"W/O then W/ contrast (biphasic). IV only, no oral.", source:"atrius" },
+
+  { indication:"Spleen Lesion / Mass / Splenomegaly", oral_type:"", category:"abdomen", epic_order:"Abdomen CT W/O & W/ Contrast", epic_id:"74170A", cpt:"74170",
+    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"I- then I+ for lesion characterization. No oral prep.", source:"atrius" },
+
+  { indication:"Renal Mass - Characterization", category:"abdomen", epic_order:"Abdomen CT W/O & W/ Contrast", epic_id:"74170A", cpt:"74170",
+    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"W/O then W/ contrast. IV only.", source:"atrius" },
+
+  { indication:"Renal Cyst", category:"abdomen", epic_order:"Abdomen CT W/O & W/ Contrast", epic_id:"74170A", cpt:"74170",
+    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"W/O then W/ contrast for Bosniak characterization.", source:"atrius" },
+
+  { indication:"Spleen Lesion / Mass", category:"abdomen", epic_order:"Abdomen CT W/O & W/ Contrast", epic_id:"74170A", cpt:"74170",
+    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"W/O then W/ contrast. IV only.", source:"atrius" },
+
+  { indication:"Adrenal Washout / Lesion Characterization", category:"abdomen", epic_order:"Abdomen CT W/O & W/ Contrast", epic_id:"74170ADR", cpt:"74170",
+    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"Adrenal washout protocol: unenhanced phase, portal venous phase (60 sec), 15-minute delayed phase. IV contrast only, no oral prep.", source:"atrius",
+    special:"Adrenal washout protocol \u2014 must use dedicated adrenal washout protocol." },
+
+  { indication:"R/O Adrenal Adenoma / Adrenal Mass Characterization", category:"abdomen", epic_order:"Abdomen CT W/O & W/ Contrast", epic_id:"74170ADR", cpt:"74170",
+    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"Adrenal washout protocol: unenhanced phase, portal venous phase (60 sec), 15-minute delayed phase. IV contrast only, no oral prep.", source:"atrius",
+    special:"Adrenal washout protocol \u2014 must use dedicated adrenal washout protocol." },
+
+  { indication:"Adrenal Incidentaloma", category:"abdomen", epic_order:"Abdomen CT W/O & W/ Contrast", epic_id:"74170ADR", cpt:"74170",
+    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"Adrenal washout protocol: unenhanced phase, portal venous phase (60 sec), 15-minute delayed phase. IV contrast only, no oral prep.", source:"atrius",
+    special:"Adrenal washout protocol \u2014 must use dedicated adrenal washout protocol." },
+
+  { indication:"Fatty Liver", category:"abdomen", epic_order:"Abdomen CT W/O Contrast", epic_id:"74150", cpt:"74150",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast.", source:"atrius" },
+
+  { indication:"F/U Adrenal Adenoma", category:"abdomen", epic_order:"Abdomen CT W/O Contrast (Adrenal Protocol)", epic_id:"74150ADR", cpt:"74150",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast. Unenhanced phase only. Use dedicated adrenal W/O protocol.", source:"atrius" },
+
+  { indication:"Hematuria", category:"abdomen", epic_order:"CT Urogram (CTU)", epic_id:"74178CTU", cpt:"74178",
+    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast only. Delayed phase for ureters/bladder.", source:"atrius" },
+
+  { indication:"Flank Pain + Hematuria (Kidney Stones + Urinary Eval)", category:"abdomen", epic_order:"CT Urogram (CTU)", epic_id:"74178CTU", cpt:"74178",
+    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast only.", source:"atrius" },
+
+  { indication:"Kidney / Urinary Tract Evaluation", category:"abdomen", epic_order:"CT Urogram (CTU)", epic_id:"74178CTU", cpt:"74178",
+    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast only.", source:"atrius" },
+
+  { indication:"UTI / Recurrent UTI", category:"abdomen", epic_order:"CT Urogram (CTU)", epic_id:"74178CTU", cpt:"74178",
+    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast only.", source:"atrius" },
+
+  { indication:"GU Fistula", category:"abdomen", epic_order:"CT Urogram (CTU)", epic_id:"74178CTU", cpt:"74178",
+    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast only. Rectal contrast may be needed \u2014 verify with radiologist.", source:"atrius" },
+
+  { indication:"IBD - Inflammatory Bowel Disease / Crohn's Disease", oral_type:"Breeza", category:"abdomen", epic_order:"CT Enterography (CTE)", epic_id:"74177CTE", cpt:"74177",
+    iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
+    notes:"Oral prep: Breeza administered in dept. IV contrast.", source:"atrius",
+    special:"CTE oral prep (Breeza) given in department only. Patient arrives 60 min early." },
+
+  { indication:"Enterocolic Fistula", oral_type:"Breeza", category:"abdomen", epic_order:"CT Enterography (CTE)", epic_id:"74177CTE", cpt:"74177",
+    iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
+    notes:"Oral prep: Breeza in dept. IV contrast.", source:"atrius",
+    special:"CTE oral prep (Breeza) given in department only." },
+
+  { indication:"CT Colonography (CTC) - F/U Incomplete Colonoscopy", category:"abdomen", epic_order:"CT Colonography F/U to Incomplete Colonoscopy", epic_id:"74261", cpt:"74261",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:40,
+    notes:"Special CTC prep given by Endoscopy RN (pool P 104092, cc: Cheryl Whyte). Do NOT book routine appts on Fridays. Check if biopsy was done during colonoscopy \u2014 if yes, schedule CTC 5 weeks post biopsy.", source:"atrius",
+    special:"40-min slot. CTC prep from Endoscopy RN. No routine Fridays. If biopsy done: wait 5 weeks." },
+
+  { indication:"CT Colonography Screening (CTC)", category:"abdomen", epic_order:"CT Colonography Screening", epic_id:"74263", cpt:"74263",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:40,
+    notes:"Special CTC prep from Endoscopy RN. No routine Friday scheduling.", source:"atrius",
+    special:"40-min slot. CTC prep from Endoscopy RN. No routine Fridays." },
+
+  // â"€â"€ ABDOMEN / PELVIS â"€â"€
   { indication:"Trauma - Abdomen/Pelvis", oral_type:"", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/ Contrast", epic_id:"74177A", cpt:"74177",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"IV contrast only \u2014 no oral prep. Portal venous phase at 85-second delay.", source:"atrius" },
@@ -766,10 +917,6 @@ let protocols = [
   { indication:"Abdominal Pain", oral_type:"", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/ Contrast", epic_id:"74177A", cpt:"74177",
     iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
     notes:"IV contrast + oral prep per criteria. Exceptions may apply for STAT same-day add-ons.", source:"atrius" },
-
-  { indication:"Abdominal Pain - Upper Quadrant Only (above iliac crest)", oral_type:"", category:"abdomen", epic_order:"Abdomen CT W/ Contrast", epic_id:"74160ABD", cpt:"74160",
-    iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
-    notes:"IV contrast + oral prep per criteria. Pelvis not included.", source:"atrius" },
 
   { indication:"Appendicitis", oral_type:"", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/ Contrast", epic_id:"74177A", cpt:"74177",
     iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
@@ -819,64 +966,13 @@ let protocols = [
     iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
     notes:"Usually ordered as panel: Chest/Abdomen/Pelvis CT W/ Contrast (71260CP). IV contrast + oral prep per criteria.", source:"atrius", dual_order:true },
 
-  { indication:"Hepatitis", category:"abdomen", epic_order:"Abdomen CT W/ Contrast", epic_id:"74160ABD", cpt:"74160",
+  { indication:"Pyelonephritis", oral_type:"", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/ Contrast", epic_id:"74177A", cpt:"74177",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
-    notes:"IV contrast only.", source:"atrius" },
+    notes:"IV contrast. 90-second delay scan.", source:"atrius" },
 
-  { indication:"Cirrhosis", category:"abdomen", epic_order:"Abdomen CT W/O & W/ Contrast", epic_id:"74170A", cpt:"74170",
-    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
-    notes:"W/O then W/ contrast (biphasic). IV only, no oral.", source:"atrius" },
-
-  { indication:"Liver Lesion / Mass", category:"abdomen", epic_order:"Abdomen CT W/ Contrast", epic_id:"74160ABD", cpt:"74160",
+  { indication:"Spleen Laceration / Abdominal Trauma", oral_type:"", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/ Contrast", epic_id:"74177A", cpt:"74177",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
-    notes:"IV contrast only, no oral prep.", source:"atrius" },
-
-  { indication:"Cholangiocarcinoma", category:"abdomen", epic_order:"Abdomen CT W/ Contrast", epic_id:"74160ABD", cpt:"74160",
-    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
-    notes:"IV contrast only.", source:"atrius" },
-
-  { indication:"Pancreas Lesion / Mass / Pancreatitis", oral_type:"", category:"abdomen", epic_order:"Abdomen CT W/ Contrast", epic_id:"74160ABD", cpt:"74160",
-    iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
-    notes:"IV contrast + 1 bottle oral prep.", source:"atrius" },
-
-  { indication:"Spleen Lesion / Mass / Splenomegaly", oral_type:"", category:"abdomen", epic_order:"Abdomen CT W/O & W/ Contrast", epic_id:"74170A", cpt:"74170",
-    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
-    notes:"I- then I+ for lesion characterization. No oral prep.", source:"atrius" },
-
-  { indication:"Fatty Liver", category:"abdomen", epic_order:"Abdomen CT W/O Contrast", epic_id:"74150", cpt:"74150",
-    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
-    notes:"No contrast.", source:"atrius" },
-
-  { indication:"F/U Adrenal Adenoma", category:"abdomen", epic_order:"Abdomen CT W/O Contrast (Adrenal Protocol)", epic_id:"74150ADR", cpt:"74150",
-    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
-    notes:"No contrast. Unenhanced phase only. Use dedicated adrenal W/O protocol.", source:"atrius" },
-
-  { indication:"Adrenal Washout / Lesion Characterization", category:"abdomen", epic_order:"Abdomen CT W/O & W/ Contrast", epic_id:"74170ADR", cpt:"74170",
-    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
-    notes:"Adrenal washout protocol: unenhanced phase, portal venous phase (60 sec), 15-minute delayed phase. IV contrast only, no oral prep.", source:"atrius",
-    special:"Adrenal washout protocol \u2014 must use dedicated adrenal washout protocol." },
-
-  { indication:"R/O Adrenal Adenoma / Adrenal Mass Characterization", category:"abdomen", epic_order:"Abdomen CT W/O & W/ Contrast", epic_id:"74170ADR", cpt:"74170",
-    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
-    notes:"Adrenal washout protocol: unenhanced phase, portal venous phase (60 sec), 15-minute delayed phase. IV contrast only, no oral prep.", source:"atrius",
-    special:"Adrenal washout protocol \u2014 must use dedicated adrenal washout protocol." },
-
-  { indication:"Adrenal Incidentaloma", category:"abdomen", epic_order:"Abdomen CT W/O & W/ Contrast", epic_id:"74170ADR", cpt:"74170",
-    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
-    notes:"Adrenal washout protocol: unenhanced phase, portal venous phase (60 sec), 15-minute delayed phase. IV contrast only, no oral prep.", source:"atrius",
-    special:"Adrenal washout protocol \u2014 must use dedicated adrenal washout protocol." },
-
-  { indication:"Renal Mass - Characterization", category:"abdomen", epic_order:"Abdomen CT W/O & W/ Contrast", epic_id:"74170A", cpt:"74170",
-    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
-    notes:"W/O then W/ contrast. IV only.", source:"atrius" },
-
-  { indication:"Renal Cyst", category:"abdomen", epic_order:"Abdomen CT W/O & W/ Contrast", epic_id:"74170A", cpt:"74170",
-    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
-    notes:"W/O then W/ contrast for Bosniak characterization.", source:"atrius" },
-
-  { indication:"Spleen Lesion / Mass", category:"abdomen", epic_order:"Abdomen CT W/O & W/ Contrast", epic_id:"74170A", cpt:"74170",
-    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
-    notes:"W/O then W/ contrast. IV only.", source:"atrius" },
+    notes:"IV contrast. 90-second delay scan.", source:"atrius" },
 
   { indication:"Kidney / Ureteral Stones - R/O (Flank Pain)", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/O Contrast", epic_id:"74176A", cpt:"74176",
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
@@ -885,26 +981,6 @@ let protocols = [
   { indication:"Nephrolithiasis / Renal Stones", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/O Contrast", epic_id:"74176A", cpt:"74176",
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
     notes:"No contrast.", source:"atrius" },
-
-  { indication:"Hematuria", category:"abdomen", epic_order:"CT Urogram (CTU)", epic_id:"74178CTU", cpt:"74178",
-    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
-    notes:"IV contrast only. Delayed phase for ureters/bladder.", source:"atrius" },
-
-  { indication:"Flank Pain + Hematuria (Kidney Stones + Urinary Eval)", category:"abdomen", epic_order:"CT Urogram (CTU)", epic_id:"74178CTU", cpt:"74178",
-    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
-    notes:"IV contrast only.", source:"atrius" },
-
-  { indication:"Kidney / Urinary Tract Evaluation", category:"abdomen", epic_order:"CT Urogram (CTU)", epic_id:"74178CTU", cpt:"74178",
-    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
-    notes:"IV contrast only.", source:"atrius" },
-
-  { indication:"UTI / Recurrent UTI", category:"abdomen", epic_order:"CT Urogram (CTU)", epic_id:"74178CTU", cpt:"74178",
-    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
-    notes:"IV contrast only.", source:"atrius" },
-
-  { indication:"GU Fistula", category:"abdomen", epic_order:"CT Urogram (CTU)", epic_id:"74178CTU", cpt:"74178",
-    iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
-    notes:"IV contrast only. Rectal contrast may be needed \u2014 verify with radiologist.", source:"atrius" },
 
   { indication:"Hernia - Inguinal", oral_type:"", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/O Contrast", epic_id:"74176A", cpt:"74176",
     iv:"none", oral:"oral_only", labs:false, arrival:60, slot:20,
@@ -916,80 +992,7 @@ let protocols = [
     notes:"No IV contrast. Oral prep only. If hernia is high above umbilicus, may order Abdomen CT W/O only (74150).", source:"atrius",
     special:"Oral prep only. If hernia is high enough above umbilicus, pelvis scan may not be needed \u2014 order Abdomen CT W/O Contrast only (74150) instead." },
 
-  { indication:"Pyelonephritis", oral_type:"", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/ Contrast", epic_id:"74177A", cpt:"74177",
-    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
-    notes:"IV contrast. 90-second delay scan.", source:"atrius" },
-
-  { indication:"Spleen Laceration / Abdominal Trauma", oral_type:"", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/ Contrast", epic_id:"74177A", cpt:"74177",
-    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
-    notes:"IV contrast. 90-second delay scan.", source:"atrius" },
-
-  { indication:"IBD - Inflammatory Bowel Disease / Crohn's Disease", oral_type:"Breeza", category:"abdomen", epic_order:"CT Enterography (CTE)", epic_id:"74177CTE", cpt:"74177",
-    iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
-    notes:"Oral prep: Breeza administered in dept. IV contrast.", source:"atrius",
-    special:"CTE oral prep (Breeza) given in department only. Patient arrives 60 min early." },
-
-  { indication:"Enterocolic Fistula", oral_type:"Breeza", category:"abdomen", epic_order:"CT Enterography (CTE)", epic_id:"74177CTE", cpt:"74177",
-    iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
-    notes:"Oral prep: Breeza in dept. IV contrast.", source:"atrius",
-    special:"CTE oral prep (Breeza) given in department only." },
-
-  { indication:"CT Colonography (CTC) - F/U Incomplete Colonoscopy", category:"abdomen", epic_order:"CT Colonography F/U to Incomplete Colonoscopy", epic_id:"74261", cpt:"74261",
-    iv:"none", oral:"none", labs:false, arrival:20, slot:40,
-    notes:"Special CTC prep given by Endoscopy RN (pool P 104092, cc: Cheryl Whyte). Do NOT book routine appts on Fridays. Check if biopsy was done during colonoscopy \u2014 if yes, schedule CTC 5 weeks post biopsy.", source:"atrius",
-    special:"40-min slot. CTC prep from Endoscopy RN. No routine Fridays. If biopsy done: wait 5 weeks." },
-
-  { indication:"CT Colonography Screening (CTC)", category:"abdomen", epic_order:"CT Colonography Screening", epic_id:"74263", cpt:"74263",
-    iv:"none", oral:"none", labs:false, arrival:20, slot:40,
-    notes:"Special CTC prep from Endoscopy RN. No routine Friday scheduling.", source:"atrius",
-    special:"40-min slot. CTC prep from Endoscopy RN. No routine Fridays." },
-
-  // ── HYPERVASCULAR PROTOCOLS ───────────────────────────────────────────────
-  { indication:"Breast Cancer", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
-    iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
-    notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
-    special:"Hypervascular protocol — select Hypervascular in smartform." },
-
-  { indication:"Thyroid Cancer", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
-    iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
-    notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
-    special:"Hypervascular protocol — select Hypervascular in smartform." },
-
-  { indication:"Carcinoid Tumor", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
-    iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
-    notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
-    special:"Hypervascular protocol — select Hypervascular in smartform." },
-
-  { indication:"Renal Cell Carcinoma / Renal Cancer", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
-    iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
-    notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
-    special:"Hypervascular protocol — select Hypervascular in smartform." },
-
-  { indication:"Hepatoma / HCC / Hepatocellular Carcinoma", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
-    iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
-    notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
-    special:"Hypervascular protocol — select Hypervascular in smartform." },
-
-  { indication:"Neuroendocrine Tumor (NET)", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
-    iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
-    notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
-    special:"Hypervascular protocol — select Hypervascular in smartform." },
-
-  { indication:"Melanoma", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
-    iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
-    notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
-    special:"Hypervascular protocol — select Hypervascular in smartform." },
-
-  { indication:"Choriocarcinoma", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
-    iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
-    notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
-    special:"Hypervascular protocol — select Hypervascular in smartform." },
-
-  { indication:"Leiomyosarcoma", category:"abdomen", epic_order:"Abdomen CT W/ Contrast (Hypervascular Protocol)", epic_id:"74160ABD", cpt:"74160",
-    iv:"with", oral:"none", oral_type:"", labs:true, arrival:20, slot:20,
-    notes:"Multiphase IV contrast: arterial + portal venous phase. No oral contrast.", source:"atrius",
-    special:"Hypervascular protocol — select Hypervascular in smartform." },
-
+  // â"€â"€ PELVIS ONLY â"€â"€
   { indication:"Pelvic Fracture", category:"abdomen", epic_order:"Pelvis Bone CT W/O Contrast", epic_id:"72192BP", cpt:"72192",
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
     notes:"No contrast for bony injury.", source:"atrius" },
