@@ -1075,12 +1075,12 @@ let protocols = [
     notes:"IV contrast CTA. Arterial and venous phases. Affected arm elevated. IV contrast only, no oral prep.", source:"atrius",
     special:"Thoracic outlet protocol \u2014 arterial and venous phase imaging with affected arm elevated to assess vascular compression." },
 
-  { indication:"Upper Extremity Vascular / Subclavian / Axillary Artery Stenosis", category:"cta", epic_order:"CTA Upper Extremity", epic_id:"73206CTA", cpt:"73206",
+  { indication:"Upper Extremity Vascular / Subclavian / Axillary Artery Stenosis", category:"cta", epic_order:"CTA Thoracic Outlet Syndrome", epic_id:"71275TOS", cpt:"71275",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"IV contrast CTA. Imaging performed in neutral and provocative positions (arms raised). IV contrast only, no oral prep.", source:"atrius",
     special:"Thoracic outlet protocol \u2014 images acquired in both neutral and arms-elevated positions to assess vascular compression." },
 
-  { indication:"Arm Claudication / Arm Pain / Brachial Artery Disease", category:"cta", epic_order:"CTA Upper Extremity", epic_id:"73206CTA", cpt:"73206",
+  { indication:"Arm Claudication / Arm Pain / Brachial Artery Disease", category:"cta", epic_order:"CTA Thoracic Outlet Syndrome", epic_id:"71275TOS", cpt:"71275",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"IV contrast CTA. IV contrast only, no oral prep.", source:"atrius" },
 
@@ -1131,6 +1131,22 @@ let protocols = [
   { indication:"Thoracic Spine - Bone / Fracture", category:"spine", epic_order:"Thoracic Spine CT W/O Contrast", epic_id:"367398D", cpt:"72128",
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
     notes:"No contrast.", source:"atrius" },
+
+  { indication:"Thoracic Spine - Disk / Degenerative / Back Pain", category:"spine", epic_order:"Thoracic Spine CT W/O Contrast", epic_id:"367398D", cpt:"72128",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast.", source:"atrius" },
+
+  { indication:"Thoracic Spine - Myelopathy / Infection / Mass", category:"spine", epic_order:"Thoracic Spine CT W/ Contrast", epic_id:"72129", cpt:"72129",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast.", source:"atrius" },
+
+  { indication:"Lumbar Spine - Bone / Fracture", category:"spine", epic_order:"Lumbar Spine CT W/O Contrast", epic_id:"72131", cpt:"72131",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast.", source:"atrius" },
+
+  { indication:"Lumbar Spine - Myelopathy / Infection / Mass", category:"spine", epic_order:"Lumbar Spine CT W/ Contrast", epic_id:"72132", cpt:"72132",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast.", source:"atrius" },
 
   { indication:"Extremity - Trauma / Fracture / Osteoarthritis", category:"spine", epic_order:"Extremity CT W/O Contrast (specify body part + side)", epic_id:"73700", cpt:"73200",
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
