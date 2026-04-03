@@ -1498,9 +1498,10 @@ let customProtocols = (() => { try { return JSON.parse(localStorage.getItem('ct_
 let removedIndications = [];
 let customSpecial = {};
 
-// Filter out removed built-in indications, then add customs
+// Filter out removed built-in indications, then add customs (dedup against built-ins)
 protocols = protocols.filter(p => !removedIndications.includes(p.indication + '|' + p.epic_order));
-protocols.push(...customProtocols);
+const _builtinKeys = new Set(protocols.map(p => p.indication + '|' + p.epic_order));
+protocols.push(...customProtocols.filter(p => !_builtinKeys.has(p.indication + '|' + p.epic_order)));
 
 // â"€â"€ Token management â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 function getToken() { return localStorage.getItem('gh_token') || ''; }
