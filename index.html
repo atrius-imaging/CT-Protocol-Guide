@@ -650,9 +650,13 @@ let protocols = [
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
     notes:"No contrast.", source:"atrius" },
 
-  { indication:"Abnormal Chest X-Ray / FUO (Fever of Unknown Origin)", category:"chest", epic_order:"Chest CT W/ Contrast", epic_id:"71260", cpt:"71260",
+  { indication:"Abnormal Chest X-Ray", category:"chest", epic_order:"Chest CT W/ Contrast", epic_id:"71260", cpt:"71260",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"IV contrast.", source:"atrius" },
+
+  { indication:"FUO / Fever of Unknown Origin", category:"chest", epic_order:"Chest CT W/O Contrast", epic_id:"71250C", cpt:"71250",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast.", source:"atrius" },
 
   { indication:"Lung Mass", category:"chest", epic_order:"Chest CT W/ Contrast", epic_id:"71260", cpt:"71260",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
@@ -696,7 +700,7 @@ let protocols = [
 
   { indication:"Sarcoidosis", category:"chest", epic_order:"Chest CT W/ Contrast", epic_id:"71260", cpt:"71260",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
-    notes:"IV contrast.", source:"atrius" },
+    notes:"IV contrast. Perform as ordered \u2014 if ordered by Pulmonary, follow the order as written.", source:"atrius" },
 
   { indication:"COPD", category:"chest", epic_order:"Chest CT W/O Contrast", epic_id:"71250C", cpt:"71250",
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
@@ -1114,6 +1118,11 @@ let protocols = [
   { indication:"Gated CTA Aorta (NOT a cardiac study)", category:"cta", epic_order:"Chest CTA Gated", epic_id:"71275G", cpt:"71275",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"Performed with EKG leads. Available at Kenmore and Plymouth (Norwood and Weymouth pending). IV contrast only.", source:"atrius",
+    special:"EKG leads required. Not a cardiac study. Kenmore / Plymouth only." },
+
+  { indication:"Known Thoracic Aortic Aneurysm \u2265 4.8 cm / Ordered by Cardiology", category:"cta", epic_order:"Chest CTA Gated", epic_id:"71275G", cpt:"71275",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"Gated CTA with EKG leads. Use when aneurysm \u2265 4.8 cm or cardiology orders gated study. Available at Kenmore and Plymouth.", source:"atrius",
     special:"EKG leads required. Not a cardiac study. Kenmore / Plymouth only." },
 
   // â"€â"€ CARDIAC â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
