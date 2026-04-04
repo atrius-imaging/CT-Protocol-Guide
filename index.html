@@ -633,6 +633,11 @@ let protocols = [
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
     notes:"No contrast for thyroid/goiter evaluation.", source:"atrius" },
 
+  { indication:"Thyroid Cancer (Pre-Radioactive Iodine Treatment)", category:"head", epic_order:"Neck Soft Tissue CT W/O Contrast", epic_id:"70486MF", cpt:"70486",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No IV contrast \u2014 iodinated contrast is contraindicated before radioactive iodine therapy. Use non-contrast neck protocol.", source:"atrius",
+    special:"No iodinated contrast before RAI treatment. Confirm with ordering provider if contrast-free neck protocol is appropriate." },
+
   // â"€â"€ CHEST â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
   { indication:"Pulmonary Embolism / PE / R/O PE", category:"chest", epic_order:"Chest CTA PE", epic_id:"71275PE", cpt:"71275",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
@@ -1072,6 +1077,14 @@ let protocols = [
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"IV contrast CTA. If low eGFR, consider Renal MRA (74185RA) instead.", source:"atrius" },
 
+  { indication:"Renal CTA / Renal Artery / Renovascular Hypertension", category:"cta", epic_order:"Renal CTA", epic_id:"74175RA", cpt:"74175",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA dedicated renal protocol.", source:"atrius" },
+
+  { indication:"Pelvic Vascular / Iliac Artery Disease / Pelvic CTA", category:"cta", epic_order:"Pelvis CTA", epic_id:"72191", cpt:"72191",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA. Dedicated pelvis vascular protocol.", source:"atrius" },
+
   { indication:"Carotid / Neck CTA", category:"cta", epic_order:"Neck CTA", epic_id:"70498", cpt:"70498",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"IV contrast CTA.", source:"atrius" },
@@ -1095,6 +1108,10 @@ let protocols = [
   { indication:"Runoff CTA (Peripheral Vascular / Lower Extremity)", category:"cta", epic_order:"Abdomen/Pelvis CTA W/ Runoff", epic_id:"75635", cpt:"75635",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"IV contrast CTA aorta to feet.", source:"atrius" },
+
+  { indication:"PAD / Peripheral Arterial Disease / Claudication / Lower Extremity Ischemia", category:"cta", epic_order:"Abdomen/Pelvis CTA W/ Runoff", epic_id:"75635", cpt:"75635",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA aorta to feet. Standard runoff protocol for PAD evaluation.", source:"atrius" },
 
   { indication:"Lower Extremity CTA (without aorta)", category:"cta", epic_order:"CTA Lower Extremity W/O Aorta", epic_id:"73706CTA", cpt:"73706",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
