@@ -478,7 +478,7 @@
 let protocols = [
 
   // â"€â"€ HEAD / FACIAL â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
-  { indication:"Aneurysm (Intracranial)", category:"head", epic_order:"Head CTA", epic_id:"70496", cpt:"70496",
+  { indication:"Aneurysm (Intracranial)", category:"cta", epic_order:"Head CTA", epic_id:"70496", cpt:"70496",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"IV contrast only. No oral prep.", source:"atrius" },
 
@@ -518,11 +518,11 @@ let protocols = [
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
     notes:"No contrast.", source:"atrius" },
 
-  { indication:"AVM / Vascular Anomaly (Brain)", category:"head", epic_order:"Head CTA", epic_id:"70496", cpt:"70496",
+  { indication:"AVM / Vascular Anomaly (Brain)", category:"cta", epic_order:"Head CTA", epic_id:"70496", cpt:"70496",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"IV contrast CTA. Brain MRA is an alternative.", source:"atrius" },
 
-  { indication:"Dissection (Cervical / Carotid)", category:"head", epic_order:"Head / Neck CTA", epic_id:"70496HN", cpt:"70496 / 70498",
+  { indication:"Dissection (Cervical / Carotid)", category:"cta", epic_order:"Head / Neck CTA", epic_id:"70496HN", cpt:"70496 / 70498",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"IV contrast. CTA from arch through head.", source:"atrius" },
 
@@ -606,7 +606,7 @@ let protocols = [
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"IV contrast. Scan coverage: skull base to aortic arch.", source:"atrius" },
 
-  { indication:"Carotid Bruit / Stenosis", category:"head", epic_order:"Neck CTA", epic_id:"70498", cpt:"70498",
+  { indication:"Carotid Bruit / Stenosis", category:"cta", epic_order:"Neck CTA", epic_id:"70498", cpt:"70498",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"IV contrast CTA.", source:"atrius" },
 
@@ -1358,9 +1358,12 @@ function renderGroup(g) {
   const builtinText    = [builtinNotes, builtinSpecial].filter(Boolean).join('\n');
   // customSpecial overrides the whole combined field
   const infoText = customSpecial.hasOwnProperty(cardKey) ? customSpecial[cardKey] : builtinText;
+  const pulmonaryNote = (p.category === 'chest' && !/pulmonary/i.test(infoText))
+    ? 'Perform as ordered. If ordered by Pulmonary, follow the order as written.' : '';
+  const displayText = [infoText, pulmonaryNote].filter(Boolean).join('\n');
   const sIdx = _specialKeys.push(cardKey) - 1;
-  const infoHtml = infoText
-    ? `<div class="item-note" style="white-space:pre-line;">${highlightProtocol(infoText)}<button class="edit-special-btn" onclick="toggleSpecialEdit(${sIdx})">&#9998; Edit</button></div>`
+  const infoHtml = displayText
+    ? `<div class="item-note" style="white-space:pre-line;">${highlightProtocol(displayText)}<button class="edit-special-btn" onclick="toggleSpecialEdit(${sIdx})">&#9998; Edit</button></div>`
     : `<div class="item-note" style="color:#94a3b8;font-style:italic;"><button class="edit-special-btn" style="margin-left:0;" onclick="toggleSpecialEdit(${sIdx})">&#9998; Add notes</button></div>`;
   const editHtml = `<div class="special-edit-row" id="spedit-${sIdx}">
     <textarea id="sptext-${sIdx}" placeholder="Enter notes and instructions..." rows="3">${infoText}</textarea>
