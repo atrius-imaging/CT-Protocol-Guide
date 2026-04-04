@@ -565,17 +565,17 @@ let protocols = [
   { indication:"Parathyroid Adenoma / Hyperparathyroidism", category:"head", epic_order:"Parathyroid CT 4D W/O & W/ Contrast", epic_id:"70492P", cpt:"70492",
     iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
     notes:"4D parathyroid protocol: unenhanced phase, arterial phase (30 sec), venous phase (80 sec). IV contrast only, no oral prep.", source:"atrius",
-    special:"4D parathyroid protocol \u2014 20-min slot. Labs per guidelines. Must use dedicated 4D parathyroid protocol." },
+    special:"4D parathyroid protocol \u2014 20-min slot. Labs per guidelines." },
 
   { indication:"Parathyroid Localization Pre-op", category:"head", epic_order:"Parathyroid CT 4D W/O & W/ Contrast", epic_id:"70492P", cpt:"70492",
     iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
     notes:"4D parathyroid protocol: unenhanced phase, arterial phase (30 sec), venous phase (80 sec). IV contrast only, no oral prep.", source:"atrius",
-    special:"4D parathyroid protocol \u2014 20-min slot. Labs per guidelines. Must use dedicated 4D parathyroid protocol." },
+    special:"4D parathyroid protocol \u2014 20-min slot. Labs per guidelines." },
 
   { indication:"Hypercalcemia / Elevated PTH", category:"head", epic_order:"Parathyroid CT 4D W/O & W/ Contrast", epic_id:"70492P", cpt:"70492",
     iv:"wo_w", oral:"none", labs:true, arrival:20, slot:20,
     notes:"4D parathyroid protocol: unenhanced phase, arterial phase (30 sec), venous phase (80 sec). IV contrast only, no oral prep.", source:"atrius",
-    special:"4D parathyroid protocol \u2014 20-min slot. Labs per guidelines. Must use dedicated 4D parathyroid protocol." },
+    special:"4D parathyroid protocol \u2014 20-min slot. Labs per guidelines." },
 
   { indication:"Sinus Disease / Sinusitis / Congestion / Deviated Septum / Nasal Polyp / Sinus Headache", category:"head", epic_order:"Maxillofacial CT W/O Contrast Stealth", epic_id:"70486MF", cpt:"70486",
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
@@ -1338,11 +1338,8 @@ let _removeKeys = [];
 let _specialKeys = [];
 function highlightProtocol(text) {
   if (!text) return '';
-  return text.split('\n').map(line =>
-    /\bprotocol\b/i.test(line)
-      ? `<span class="protocol-highlight">${line}</span>`
-      : line
-  ).join('\n');
+  return text.replace(/((?:[\w\/\-]+\s+){1,3}protocol)/gi,
+    '<span class="protocol-highlight">$1</span>');
 }
 function renderGroup(g) {
   const p = g.proto;
