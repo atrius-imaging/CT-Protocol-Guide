@@ -557,7 +557,7 @@ let protocols = [
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
     notes:"No contrast.", source:"atrius" },
 
-  { indication:"Pulsatile Tinnitus", category:"head", epic_order:"Head CTA", epic_id:"70496", cpt:"70496",
+  { indication:"Pulsatile Tinnitus", category:"cta", epic_order:"Head CTA", epic_id:"70496", cpt:"70496",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"IV contrast CTA. Pulsatile tinnitus requires vascular evaluation.", source:"atrius" },
 
@@ -709,7 +709,8 @@ let protocols = [
 
   { indication:"Sarcoidosis", category:"chest", epic_order:"Chest CT W/ Contrast", epic_id:"71260", cpt:"71260",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
-    notes:"IV contrast. Perform as ordered \u2014 if ordered by Pulmonary, follow the order as written.", source:"atrius" },
+    notes:"IV contrast. Perform as ordered \u2014 if ordered by Pulmonary, follow the order as written.", source:"atrius",
+    special:"Perform as ordered. If ordered by Pulmonary, follow the order exactly as written." },
 
   { indication:"COPD", category:"chest", epic_order:"Chest CT W/O Contrast", epic_id:"71250C", cpt:"71250",
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
@@ -747,9 +748,6 @@ let protocols = [
     iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
     notes:"Panel order covers chest + abd/pel. IV contrast + oral prep per criteria.", source:"atrius", dual_order:true },
 
-  { indication:"Aortic Arch Anomaly", category:"chest", epic_order:"Chest CTA Aorta", epic_id:"71275AO", cpt:"71275",
-    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
-    notes:"IV contrast CTA.", source:"atrius" },
 
   // â"€â"€ LDCT â"€â"€
   { indication:"Lung Cancer Screening (LDCT) - Initial / First Scan", category:"chest", epic_order:"Chest CT Lung Cancer Screening (LDCT) Initial", epic_id:"71271", cpt:"G0297",
@@ -1031,6 +1029,11 @@ let protocols = [
     notes:"IV contrast. No oral prep for pelvis-only exam.", source:"atrius" },
 
   // â"€â"€ CTA / VASCULAR â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+  { indication:"Aortic Arch Anomaly / Vascular Ring", category:"cta", epic_order:"Chest CTA Aorta", epic_id:"71275AO", cpt:"71275",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA. GATED at Kenmore.", source:"atrius",
+    special:"GATED study required at Kenmore site." },
+
   { indication:"Aortic Dissection (Thoracic)", category:"cta", epic_order:"Chest CTA Aorta", epic_id:"71275AO", cpt:"71275",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"IV contrast CTA. Must be performed as GATED Chest CTA if done at Kenmore. If dissection extends to abdomen, also order Abd/Pel CTA.", source:"atrius",
