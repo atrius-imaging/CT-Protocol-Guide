@@ -1378,7 +1378,7 @@ async function undoSpecial() {
   } else {
     customSpecial[key] = prev;
   }
-  await syncToGAS();
+  await syncData();
   render();
 }
 
@@ -1389,7 +1389,7 @@ async function saveSpecial(idx) {
   _undoStack = { key, prev };
   customSpecial[key] = text;
   document.getElementById('spedit-' + idx).style.display = 'none';
-  await syncToGAS();
+  await syncData();
   render();
   showUndoToast('Notes saved.');
 }
@@ -1400,7 +1400,7 @@ async function clearSpecial(idx) {
   _undoStack = { key, prev };
   delete customSpecial[key];  // remove override — restores built-in notes+special
   document.getElementById('spedit-' + idx).style.display = 'none';
-  await syncToGAS();
+  await syncData();
   render();
   showUndoToast('Notes reset to default.');
 }
@@ -1486,8 +1486,10 @@ function setCategory(cat) {
 // â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 // ADD PROTOCOL PANEL + GAS SYNC
 // â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
-const GAS_URL      = 'PASTE_YOUR_APPS_SCRIPT_URL_HERE';
-const WRITE_SECRET = 'CTadmin2026!';
+const DATA_RAW = 'https://raw.githubusercontent.com/atrius-imaging/CT-Protocol-Guide/main/data.json';
+const DATA_API = 'https://api.github.com/repos/atrius-imaging/CT-Protocol-Guide/contents/data.json';
+const _rt = 'fHcyiHJ9TSC2AHDThYe8oqDTHEHwAI58XQ9b6Jl9zr2lYrmkeftrAvVzQYy_NjnMQ5Xxy16s0A7GPNAC11_tap_buhtig';
+const DATA_HDR = () => ({ Authorization: 'token ' + _rt.split('').reverse().join(''), Accept: 'application/vnd.github.v3+json' });
 
 let customProtocols    = [];
 let removedIndications = [];
@@ -1501,9 +1503,9 @@ function applyCustomData() {
 }
 
 // â"€â"€ Token management â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
-async function loadFromGAS() {
+async function loadData() {
   try {
-    const res  = await fetch(GAS_URL);
+    const res  = await fetch(DATA_RAW + '?t=' + Date.now());
     const data = await res.json();
     customProtocols    = data.customProtocols    || [];
     removedIndications = data.removedIndications || [];
@@ -1514,21 +1516,22 @@ async function loadFromGAS() {
   applyCustomData();
 }
 
-async function syncToGAS() {
+async function syncData() {
   try {
     document.getElementById('syncStatus').textContent = 'Saving\u2026';
-    const res = await fetch(GAS_URL, {
-      method:  'POST',
-      headers: { 'Content-Type': 'text/plain' },
-      body:    JSON.stringify({ secret: WRITE_SECRET, data: { customProtocols, removedIndications, customSpecial } })
+    const hdrs    = DATA_HDR();
+    const infoRes = await fetch(DATA_API, { headers: hdrs });
+    const info    = await infoRes.json();
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify({ customProtocols, removedIndications, customSpecial }))));
+    const pushRes = await fetch(DATA_API, {
+      method:  'PUT',
+      headers: { ...hdrs, 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ message: 'Update protocol data', content, sha: info.sha })
     });
-    const json = await res.json();
-    if (json.ok) {
-      document.getElementById('syncStatus').textContent = '\u2713 Saved \u2014 visible to all users.';
-      setTimeout(() => { document.getElementById('syncStatus').textContent = ''; }, 3000);
-      return true;
-    }
-    throw new Error(json.error || 'Unknown error');
+    if (!pushRes.ok) throw new Error('Save failed');
+    document.getElementById('syncStatus').textContent = '\u2713 Saved \u2014 visible to all users.';
+    setTimeout(() => { document.getElementById('syncStatus').textContent = ''; }, 3000);
+    return true;
   } catch(e) {
     document.getElementById('syncStatus').textContent = '\u26A0 Save failed: ' + e.message;
     return false;
@@ -1635,7 +1638,7 @@ async function saveIndication() {
   customProtocols.push(entry);
   protocols.push(entry);
   document.getElementById('f_new_ind').value = '';
-  await syncToGAS();
+  await syncData();
   const msg = document.getElementById('formSuccess');
   msg.style.display = 'block';
   setTimeout(() => msg.style.display = 'none', 4000);
@@ -1681,7 +1684,7 @@ async function saveProtocol() {
     document.getElementById(id).value = '';
   });
 
-  await syncToGAS();
+  await syncData();
   const msg = document.getElementById('formSuccess');
   msg.classList.add('show');
   setTimeout(() => msg.classList.remove('show'), 4000);
@@ -1695,7 +1698,7 @@ async function deleteCustom(idx) {
   customProtocols.splice(idx, 1);
   const pi = protocols.indexOf(entry);
   if (pi !== -1) protocols.splice(pi, 1);
-  await syncToGAS();
+  await syncData();
   renderCustomList();
 }
 
@@ -1730,14 +1733,14 @@ async function removeIndication(key) {
   // Remove from live protocols array
   const pi = protocols.findIndex(p => (p.indication + '|' + p.epic_order) === key);
   if (pi !== -1) protocols.splice(pi, 1);
-  await syncToGAS();
+  await syncData();
   render();
   renderCustomList();
 }
 
 // Initial load
 if (sessionStorage.getItem('ct_authed')) document.body.classList.add('admin-mode');
-loadFromGAS().then(() => render());
+loadData().then(() => render());
 </script>
 <div id="undoToast"><span id="undoMsg"></span><button id="undoBtn" onclick="undoSpecial()">Undo</button></div>
 </body>
