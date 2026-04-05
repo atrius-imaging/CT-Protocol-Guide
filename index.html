@@ -218,10 +218,10 @@
     <button class="clear-btn" id="clearBtn" onclick="clearSearch()">✕</button>
   </div>
   <div class="tabs">
-    <button class="tab active" onclick="setCategory('all')">All</button>
+    <button class="tab" onclick="setCategory('all')">All</button>
     <button class="tab" onclick="setCategory('head')">👀 Head / Neck</button>
     <button class="tab" onclick="setCategory('chest')">🟦 Chest</button>
-    <button class="tab" onclick="setCategory('abdomen')">🟠 Abdomen / Pelvis</button>
+    <button class="tab active" onclick="setCategory('abdomen')">🟠 Abdomen / Pelvis</button>
     <button class="tab" onclick="setCategory('cta')">🛠 CTA / Vascular</button>
     <button class="tab" onclick="setCategory('cardiac')">♥ Cardiac</button>
     <button class="tab" onclick="setCategory('spine')">🦴 Spine / Extremity</button>
@@ -277,22 +277,442 @@
 </div>
 
 <div class="main" id="mainPanel">
-  <div class="results-count" id="resultsCount"></div>
+  <div class="results-count" id="resultsCount"><strong>19</strong> protocols &nbsp;•&nbsp; <strong>60</strong> matched indications</div>
   <div class="results-list" id="resultsGrid">
-      <div class="welcome">
-        <div style="font-size:36px; margin-bottom:8px;">📋</div>
-        <h3>CT Protocol Quick Reference</h3>
-        <p>Type a clinical indication above (e.g. “diverticulitis”, “PE”, “hematuria”)</p>
-        <p>Or select a category tab to browse all protocols</p>
-        <div class="cat-grid">
-          <button class="cat-btn" style="background:#ede9fe;color:#5b21b6" onclick="setCategory('head')">Head / Neck</button>
-          <button class="cat-btn" style="background:#e0f2fe;color:#075985" onclick="setCategory('chest')">Chest</button>
-          <button class="cat-btn" style="background:#fff7ed;color:#9a3412" onclick="setCategory('abdomen')">Abdomen / Pelvis</button>
-          <button class="cat-btn" style="background:#fee2e2;color:#991b1b" onclick="setCategory('cta')">CTA / Vascular</button>
-          <button class="cat-btn" style="background:#fce7f3;color:#9d174d" onclick="setCategory('cardiac')">Cardiac</button>
-          <button class="cat-btn" style="background:#dcfce7;color:#166534" onclick="setCategory('spine')">Spine / Extremity</button>
+    <div class="list-item">
+      <div class="list-left">
+        <span class="badge badge-abdomen">Abdomen / Pelvis</span>
+        <div class="list-order-name">Abdomen CT W/ Contrast</div>
+        <div class="list-cpt">CPT: 74160</div>
+      </div>
+      <div class="list-right">
+        <div class="list-indications"><span class="ind-tag">Abdominal Pain - Upper Quadrant Only (above iliac crest)<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(0)">✕</button></span><span class="ind-tag">Pancreas Lesion / Mass / Pancreatitis<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(1)">✕</button></span></div>
+        <div class="contrast-row">
+          <span class="contrast-pill cp-iv">I+ (With Contrast)</span>
+          <span class="contrast-pill cp-oral">Oral Contrast (per criteria)</span>
+          <span class="meta-info">Arrive 60 min prior &nbsp;•&nbsp; 20-min slot</span>
         </div>
-      </div></div>
+        <div class="item-note" style="white-space:pre-line;">IV contrast + oral prep per criteria. Pelvis not included.<button class="edit-special-btn" onclick="toggleSpecialEdit(0)">✎ Edit</button></div><div class="special-edit-row" id="spedit-0">
+    <textarea id="sptext-0" placeholder="Enter notes and instructions..." rows="3">IV contrast + oral prep per criteria. Pelvis not included.</textarea>
+    <div style="display:flex;flex-direction:column;gap:4px;">
+      <button class="special-save-btn" onclick="saveSpecial(0)">Save</button>
+      <button class="special-clear-btn" onclick="clearSpecial(0)">Reset</button>
+    </div>
+  </div>
+      </div>
+    </div>
+    <div class="list-item">
+      <div class="list-left">
+        <span class="badge badge-abdomen">Abdomen / Pelvis</span>
+        <div class="list-order-name">Abdomen CT W/ Contrast</div>
+        <div class="list-cpt">CPT: 74160</div>
+      </div>
+      <div class="list-right">
+        <div class="list-indications"><span class="ind-tag">Hepatitis<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(2)">✕</button></span><span class="ind-tag">Liver Lesion / Mass<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(3)">✕</button></span><span class="ind-tag">Cholangiocarcinoma<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(4)">✕</button></span></div>
+        <div class="contrast-row">
+          <span class="contrast-pill cp-iv">I+ (With Contrast)</span>
+          
+          <span class="meta-info">Arrive 20 min prior &nbsp;•&nbsp; 20-min slot</span>
+        </div>
+        <div class="item-note" style="white-space:pre-line;">IV contrast only.<button class="edit-special-btn" onclick="toggleSpecialEdit(1)">✎ Edit</button></div><div class="special-edit-row" id="spedit-1">
+    <textarea id="sptext-1" placeholder="Enter notes and instructions..." rows="3">IV contrast only.</textarea>
+    <div style="display:flex;flex-direction:column;gap:4px;">
+      <button class="special-save-btn" onclick="saveSpecial(1)">Save</button>
+      <button class="special-clear-btn" onclick="clearSpecial(1)">Reset</button>
+    </div>
+  </div>
+      </div>
+    </div>
+    <div class="list-item">
+      <div class="list-left">
+        <span class="badge badge-abdomen">Abdomen / Pelvis</span>
+        <div class="list-order-name">Abdomen CT W/ Contrast (Hypervascular Protocol)</div>
+        <div class="list-cpt">CPT: 74160</div>
+      </div>
+      <div class="list-right">
+        <div class="list-indications"><span class="ind-tag">Breast Cancer<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(5)">✕</button></span><span class="ind-tag">Thyroid Cancer<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(6)">✕</button></span><span class="ind-tag">Carcinoid Tumor<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(7)">✕</button></span><span class="ind-tag">Renal Cell Carcinoma / Renal Cancer<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(8)">✕</button></span><span class="ind-tag">Hepatoma / HCC / Hepatocellular Carcinoma<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(9)">✕</button></span><span class="ind-tag">Neuroendocrine Tumor (NET)<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(10)">✕</button></span><span class="ind-tag">Melanoma<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(11)">✕</button></span><span class="ind-tag">Choriocarcinoma<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(12)">✕</button></span><span class="ind-tag">Leiomyosarcoma<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(13)">✕</button></span></div>
+        <div class="contrast-row">
+          <span class="contrast-pill cp-iv">I+ (With Contrast)</span>
+          
+          <span class="meta-info">Arrive 20 min prior &nbsp;•&nbsp; 20-min slot</span>
+        </div>
+        <div class="item-note" style="white-space:pre-line;">Multiphase IV contrast: arterial + portal venous phase. No oral contrast.
+<span class="protocol-highlight">Hypervascular protocol</span> — select Hypervascular in smartform.<button class="edit-special-btn" onclick="toggleSpecialEdit(2)">✎ Edit</button></div><div class="special-edit-row" id="spedit-2">
+    <textarea id="sptext-2" placeholder="Enter notes and instructions..." rows="3">Multiphase IV contrast: arterial + portal venous phase. No oral contrast.
+Hypervascular protocol — select Hypervascular in smartform.</textarea>
+    <div style="display:flex;flex-direction:column;gap:4px;">
+      <button class="special-save-btn" onclick="saveSpecial(2)">Save</button>
+      <button class="special-clear-btn" onclick="clearSpecial(2)">Reset</button>
+    </div>
+  </div>
+      </div>
+    </div>
+    <div class="list-item">
+      <div class="list-left">
+        <span class="badge badge-abdomen">Abdomen / Pelvis</span>
+        <div class="list-order-name">Abdomen CT W/O &amp; W/ Contrast</div>
+        <div class="list-cpt">CPT: 74170</div>
+      </div>
+      <div class="list-right">
+        <div class="list-indications"><span class="ind-tag">Cirrhosis<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(14)">✕</button></span><span class="ind-tag">Spleen Lesion / Mass / Splenomegaly<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(15)">✕</button></span><span class="ind-tag">Renal Mass - Characterization<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(16)">✕</button></span><span class="ind-tag">Renal Cyst<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(17)">✕</button></span><span class="ind-tag">Spleen Lesion / Mass<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(18)">✕</button></span></div>
+        <div class="contrast-row">
+          <span class="contrast-pill cp-iv-wo">I- then I+ (W/O &amp; W/ Contrast)</span>
+          
+          <span class="meta-info">Arrive 20 min prior &nbsp;•&nbsp; 20-min slot</span>
+        </div>
+        <div class="item-note" style="white-space:pre-line;">W/O then W/ contrast (biphasic). IV only, no oral.<button class="edit-special-btn" onclick="toggleSpecialEdit(3)">✎ Edit</button></div><div class="special-edit-row" id="spedit-3">
+    <textarea id="sptext-3" placeholder="Enter notes and instructions..." rows="3">W/O then W/ contrast (biphasic). IV only, no oral.</textarea>
+    <div style="display:flex;flex-direction:column;gap:4px;">
+      <button class="special-save-btn" onclick="saveSpecial(3)">Save</button>
+      <button class="special-clear-btn" onclick="clearSpecial(3)">Reset</button>
+    </div>
+  </div>
+      </div>
+    </div>
+    <div class="list-item">
+      <div class="list-left">
+        <span class="badge badge-abdomen">Abdomen / Pelvis</span>
+        <div class="list-order-name">Abdomen CT W/O &amp; W/ Contrast</div>
+        <div class="list-cpt">CPT: 74170</div>
+      </div>
+      <div class="list-right">
+        <div class="list-indications"><span class="ind-tag">Adrenal Washout / Lesion Characterization<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(19)">✕</button></span><span class="ind-tag">R/O Adrenal Adenoma / Adrenal Mass Characterization<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(20)">✕</button></span><span class="ind-tag">Adrenal Incidentaloma<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(21)">✕</button></span></div>
+        <div class="contrast-row">
+          <span class="contrast-pill cp-iv-wo">I- then I+ (W/O &amp; W/ Contrast)</span>
+          
+          <span class="meta-info">Arrive 20 min prior &nbsp;•&nbsp; 20-min slot</span>
+        </div>
+        <div class="item-note" style="white-space:pre-line;">Unenhanced phase, portal venous phase (60 sec), 15-minute delayed phase. IV contrast only, no oral prep.
+Must use <span class="protocol-highlight">dedicated adrenal washout protocol</span>.<button class="edit-special-btn" onclick="toggleSpecialEdit(4)">✎ Edit</button></div><div class="special-edit-row" id="spedit-4">
+    <textarea id="sptext-4" placeholder="Enter notes and instructions..." rows="3">Unenhanced phase, portal venous phase (60 sec), 15-minute delayed phase. IV contrast only, no oral prep.
+Must use dedicated adrenal washout protocol.</textarea>
+    <div style="display:flex;flex-direction:column;gap:4px;">
+      <button class="special-save-btn" onclick="saveSpecial(4)">Save</button>
+      <button class="special-clear-btn" onclick="clearSpecial(4)">Reset</button>
+    </div>
+  </div>
+      </div>
+    </div>
+    <div class="list-item">
+      <div class="list-left">
+        <span class="badge badge-abdomen">Abdomen / Pelvis</span>
+        <div class="list-order-name">Abdomen CT W/O Contrast</div>
+        <div class="list-cpt">CPT: 74150</div>
+      </div>
+      <div class="list-right">
+        <div class="list-indications"><span class="ind-tag">Fatty Liver<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(22)">✕</button></span></div>
+        <div class="contrast-row">
+          <span class="contrast-pill cp-none">I- (Without Contrast)</span>
+          
+          <span class="meta-info">Arrive 20 min prior &nbsp;•&nbsp; 20-min slot</span>
+        </div>
+        <div class="item-note" style="color:#94a3b8;font-style:italic;"><button class="edit-special-btn" style="margin-left:0;" onclick="toggleSpecialEdit(5)">✎ Add notes</button></div><div class="special-edit-row" id="spedit-5">
+    <textarea id="sptext-5" placeholder="Enter notes and instructions..." rows="3"></textarea>
+    <div style="display:flex;flex-direction:column;gap:4px;">
+      <button class="special-save-btn" onclick="saveSpecial(5)">Save</button>
+      <button class="special-clear-btn" onclick="clearSpecial(5)">Reset</button>
+    </div>
+  </div>
+      </div>
+    </div>
+    <div class="list-item">
+      <div class="list-left">
+        <span class="badge badge-abdomen">Abdomen / Pelvis</span>
+        <div class="list-order-name">Abdomen CT W/O Contrast (Adrenal Protocol)</div>
+        <div class="list-cpt">CPT: 74150</div>
+      </div>
+      <div class="list-right">
+        <div class="list-indications"><span class="ind-tag">F/U Adrenal Adenoma<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(23)">✕</button></span></div>
+        <div class="contrast-row">
+          <span class="contrast-pill cp-none">I- (Without Contrast)</span>
+          
+          <span class="meta-info">Arrive 20 min prior &nbsp;•&nbsp; 20-min slot</span>
+        </div>
+        <div class="item-note" style="white-space:pre-line;">No contrast. Unenhanced phase only. Use <span class="protocol-highlight">dedicated adrenal W/O protocol</span>.<button class="edit-special-btn" onclick="toggleSpecialEdit(6)">✎ Edit</button></div><div class="special-edit-row" id="spedit-6">
+    <textarea id="sptext-6" placeholder="Enter notes and instructions..." rows="3">No contrast. Unenhanced phase only. Use dedicated adrenal W/O protocol.</textarea>
+    <div style="display:flex;flex-direction:column;gap:4px;">
+      <button class="special-save-btn" onclick="saveSpecial(6)">Save</button>
+      <button class="special-clear-btn" onclick="clearSpecial(6)">Reset</button>
+    </div>
+  </div>
+      </div>
+    </div>
+    <div class="list-item">
+      <div class="list-left">
+        <span class="badge badge-abdomen">Abdomen / Pelvis</span>
+        <div class="list-order-name">CT Urogram (CTU)</div>
+        <div class="list-cpt">CPT: 74178</div>
+      </div>
+      <div class="list-right">
+        <div class="list-indications"><span class="ind-tag">Hematuria<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(24)">✕</button></span><span class="ind-tag">Flank Pain + Hematuria (Kidney Stones + Urinary Eval)<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(25)">✕</button></span><span class="ind-tag">Kidney / Urinary Tract Evaluation<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(26)">✕</button></span><span class="ind-tag">UTI / Recurrent UTI<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(27)">✕</button></span><span class="ind-tag">GU Fistula<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(28)">✕</button></span></div>
+        <div class="contrast-row">
+          <span class="contrast-pill cp-iv-wo">I- then I+ (W/O &amp; W/ Contrast)</span>
+          
+          <span class="meta-info">Arrive 20 min prior &nbsp;•&nbsp; 20-min slot</span>
+        </div>
+        <div class="item-note" style="white-space:pre-line;">Unenhanced, dual phase injection, and delayed phase for ureters/bladder. IV contrast only.
+<span class="protocol-highlight">Use dedicated CTU protocol</span>.<button class="edit-special-btn" onclick="toggleSpecialEdit(7)">✎ Edit</button></div><div class="special-edit-row" id="spedit-7">
+    <textarea id="sptext-7" placeholder="Enter notes and instructions..." rows="3">Unenhanced, dual phase injection, and delayed phase for ureters/bladder. IV contrast only.
+Use dedicated CTU protocol.</textarea>
+    <div style="display:flex;flex-direction:column;gap:4px;">
+      <button class="special-save-btn" onclick="saveSpecial(7)">Save</button>
+      <button class="special-clear-btn" onclick="clearSpecial(7)">Reset</button>
+    </div>
+  </div>
+      </div>
+    </div>
+    <div class="list-item">
+      <div class="list-left">
+        <span class="badge badge-abdomen">Abdomen / Pelvis</span>
+        <div class="list-order-name">CT Enterography (CTE)</div>
+        <div class="list-cpt">CPT: 74177</div>
+      </div>
+      <div class="list-right">
+        <div class="list-indications"><span class="ind-tag">IBD - Inflammatory Bowel Disease / Crohn's Disease<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(29)">✕</button></span><span class="ind-tag">Enterocolic Fistula<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(30)">✕</button></span></div>
+        <div class="contrast-row">
+          <span class="contrast-pill cp-iv">I+ (With Contrast)</span>
+          <span class="contrast-pill cp-oral">Oral Contrast — Breeza</span>
+          <span class="meta-info">Arrive 60 min prior &nbsp;•&nbsp; 20-min slot</span>
+        </div>
+        <div class="item-note" style="white-space:pre-line;">Oral prep: Breeza administered in dept. IV contrast.
+CTE oral prep (Breeza) given in department only. Patient arrives 60 min early.<button class="edit-special-btn" onclick="toggleSpecialEdit(8)">✎ Edit</button></div><div class="special-edit-row" id="spedit-8">
+    <textarea id="sptext-8" placeholder="Enter notes and instructions..." rows="3">Oral prep: Breeza administered in dept. IV contrast.
+CTE oral prep (Breeza) given in department only. Patient arrives 60 min early.</textarea>
+    <div style="display:flex;flex-direction:column;gap:4px;">
+      <button class="special-save-btn" onclick="saveSpecial(8)">Save</button>
+      <button class="special-clear-btn" onclick="clearSpecial(8)">Reset</button>
+    </div>
+  </div>
+      </div>
+    </div>
+    <div class="list-item">
+      <div class="list-left">
+        <span class="badge badge-abdomen">Abdomen / Pelvis</span>
+        <div class="list-order-name">CT Colonography F/U to Incomplete Colonoscopy</div>
+        <div class="list-cpt">CPT: 74261</div>
+      </div>
+      <div class="list-right">
+        <div class="list-indications"><span class="ind-tag">CT Colonography (CTC) - F/U Incomplete Colonoscopy<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(31)">✕</button></span></div>
+        <div class="contrast-row">
+          <span class="contrast-pill cp-none">I- (Without Contrast)</span>
+          
+          <span class="meta-info">Arrive 20 min prior &nbsp;•&nbsp; 40-min slot</span>
+        </div>
+        <div class="item-note" style="white-space:pre-line;">Special CTC prep given by Endoscopy RN (pool P 104092, cc: Cheryl Whyte). Do NOT book routine appts on Fridays. Check if biopsy was done during colonoscopy — if yes, schedule CTC 5 weeks post biopsy.
+40-min slot. CTC prep from Endoscopy RN. No routine Fridays. If biopsy done: wait 5 weeks.<button class="edit-special-btn" onclick="toggleSpecialEdit(9)">✎ Edit</button></div><div class="special-edit-row" id="spedit-9">
+    <textarea id="sptext-9" placeholder="Enter notes and instructions..." rows="3">Special CTC prep given by Endoscopy RN (pool P 104092, cc: Cheryl Whyte). Do NOT book routine appts on Fridays. Check if biopsy was done during colonoscopy — if yes, schedule CTC 5 weeks post biopsy.
+40-min slot. CTC prep from Endoscopy RN. No routine Fridays. If biopsy done: wait 5 weeks.</textarea>
+    <div style="display:flex;flex-direction:column;gap:4px;">
+      <button class="special-save-btn" onclick="saveSpecial(9)">Save</button>
+      <button class="special-clear-btn" onclick="clearSpecial(9)">Reset</button>
+    </div>
+  </div>
+      </div>
+    </div>
+    <div class="list-item">
+      <div class="list-left">
+        <span class="badge badge-abdomen">Abdomen / Pelvis</span>
+        <div class="list-order-name">CT Colonography Screening</div>
+        <div class="list-cpt">CPT: 74263</div>
+      </div>
+      <div class="list-right">
+        <div class="list-indications"><span class="ind-tag">CT Colonography Screening (CTC)<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(32)">✕</button></span></div>
+        <div class="contrast-row">
+          <span class="contrast-pill cp-none">I- (Without Contrast)</span>
+          
+          <span class="meta-info">Arrive 20 min prior &nbsp;•&nbsp; 40-min slot</span>
+        </div>
+        <div class="item-note" style="white-space:pre-line;">Special CTC prep from Endoscopy RN. No routine Friday scheduling.
+40-min slot. CTC prep from Endoscopy RN. No routine Fridays.<button class="edit-special-btn" onclick="toggleSpecialEdit(10)">✎ Edit</button></div><div class="special-edit-row" id="spedit-10">
+    <textarea id="sptext-10" placeholder="Enter notes and instructions..." rows="3">Special CTC prep from Endoscopy RN. No routine Friday scheduling.
+40-min slot. CTC prep from Endoscopy RN. No routine Fridays.</textarea>
+    <div style="display:flex;flex-direction:column;gap:4px;">
+      <button class="special-save-btn" onclick="saveSpecial(10)">Save</button>
+      <button class="special-clear-btn" onclick="clearSpecial(10)">Reset</button>
+    </div>
+  </div>
+      </div>
+    </div>
+    <div class="list-item">
+      <div class="list-left">
+        <span class="badge badge-abdomen">Abdomen / Pelvis</span>
+        <div class="list-order-name">Abdomen/Pelvis CT W/ Contrast</div>
+        <div class="list-cpt">CPT: 74177</div>
+      </div>
+      <div class="list-right">
+        <div class="list-indications"><span class="ind-tag">Trauma - Abdomen/Pelvis<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(33)">✕</button></span><span class="ind-tag">Pyelonephritis<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(34)">✕</button></span><span class="ind-tag">Spleen Laceration / Abdominal Trauma<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(35)">✕</button></span></div>
+        <div class="contrast-row">
+          <span class="contrast-pill cp-iv">I+ (With Contrast)</span>
+          
+          <span class="meta-info">Arrive 20 min prior &nbsp;•&nbsp; 20-min slot</span>
+        </div>
+        <div class="item-note" style="white-space:pre-line;">IV contrast only — no oral prep. Portal venous phase at 85-second delay.
+<span class="protocol-highlight">Use hypervascular protocol</span> if any of the following indications are present: Breast Cancer, Thyroid Cancer, Carcinoid Tumor, Renal Cell Carcinoma, Hepatoma / HCC, Neuroendocrine Tumor (NET), Melanoma, Choriocarcinoma, Leiomyosarcoma. IV contrast only.<button class="edit-special-btn" onclick="toggleSpecialEdit(11)">✎ Edit</button></div><div class="special-edit-row" id="spedit-11">
+    <textarea id="sptext-11" placeholder="Enter notes and instructions..." rows="3">IV contrast only — no oral prep. Portal venous phase at 85-second delay.
+Use hypervascular protocol if any of the following indications are present: Breast Cancer, Thyroid Cancer, Carcinoid Tumor, Renal Cell Carcinoma, Hepatoma / HCC, Neuroendocrine Tumor (NET), Melanoma, Choriocarcinoma, Leiomyosarcoma. IV contrast only.</textarea>
+    <div style="display:flex;flex-direction:column;gap:4px;">
+      <button class="special-save-btn" onclick="saveSpecial(11)">Save</button>
+      <button class="special-clear-btn" onclick="clearSpecial(11)">Reset</button>
+    </div>
+  </div>
+      </div>
+    </div>
+    <div class="list-item">
+      <div class="list-left">
+        <span class="badge badge-abdomen">Abdomen / Pelvis</span>
+        <div class="list-order-name">Abdomen/Pelvis CT W/ Contrast</div>
+        <div class="list-cpt">CPT: 74177</div>
+      </div>
+      <div class="list-right">
+        <div class="list-indications"><span class="ind-tag">Abdominal Pain<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(36)">✕</button></span><span class="ind-tag">Appendicitis<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(37)">✕</button></span><span class="ind-tag">Diverticulitis<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(38)">✕</button></span><span class="ind-tag">Colitis<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(39)">✕</button></span><span class="ind-tag">Bowel Obstruction<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(40)">✕</button></span><span class="ind-tag">GI Bleed / Hematochezia / Melena<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(41)">✕</button></span><span class="ind-tag">Diarrhea<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(42)">✕</button></span><span class="ind-tag">Nausea / Vomiting / Fever (Abdominal)<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(43)">✕</button></span><span class="ind-tag">Abdominal Mass<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(44)">✕</button></span><span class="ind-tag">Cancer - Any Staging (Abdomen)<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(45)">✕</button></span><span class="ind-tag">Malignancy (Abdomen)<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(46)">✕</button></span><span class="ind-tag">Varicocele<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(47)">✕</button></span><span class="ind-tag">LLQP/RLQP<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(48)">✕</button></span></div>
+        <div class="contrast-row">
+          <span class="contrast-pill cp-iv">I+ (With Contrast)</span>
+          <span class="contrast-pill cp-oral">Oral Contrast (per criteria)</span>
+          <span class="meta-info">Arrive 60 min prior &nbsp;•&nbsp; 20-min slot</span>
+        </div>
+        <div class="item-note" style="white-space:pre-line;">IV contrast + oral prep per criteria. Exceptions may apply for STAT same-day add-ons.<button class="edit-special-btn" onclick="toggleSpecialEdit(12)">✎ Edit</button></div><div class="special-edit-row" id="spedit-12">
+    <textarea id="sptext-12" placeholder="Enter notes and instructions..." rows="3">IV contrast + oral prep per criteria. Exceptions may apply for STAT same-day add-ons.</textarea>
+    <div style="display:flex;flex-direction:column;gap:4px;">
+      <button class="special-save-btn" onclick="saveSpecial(12)">Save</button>
+      <button class="special-clear-btn" onclick="clearSpecial(12)">Reset</button>
+    </div>
+  </div>
+      </div>
+    </div>
+    <div class="list-item">
+      <div class="list-left">
+        <span class="badge badge-abdomen">Abdomen / Pelvis</span>
+        <div class="list-order-name"><span class="dual-tag">DUAL ORDER</span>Abdomen/Pelvis CT W/ Contrast — Panel w/ Chest</div>
+        <div class="list-cpt">CPT: 71260 + 74177</div>
+      </div>
+      <div class="list-right">
+        <div class="list-indications"><span class="ind-tag">Weight Loss (Abdomen)<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(49)">✕</button></span></div>
+        <div class="contrast-row">
+          <span class="contrast-pill cp-iv">I+ (With Contrast)</span>
+          <span class="contrast-pill cp-oral">Oral Contrast (per criteria)</span>
+          <span class="meta-info">Arrive 60 min prior &nbsp;•&nbsp; 20-min slot</span>
+        </div>
+        <div class="item-note" style="white-space:pre-line;">Usually ordered as panel: Chest/Abdomen/Pelvis CT W/ Contrast (71260CP). IV contrast + oral prep per criteria.<button class="edit-special-btn" onclick="toggleSpecialEdit(13)">✎ Edit</button></div><div class="special-edit-row" id="spedit-13">
+    <textarea id="sptext-13" placeholder="Enter notes and instructions..." rows="3">Usually ordered as panel: Chest/Abdomen/Pelvis CT W/ Contrast (71260CP). IV contrast + oral prep per criteria.</textarea>
+    <div style="display:flex;flex-direction:column;gap:4px;">
+      <button class="special-save-btn" onclick="saveSpecial(13)">Save</button>
+      <button class="special-clear-btn" onclick="clearSpecial(13)">Reset</button>
+    </div>
+  </div>
+      </div>
+    </div>
+    <div class="list-item">
+      <div class="list-left">
+        <span class="badge badge-abdomen">Abdomen / Pelvis</span>
+        <div class="list-order-name">Abdomen/Pelvis CT W/O Contrast</div>
+        <div class="list-cpt">CPT: 74176</div>
+      </div>
+      <div class="list-right">
+        <div class="list-indications"><span class="ind-tag">Kidney / Ureteral Stones - R/O (Flank Pain)<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(50)">✕</button></span><span class="ind-tag">Nephrolithiasis / Renal Stones<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(51)">✕</button></span></div>
+        <div class="contrast-row">
+          <span class="contrast-pill cp-none">I- (Without Contrast)</span>
+          
+          <span class="meta-info">Arrive 20 min prior &nbsp;•&nbsp; 20-min slot</span>
+        </div>
+        <div class="item-note" style="white-space:pre-line;">No contrast for stone detection.<button class="edit-special-btn" onclick="toggleSpecialEdit(14)">✎ Edit</button></div><div class="special-edit-row" id="spedit-14">
+    <textarea id="sptext-14" placeholder="Enter notes and instructions..." rows="3">No contrast for stone detection.</textarea>
+    <div style="display:flex;flex-direction:column;gap:4px;">
+      <button class="special-save-btn" onclick="saveSpecial(14)">Save</button>
+      <button class="special-clear-btn" onclick="clearSpecial(14)">Reset</button>
+    </div>
+  </div>
+      </div>
+    </div>
+    <div class="list-item">
+      <div class="list-left">
+        <span class="badge badge-abdomen">Abdomen / Pelvis</span>
+        <div class="list-order-name">Abdomen/Pelvis CT W/O Contrast</div>
+        <div class="list-cpt">CPT: 74176</div>
+      </div>
+      <div class="list-right">
+        <div class="list-indications"><span class="ind-tag">Hernia - Inguinal<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(52)">✕</button></span><span class="ind-tag">Hernia - Ventral<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(53)">✕</button></span></div>
+        <div class="contrast-row">
+          <span class="contrast-pill cp-none">I- (Without Contrast)</span>
+          <span class="contrast-pill cp-oral-only">Oral Only</span>
+          <span class="meta-info">Arrive 60 min prior &nbsp;•&nbsp; 20-min slot</span>
+        </div>
+        <div class="item-note" style="white-space:pre-line;">No IV contrast. Oral prep only for bowel marking.
+Oral prep only. No IV contrast.<button class="edit-special-btn" onclick="toggleSpecialEdit(15)">✎ Edit</button></div><div class="special-edit-row" id="spedit-15">
+    <textarea id="sptext-15" placeholder="Enter notes and instructions..." rows="3">No IV contrast. Oral prep only for bowel marking.
+Oral prep only. No IV contrast.</textarea>
+    <div style="display:flex;flex-direction:column;gap:4px;">
+      <button class="special-save-btn" onclick="saveSpecial(15)">Save</button>
+      <button class="special-clear-btn" onclick="clearSpecial(15)">Reset</button>
+    </div>
+  </div>
+      </div>
+    </div>
+    <div class="list-item">
+      <div class="list-left">
+        <span class="badge badge-abdomen">Abdomen / Pelvis</span>
+        <div class="list-order-name">Pelvis Bone CT W/O Contrast</div>
+        <div class="list-cpt">CPT: 72192</div>
+      </div>
+      <div class="list-right">
+        <div class="list-indications"><span class="ind-tag">Pelvic Fracture<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(54)">✕</button></span></div>
+        <div class="contrast-row">
+          <span class="contrast-pill cp-none">I- (Without Contrast)</span>
+          
+          <span class="meta-info">Arrive 20 min prior &nbsp;•&nbsp; 20-min slot</span>
+        </div>
+        <div class="item-note" style="white-space:pre-line;">No contrast for bony injury.<button class="edit-special-btn" onclick="toggleSpecialEdit(16)">✎ Edit</button></div><div class="special-edit-row" id="spedit-16">
+    <textarea id="sptext-16" placeholder="Enter notes and instructions..." rows="3">No contrast for bony injury.</textarea>
+    <div style="display:flex;flex-direction:column;gap:4px;">
+      <button class="special-save-btn" onclick="saveSpecial(16)">Save</button>
+      <button class="special-clear-btn" onclick="clearSpecial(16)">Reset</button>
+    </div>
+  </div>
+      </div>
+    </div>
+    <div class="list-item">
+      <div class="list-left">
+        <span class="badge badge-abdomen">Abdomen / Pelvis</span>
+        <div class="list-order-name">Pelvis CT W/ Contrast</div>
+        <div class="list-cpt">CPT: 72193</div>
+      </div>
+      <div class="list-right">
+        <div class="list-indications"><span class="ind-tag">Pelvic Pain / Pelvic Mass / Ovarian Cyst<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(55)">✕</button></span><span class="ind-tag">Bladder Mass / Hematuria - Pelvis Only<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(56)">✕</button></span><span class="ind-tag">Prostate / Seminal Vesicle / Pelvic Lymph Node Evaluation<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(57)">✕</button></span><span class="ind-tag">Post-Op Pelvis / Post-Surgical Follow-Up<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(58)">✕</button></span></div>
+        <div class="contrast-row">
+          <span class="contrast-pill cp-iv">I+ (With Contrast)</span>
+          
+          <span class="meta-info">Arrive 20 min prior &nbsp;•&nbsp; 20-min slot</span>
+        </div>
+        <div class="item-note" style="white-space:pre-line;">IV contrast. No oral prep for pelvis-only exam.<button class="edit-special-btn" onclick="toggleSpecialEdit(17)">✎ Edit</button></div><div class="special-edit-row" id="spedit-17">
+    <textarea id="sptext-17" placeholder="Enter notes and instructions..." rows="3">IV contrast. No oral prep for pelvis-only exam.</textarea>
+    <div style="display:flex;flex-direction:column;gap:4px;">
+      <button class="special-save-btn" onclick="saveSpecial(17)">Save</button>
+      <button class="special-clear-btn" onclick="clearSpecial(17)">Reset</button>
+    </div>
+  </div>
+      </div>
+    </div>
+    <div class="list-item">
+      <div class="list-left">
+        <span class="badge badge-abdomen">Abdomen / Pelvis</span>
+        <div class="list-order-name">Pelvis CT W/O Contrast</div>
+        <div class="list-cpt">CPT: 72192</div>
+      </div>
+      <div class="list-right">
+        <div class="list-indications"><span class="ind-tag">Pelvic Bone / Hip Evaluation (Non-Traumatic)<button class="ind-remove" title="Remove this indication" onclick="removeIndicationByIdx(59)">✕</button></span></div>
+        <div class="contrast-row">
+          <span class="contrast-pill cp-none">I- (Without Contrast)</span>
+          
+          <span class="meta-info">Arrive 20 min prior &nbsp;•&nbsp; 20-min slot</span>
+        </div>
+        <div class="item-note" style="color:#94a3b8;font-style:italic;"><button class="edit-special-btn" style="margin-left:0;" onclick="toggleSpecialEdit(18)">✎ Add notes</button></div><div class="special-edit-row" id="spedit-18">
+    <textarea id="sptext-18" placeholder="Enter notes and instructions..." rows="3"></textarea>
+    <div style="display:flex;flex-direction:column;gap:4px;">
+      <button class="special-save-btn" onclick="saveSpecial(18)">Save</button>
+      <button class="special-clear-btn" onclick="clearSpecial(18)">Reset</button>
+    </div>
+  </div>
+      </div>
+    </div></div>
 </div>
 
 <div id="addPanel">
