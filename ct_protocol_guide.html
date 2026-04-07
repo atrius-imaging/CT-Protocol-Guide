@@ -1808,9 +1808,18 @@ function renderCustomList() {
         <div class="custom-row-title">${p.indication}</div>
         <div class="custom-row-sub">${p.epic_order} &nbsp;|&nbsp; ${CAT_LABELS[p.category]}</div>
       </div>
-      <button class="btn-delete" onclick="deleteCustom(${realIdx})">Remove</button>
+      <div style="display:flex;flex-direction:column;gap:4px;">
+        <button class="btn-delete" onclick="deleteCustom(${realIdx})">Remove indication</button>
+        <button class="btn-delete" style="background:#f1f5f9;color:#475569;border:1px solid #cbd5e1;" onclick="hideFromList(${realIdx})">Hide from list</button>
+      </div>
     </div>`;
   }).join('');
+}
+
+async function hideFromList(idx) {
+  customProtocols[idx]._isInd = true;
+  await syncData();
+  renderCustomList();
 }
 
 
