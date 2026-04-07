@@ -1218,7 +1218,9 @@ function editDistance(a, b) {
 
 // Returns true if term fuzzy-matches any word in text (1 typo allowed for 5+ char words)
 function fuzzyIncludes(text, term) {
-  if (text.includes(term)) return true;
+  // Use word-boundary check so "renal" doesn't match inside "adrenal"
+  const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  if (new RegExp('\\b' + escaped).test(text)) return true;
   if (term.length < 4) return false;
   const allowed = term.length >= 7 ? 2 : 1;
   const words = text.split(/\s+/);
