@@ -1209,6 +1209,8 @@ function fuzzyIncludes(text, term) {
   // Use word-boundary check so "renal" doesn't match inside "adrenal"
   const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   if (new RegExp('\\b' + escaped).test(text)) return true;
+  // No fuzzy matching for numeric/CPT-style terms — must match exactly
+  if (/^\d[\dA-Z]*$/i.test(term)) return false;
   if (term.length < 4) return false;
   const allowed = term.length >= 9 ? 2 : 1;
   const words = text.split(/\s+/);
