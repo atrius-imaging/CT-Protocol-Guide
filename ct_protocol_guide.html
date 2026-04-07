@@ -1628,7 +1628,8 @@ function setFormMode(mode) {
 let _allProtoOptions = [];
 function populateProtoList() {
   const seen = new Map();
-  protocols.forEach(p => {
+  // Use _builtinProtocols so removed indications don't disappear from the list
+  [..._builtinProtocols, ...customProtocols].forEach(p => {
     const key = p.epic_order + '|' + p.iv + '|' + p.oral + '|' + p.category + '|' + (p.epic_id || '');
     if (!seen.has(key)) seen.set(key, p);
   });
