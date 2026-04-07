@@ -178,6 +178,14 @@
   .ind-remove:hover { color:#dc2626; }
   body.admin-mode .ind-remove { display:inline; }
 
+  /* INLINE ADD INDICATION */
+  .ind-add-row { display:none; align-items:center; gap:6px; margin-top:5px; }
+  body.admin-mode .ind-add-row { display:flex; }
+  .ind-add-input { font-size:12px; font-family:inherit; border:1.5px solid #cbd5e1; border-radius:6px; padding:4px 8px; outline:none; width:220px; }
+  .ind-add-input:focus { border-color:#007C89; }
+  .ind-add-btn { background:#007C89; color:#fff; border:none; border-radius:6px; padding:4px 10px; font-size:12px; cursor:pointer; white-space:nowrap; }
+  .ind-add-btn:hover { background:#005f6a; }
+
   /* EDIT PROTOCOL BUTTON (card level) */
   .edit-proto-btn { display:none; background:none; border:1px solid #bfdbfe; border-radius:4px; color:#1d4ed8; font-size:11px; cursor:pointer; padding:1px 7px; margin-left:6px; vertical-align:middle; white-space:nowrap; }
   .edit-proto-btn:hover { background:#eff6ff; }
@@ -1346,6 +1354,10 @@ function renderGroup(g) {
       </div>
       <div class="list-right">
         <div class="list-indications">${indHtml}</div>
+        <div class="ind-add-row">
+          <input class="ind-add-input" id="ind-input-${eIdx}" placeholder="Add indication..." onkeydown="if(event.key==='Enter')addIndicationInline(${eIdx})" />
+          <button class="ind-add-btn" onclick="addIndicationInline(${eIdx})">+ Add</button>
+        </div>
         <div class="contrast-row">
           <span class="contrast-pill ${iv.css}">${iv.text}</span>
           ${oralHtml}
@@ -1665,6 +1677,19 @@ function filterProtoList() {
     (p.cpt && p.cpt.includes(q)) || (p.iv && p.iv.includes(q))
   ) : _allProtoOptions;
   renderProtoList(filtered);
+}
+
+async function addIndicationInline(eIdx) {
+  const { proto: p } = _editProtos[eIdx];
+  const input = document.getElementById('ind-input-' + eIdx);
+  const newInd = input.value.trim();
+  if (!newInd) return;
+  const entry = Object.assign({}, p, { indication: newInd, _custom: true, _isInd: true });
+  customProtocols.push(entry);
+  protocols.push(entry);
+  input.value = '';
+  await syncData();
+  render();
 }
 
 async function saveIndication() {
