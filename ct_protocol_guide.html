@@ -1313,7 +1313,9 @@ function renderGroup(g) {
   const infoText = customSpecial.hasOwnProperty(cardKey) ? customSpecial[cardKey] : builtinText;
   const pulmonaryNote = (p.category === 'chest' && !/pulmonary/i.test(infoText))
     ? 'Perform as ordered. If ordered by Pulmonary, follow the order as written.' : '';
-  const displayText = [infoText, pulmonaryNote].filter(Boolean).join('\n');
+  const readiCatNote = (p.oral_type === 'Readi-Cat')
+    ? 'Oral contrast: Readi-Cat or Breeza (alternative). Note: Breeza berry flavor does not contain real berry — appropriate for all patients including those with berry allergies.' : '';
+  const displayText = [infoText, pulmonaryNote, readiCatNote].filter(Boolean).join('\n');
   const sIdx = _specialKeys.push(cardKey) - 1;
   const infoHtml = displayText
     ? `<div class="item-note" style="white-space:pre-line;">${highlightProtocol(displayText)}</div>`
