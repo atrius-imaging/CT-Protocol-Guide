@@ -1634,12 +1634,7 @@ function toggleOralType() {
 }
 
 function setFormMode(mode) {
-  const isNew = mode === 'new';
-  document.getElementById('newProtocolForm').style.display = isNew ? '' : 'none';
-  document.getElementById('addIndicationForm').style.display = isNew ? 'none' : '';
-  document.getElementById('modeNewBtn').classList.toggle('active', isNew);
-  document.getElementById('modeAddIndBtn').classList.toggle('active', !isNew);
-  if (!isNew) populateProtoList();
+  document.getElementById('newProtocolForm').style.display = '';
 }
 
 let _allProtoOptions = [];
