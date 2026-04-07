@@ -379,7 +379,7 @@
       <div style="margin-bottom:8px;">
         <input type="text" id="f_proto_filter" placeholder="Filter protocols..." oninput="filterProtoList()" style="width:100%;padding:8px 10px;border:1.5px solid #cbd5e1;border-radius:6px;font-size:13px;font-family:inherit;outline:none;" />
       </div>
-      <select id="f_existing_proto" size="10" style="width:100%;border:1.5px solid #cbd5e1;border-radius:6px;font-size:13px;font-family:inherit;padding:4px;margin-bottom:8px;"></select>
+      <select id="f_existing_proto" size="10" style="width:100%;border:1.5px solid #cbd5e1;border-radius:6px;font-size:13px;font-family:inherit;padding:4px;margin-bottom:8px;" onclick="toggleProtoSelect(this, event)"></select>
       <button class="btn-save" style="margin-bottom:16px;width:100%;" onclick="useAsTemplate()">Use selected as template &rarr; New Protocol</button>
       <h3>Custom Protocols Added</h3>
       <div id="customList"></div>
@@ -1666,6 +1666,16 @@ function renderProtoList(list) {
     opt.textContent = p.epic_order + '  [' + CAT_LABELS[p.category] + ' · ' + ivTxt + ' · ' + oralTxt + cptTxt + ']';
     sel.appendChild(opt);
   });
+}
+
+function toggleProtoSelect(sel, e) {
+  const opt = e.target.closest('option');
+  if (opt && opt.selected && sel._lastSelected === opt.value) {
+    sel.selectedIndex = -1;
+    sel._lastSelected = null;
+  } else {
+    sel._lastSelected = sel.value || null;
+  }
 }
 
 function useAsTemplate() {
