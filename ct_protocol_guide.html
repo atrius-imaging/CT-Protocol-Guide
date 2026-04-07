@@ -1315,7 +1315,9 @@ function renderGroup(g) {
     ? 'Perform as ordered. If ordered by Pulmonary, follow the order as written.' : '';
   const breezaNote = (p.oral_type === 'Breeza')
     ? 'Breeza berry flavor does not contain real berry — appropriate for all patients including those with berry allergies.' : '';
-  const displayText = [infoText, pulmonaryNote, breezaNote].filter(Boolean).join('\n');
+  const readiCatNote = (p.oral_type === 'Readi-Cat')
+    ? 'Readi-Cat contraindicated if suspected GI perforation or barium allergy — give Omnipaque Solution instead.' : '';
+  const displayText = [infoText, pulmonaryNote, breezaNote, readiCatNote].filter(Boolean).join('\n');
   const sIdx = _specialKeys.push(cardKey) - 1;
   const infoHtml = displayText
     ? `<div class="item-note" style="white-space:pre-line;">${highlightProtocol(displayText)}</div>`
