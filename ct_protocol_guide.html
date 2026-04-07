@@ -1285,6 +1285,7 @@ let _removeKeys = [];
 let _specialKeys = [];
 let _editProtos  = [];
 let _editingCardKey = null;
+let _scrollToOrder  = null;
 function highlightProtocol(text) {
   if (!text) return '';
   return text.replace(/((?:[\w\/\-]+\s+){1,3}protocol)/gi,
@@ -1325,8 +1326,9 @@ function renderGroup(g) {
   const acrHtml = p.source === 'acr'
     ? `<div class="item-acr">&#x2139; Per ACR CT Appropriateness Criteria — verify against Atrius site protocol.</div>` : '';
 
+  const orderAttr = p.epic_order.replace(/"/g, '&quot;');
   return `
-    <div class="list-item">
+    <div class="list-item" data-order="${orderAttr}">
       <div class="list-left">
         <span class="badge ${CAT_BADGE[p.category]}">${CAT_LABELS[p.category]}</span>
         <div class="list-order-name">${dualHtml}${p.epic_order}<button class="edit-proto-btn" onclick="editProtocol(${eIdx})">&#9998; Edit</button><button class="edit-proto-btn" style="border-color:#fca5a5;color:#dc2626;" onclick="removeProtocol(${eIdx})">&#x2715; Remove</button></div>
@@ -1764,6 +1766,7 @@ async function saveProtocol() {
     // ── Edit existing protocol ──
     const cardKey = _editingCardKey;
     _editingCardKey = null;
+    _scrollToOrder = epic_order;
     const origEpicOrder = cardKey.split('|')[0];
 
     if (!epic_order) { errEl.textContent = 'Epic Order Name is required.'; errEl.style.display = ''; _editingCardKey = cardKey; return; }
@@ -1820,6 +1823,14 @@ async function saveProtocol() {
   setTimeout(() => msg.classList.remove('show'), 4000);
   renderCustomList();
   populateProtoList();
+  if (_scrollToOrder) {
+    hideAddPanel();
+    setTimeout(() => {
+      const card = document.querySelector('.list-item[data-order="' + _scrollToOrder + '"]');
+      if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      _scrollToOrder = null;
+    }, 50);
+  }
 }
 
 // â"€â"€ Delete â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
