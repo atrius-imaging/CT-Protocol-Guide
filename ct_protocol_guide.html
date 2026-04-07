@@ -38,6 +38,9 @@
   .ref-panel.highlight-oral { background: #dcfce7; border-radius: 8px; padding: 8px 10px; outline: 2px solid #16a34a; transition: background .3s; }
   .ref-panel.highlight-oral .ref-title { color: #14532d; }
   .ref-panel.highlight-oral .ref-body { color: #166534; }
+  .ref-panel.highlight-iv { background: #dbeafe; border-radius: 8px; padding: 8px 10px; outline: 2px solid #2563eb; transition: background .3s; }
+  .ref-panel.highlight-iv .ref-title { color: #1e3a8a; }
+  .ref-panel.highlight-iv .ref-body { color: #1e40af; }
   .ref-body ul { margin-left: 14px; }
   .pedi-table { font-size: 11px; border-collapse: collapse; }
   .pedi-table th, .pedi-table td { padding: 2px 10px 2px 0; }
@@ -253,6 +256,23 @@
         <li>Post gastric bypass</li>
       </ul>
       <div style="margin-top:4px; font-size:11px; font-style:italic; color:#92400e;">Readi-Cat: contraindicated if suspected GI perforation or barium allergy — give Omnipaque Solution instead. Berry smoothie: no strawberry allergy. Vanilla smoothie: no gluten allergy.</div>
+    </div>
+  </div>
+  <div class="ref-panel" id="ivPanel">
+    <div class="ref-title">&#9889; IV Contrast (I+) Guidelines</div>
+    <div class="ref-body">
+      <strong style="font-size:11px;">Contraindications:</strong>
+      <ul>
+        <li>Prior severe contrast reaction &mdash; requires pre-medication</li>
+        <li>eGFR &lt; 30 &mdash; hold contrast, notify radiologist</li>
+        <li>eGFR 30&ndash;44 &mdash; use with caution, radiologist approval</li>
+        <li>Metformin &mdash; hold 48 hrs after contrast if eGFR &lt; 60</li>
+      </ul>
+      <strong style="font-size:11px;">Pre-medication (allergy history):</strong>
+      <ul>
+        <li>Elective: Prednisone 50 mg PO at 13h, 7h, 1h before + Benadryl 50 mg 1h before</li>
+        <li>Urgent: Methylprednisolone 40 mg IV q4h &times;2 + Benadryl 50 mg IV 1h before</li>
+      </ul>
     </div>
   </div>
   <div class="ref-panel">
@@ -1455,6 +1475,7 @@ function render() {
       </div>`;
     count.textContent = '';
     document.getElementById('oralPanel').classList.remove('highlight-oral');
+    document.getElementById('ivPanel').classList.remove('highlight-iv');
     return;
   }
 
@@ -1474,6 +1495,7 @@ function render() {
       </div>`;
     count.innerHTML = '';
     document.getElementById('oralPanel').classList.remove('highlight-oral');
+    document.getElementById('ivPanel').classList.remove('highlight-iv');
     return;
   }
 
@@ -1482,6 +1504,8 @@ function render() {
   grid.innerHTML = groups.map(renderGroup).join('');
   const hasOral = groups.some(g => g.proto.oral === 'yes' && g.proto.oral_type !== 'Breeza');
   document.getElementById('oralPanel').classList.toggle('highlight-oral', hasOral);
+  const hasIV = groups.some(g => g.proto.iv === 'with' || g.proto.iv === 'wo_w');
+  document.getElementById('ivPanel').classList.toggle('highlight-iv', hasIV);
 }
 
 // â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
