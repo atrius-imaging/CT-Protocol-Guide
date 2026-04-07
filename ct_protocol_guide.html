@@ -379,7 +379,8 @@
       <div style="margin-bottom:8px;">
         <input type="text" id="f_proto_filter" placeholder="Filter protocols..." oninput="filterProtoList()" style="width:100%;padding:8px 10px;border:1.5px solid #cbd5e1;border-radius:6px;font-size:13px;font-family:inherit;outline:none;" />
       </div>
-      <select id="f_existing_proto" size="10" style="width:100%;border:1.5px solid #cbd5e1;border-radius:6px;font-size:13px;font-family:inherit;padding:4px;margin-bottom:16px;"></select>
+      <select id="f_existing_proto" size="10" style="width:100%;border:1.5px solid #cbd5e1;border-radius:6px;font-size:13px;font-family:inherit;padding:4px;margin-bottom:8px;"></select>
+      <button class="btn-save" style="margin-bottom:16px;width:100%;" onclick="useAsTemplate()">Use selected as template &rarr; New Protocol</button>
       <h3>Custom Protocols Added</h3>
       <div id="customList"></div>
       <div style="margin-top:16px;padding:10px 12px;background:#f0f9ff;border-radius:7px;border:1px solid #bae6fd;font-size:12px;color:#0369a1;">
@@ -1665,6 +1666,27 @@ function renderProtoList(list) {
     opt.textContent = p.epic_order + '  [' + CAT_LABELS[p.category] + ' · ' + ivTxt + ' · ' + oralTxt + cptTxt + ']';
     sel.appendChild(opt);
   });
+}
+
+function useAsTemplate() {
+  const sel = document.getElementById('f_existing_proto');
+  if (!sel.value) return;
+  const p = JSON.parse(sel.value);
+  document.getElementById('f_indication').value  = '';
+  document.getElementById('f_epic_order').value  = p.epic_order;
+  document.getElementById('f_cpt').value         = (p.cpt === '—' || !p.cpt) ? '' : p.cpt;
+  document.getElementById('f_category').value    = p.category;
+  document.getElementById('f_iv').value          = p.iv || 'none';
+  document.getElementById('f_oral').value        = p.oral || 'none';
+  document.getElementById('f_oral_type').value   = p.oral_type || '';
+  document.getElementById('f_arrival').value     = p.arrival || 20;
+  document.getElementById('f_slot').value        = p.slot || 20;
+  document.getElementById('f_notes').value       = p.notes || '';
+  document.getElementById('f_special').value     = p.special || '';
+  document.getElementById('f_source').value      = p.source || 'atrius';
+  toggleOralType();
+  document.getElementById('newProtocolForm').scrollIntoView({ behavior: 'smooth' });
+  document.getElementById('f_indication').focus();
 }
 
 function filterProtoList() {
