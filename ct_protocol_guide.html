@@ -1672,7 +1672,7 @@ async function saveIndication() {
   if (!sel.value) { errEl.textContent = 'Please select an existing protocol.'; errEl.style.display = ''; return; }
   if (!newInd) { errEl.textContent = 'Please enter a clinical indication.'; errEl.style.display = ''; return; }
   const proto = JSON.parse(sel.value);
-  const entry = Object.assign({}, proto, { indication: newInd, _custom: true });
+  const entry = Object.assign({}, proto, { indication: newInd, _custom: true, _isInd: true });
   customProtocols.push(entry);
   protocols.push(entry);
   document.getElementById('f_new_ind').value = '';
@@ -1792,18 +1792,22 @@ async function deleteCustom(idx) {
 // â"€â"€ Custom list â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 function renderCustomList() {
   const el = document.getElementById('customList');
-  if (customProtocols.length === 0) {
+  const listable = customProtocols.filter(p => !p._isInd);
+  if (listable.length === 0) {
     el.innerHTML = '<div class="no-custom">No custom protocols added yet.</div>';
     return;
   }
-  el.innerHTML = customProtocols.map((p, i) => `
+  el.innerHTML = listable.map((p, i) => {
+    const realIdx = customProtocols.indexOf(p);
+    return `
     <div class="custom-row">
       <div class="custom-row-info">
         <div class="custom-row-title">${p.indication}</div>
         <div class="custom-row-sub">${p.epic_order} &nbsp;|&nbsp; ${CAT_LABELS[p.category]}</div>
       </div>
-      <button class="btn-delete" onclick="deleteCustom(${i})">Remove</button>
-    </div>`).join('');
+      <button class="btn-delete" onclick="deleteCustom(${realIdx})">Remove</button>
+    </div>`;
+  }).join('');
 }
 
 
