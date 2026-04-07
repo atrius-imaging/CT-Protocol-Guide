@@ -284,11 +284,6 @@
   <div class="form-card">
     <h2>Manage Protocols</h2>
 
-    <div class="form-mode-toggle">
-      <button id="modeNewBtn" class="mode-btn active" onclick="setFormMode('new')">New Protocol</button>
-      <button id="modeAddIndBtn" class="mode-btn" onclick="setFormMode('ind')">Add Indication to Existing</button>
-    </div>
-
     <div id="newProtocolForm">
     <div id="editModeNote" style="display:none;background:#eff6ff;border:1px solid #bfdbfe;border-radius:7px;padding:10px 14px;color:#1e40af;font-size:13px;margin-bottom:14px;"></div>
     <div class="form-grid">
@@ -377,30 +372,14 @@
     <div id="formError" style="display:none;background:#fee2e2;border:1px solid #fca5a5;border-radius:7px;padding:10px 14px;color:#991b1b;font-size:13px;margin-top:12px;"></div>
     </div><!-- end newProtocolForm -->
 
-    <div id="addIndicationForm" style="display:none;">
-      <p style="font-size:12px;color:#64748b;margin-bottom:14px;">Select an existing protocol and type the new clinical indication to add to it.</p>
-      <div class="form-group full" style="margin-bottom:12px;">
-        <label>Filter protocols</label>
-        <input type="text" id="f_proto_filter" placeholder="Type to filter..." oninput="filterProtoList()" style="width:100%;padding:8px 10px;border:1.5px solid #cbd5e1;border-radius:6px;font-size:13px;font-family:inherit;outline:none;" />
-      </div>
-      <div class="form-group full" style="margin-bottom:12px;">
-        <label>Existing Protocol *</label>
-        <select id="f_existing_proto" size="8" style="width:100%;border:1.5px solid #cbd5e1;border-radius:6px;font-size:13px;font-family:inherit;padding:4px;"></select>
-      </div>
-      <div class="form-group full" style="margin-bottom:4px;">
-        <label>New Clinical Indication *</label>
-        <input type="text" id="f_new_ind" placeholder="e.g. Pelvic Pain, R/O Ovarian Cyst" style="width:100%;padding:8px 10px;border:1.5px solid #cbd5e1;border-radius:6px;font-size:13px;font-family:inherit;outline:none;" />
-      </div>
-      <div class="form-row">
-        <button class="btn-save" onclick="saveIndication()">Add Indication</button>
-        <button class="btn-cancel" onclick="hideAddPanel()">Cancel</button>
-      </div>
-      <div id="indError"></div>
-    </div>
-
     <div class="form-success" id="formSuccess">&#10003; Saved &mdash; visible to all users.</div>
 
     <div class="manage-section">
+      <h3>All Protocols</h3>
+      <div style="margin-bottom:8px;">
+        <input type="text" id="f_proto_filter" placeholder="Filter protocols..." oninput="filterProtoList()" style="width:100%;padding:8px 10px;border:1.5px solid #cbd5e1;border-radius:6px;font-size:13px;font-family:inherit;outline:none;" />
+      </div>
+      <select id="f_existing_proto" size="10" style="width:100%;border:1.5px solid #cbd5e1;border-radius:6px;font-size:13px;font-family:inherit;padding:4px;margin-bottom:16px;"></select>
       <h3>Custom Protocols Added</h3>
       <div id="customList"></div>
       <div style="margin-top:16px;padding:10px 12px;background:#f0f9ff;border-radius:7px;border:1px solid #bae6fd;font-size:12px;color:#0369a1;">
@@ -1591,6 +1570,7 @@ function openAddPanel() {
   document.getElementById('addPanel').classList.add('visible');
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.getElementById('addTab').classList.add('active');
+  populateProtoList();
   renderCustomList();
 }
 function hideAddPanel() {
