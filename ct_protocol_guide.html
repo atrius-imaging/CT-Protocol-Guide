@@ -1328,7 +1328,7 @@ function renderGroup(g) {
     <div class="list-item">
       <div class="list-left">
         <span class="badge ${CAT_BADGE[p.category]}">${CAT_LABELS[p.category]}</span>
-        <div class="list-order-name">${dualHtml}${p.epic_order}<button class="edit-proto-btn" onclick="editProtocol(${eIdx})">&#9998; Edit</button></div>
+        <div class="list-order-name">${dualHtml}${p.epic_order}<button class="edit-proto-btn" onclick="editProtocol(${eIdx})">&#9998; Edit</button><button class="edit-proto-btn" style="border-color:#fca5a5;color:#dc2626;" onclick="removeProtocol(${eIdx})">&#x2715; Remove</button></div>
         <div class="list-cpt">CPT: ${p.cpt}</div>
       </div>
       <div class="list-right">
@@ -1349,6 +1349,22 @@ function renderGroup(g) {
 
 function removeIndicationByIdx(idx) {
   removeIndication(_removeKeys[idx]);
+}
+
+async function removeProtocol(eIdx) {
+  const { indications, cardKey } = _editProtos[eIdx];
+  const origEpicOrder = cardKey.split('|')[0];
+  if (!confirm('Remove "' + origEpicOrder + '" and all ' + indications.length + ' indication' + (indications.length !== 1 ? 's' : '') + '?')) return;
+  indications.forEach(ind => {
+    const rKey = ind + '|' + origEpicOrder;
+    if (!removedIndications.includes(rKey)) removedIndications.push(rKey);
+    const ci = customProtocols.findIndex(p => p.indication === ind);
+    if (ci !== -1) customProtocols.splice(ci, 1);
+  });
+  await syncData();
+  applyCustomData();
+  render();
+  renderCustomList();
 }
 
 
