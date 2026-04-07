@@ -1226,8 +1226,8 @@ function scoreMatch(p, terms) {
     else if (fuzzyIncludes(order, t))               { score += 2; matched++; }
     else if (fields.some(f => fuzzyIncludes(f, t))) { score += 1; matched++; }
   }
-  // Single-word: must match. Multi-word: at least one term must match (OR logic, ranked by score).
-  return matched === 0 ? 0 : score;
+  // All terms must match (AND logic).
+  return matched === terms.length ? score : 0;
 }
 
 function getResults() {
