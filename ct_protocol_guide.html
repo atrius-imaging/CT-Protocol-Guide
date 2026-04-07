@@ -1210,7 +1210,7 @@ function fuzzyIncludes(text, term) {
   const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   if (new RegExp('\\b' + escaped).test(text)) return true;
   if (term.length < 4) return false;
-  const allowed = term.length >= 7 ? 2 : 1;
+  const allowed = term.length >= 9 ? 2 : 1;
   const words = text.split(/\s+/);
   return words.some(w => w.length >= term.length - allowed && editDistance(w, term) <= allowed);
 }
