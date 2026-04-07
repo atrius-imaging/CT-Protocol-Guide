@@ -1656,7 +1656,10 @@ function renderProtoList(list) {
   list.forEach(p => {
     const opt = document.createElement('option');
     opt.value = JSON.stringify(p);
-    opt.textContent = p.epic_order + '  [' + CAT_LABELS[p.category] + ']';
+    const ivTxt = p.iv === 'with' ? 'IV W/' : p.iv === 'wo_w' ? 'IV W/O+W/' : 'No IV';
+    const oralTxt = p.oral === 'none' || !p.oral ? 'No Oral' : p.oral === 'oral_only' ? 'Oral Only' : 'Oral Contrast';
+    const cptTxt = p.cpt && p.cpt !== '—' ? ' · CPT ' + p.cpt : '';
+    opt.textContent = p.epic_order + '  [' + CAT_LABELS[p.category] + ' · ' + ivTxt + ' · ' + oralTxt + cptTxt + ']';
     sel.appendChild(opt);
   });
 }
@@ -1664,7 +1667,8 @@ function renderProtoList(list) {
 function filterProtoList() {
   const q = document.getElementById('f_proto_filter').value.toLowerCase();
   const filtered = q ? _allProtoOptions.filter(p =>
-    p.epic_order.toLowerCase().includes(q) || CAT_LABELS[p.category].toLowerCase().includes(q)
+    p.epic_order.toLowerCase().includes(q) || CAT_LABELS[p.category].toLowerCase().includes(q) ||
+    (p.cpt && p.cpt.includes(q)) || (p.iv && p.iv.includes(q))
   ) : _allProtoOptions;
   renderProtoList(filtered);
 }
