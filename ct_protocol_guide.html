@@ -35,6 +35,9 @@
   .ref-panel + .ref-panel { border-left: 1px solid #fed7aa; padding-left: 20px; margin-left: 0; }
   .ref-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #9a3412; margin-bottom: 5px; display: flex; align-items: center; gap: 5px; cursor: pointer; }
   .ref-body { font-size: 12px; color: #7c2d12; line-height: 1.6; }
+  .ref-panel.highlight-oral { background: #dcfce7; border-radius: 8px; padding: 8px 10px; outline: 2px solid #16a34a; transition: background .3s; }
+  .ref-panel.highlight-oral .ref-title { color: #14532d; }
+  .ref-panel.highlight-oral .ref-body { color: #166534; }
   .ref-body ul { margin-left: 14px; }
   .pedi-table { font-size: 11px; border-collapse: collapse; }
   .pedi-table th, .pedi-table td { padding: 2px 10px 2px 0; }
@@ -230,7 +233,7 @@
 </div>
 
 <div class="ref-strip">
-  <div class="ref-panel">
+  <div class="ref-panel" id="oralPanel">
     <div class="ref-title">&#9888; Oral Contrast Per Criteria <span style="font-weight:400;font-size:11px;">(excludes CT Enterography)</span></div>
     <div class="ref-body">
       <strong style="font-size:11px;">Non-STAT</strong> &mdash; give if ANY apply:
@@ -1451,6 +1454,7 @@ function render() {
         </div>
       </div>`;
     count.textContent = '';
+    document.getElementById('oralPanel').classList.remove('highlight-oral');
     return;
   }
 
@@ -1469,12 +1473,15 @@ function render() {
         <p>Try different keywords or check the ACR CT Appropriateness Criteria for less common indications.</p>
       </div>`;
     count.innerHTML = '';
+    document.getElementById('oralPanel').classList.remove('highlight-oral');
     return;
   }
 
   const totalIndications = groups.reduce((n, g) => n + g.indications.length, 0);
   count.innerHTML = `<strong>${groups.length}</strong> protocol${groups.length !== 1 ? 's' : ''} &nbsp;&bull;&nbsp; <strong>${totalIndications}</strong> matched indication${totalIndications !== 1 ? 's' : ''}`;
   grid.innerHTML = groups.map(renderGroup).join('');
+  const hasOral = groups.some(g => g.proto.oral === 'yes' && g.proto.oral_type !== 'Breeza');
+  document.getElementById('oralPanel').classList.toggle('highlight-oral', hasOral);
 }
 
 // â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
