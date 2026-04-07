@@ -1232,13 +1232,14 @@ function scoreMatch(p, terms) {
   const order = normalize(p.epic_order);
   const fields = [p.indication, p.epic_order, p.notes, p.cpt, p.epic_id].map(normalize);
   let score = 0;
+  let matched = 0;
   for (const t of terms) {
-    if (fuzzyIncludes(ind, t))   score += 3;
-    else if (fuzzyIncludes(order, t)) score += 2;
-    else if (fields.some(f => fuzzyIncludes(f, t))) score += 1;
-    else return 0;
+    if (fuzzyIncludes(ind, t))                      { score += 3; matched++; }
+    else if (fuzzyIncludes(order, t))               { score += 2; matched++; }
+    else if (fields.some(f => fuzzyIncludes(f, t))) { score += 1; matched++; }
   }
-  return score;
+  // Single-word: must match. Multi-word: at least one term must match (OR logic, ranked by score).
+  return matched === 0 ? 0 : score;
 }
 
 function getResults() {
