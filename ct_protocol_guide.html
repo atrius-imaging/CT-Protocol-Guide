@@ -1817,7 +1817,8 @@ async function deleteCustom(idx) {
 // â"€â"€ Custom list â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 function renderCustomList() {
   const el = document.getElementById('customList');
-  const listable = customProtocols.filter(p => !p._isInd);
+  const builtinOrders = new Set(_builtinProtocols.map(p => p.epic_order));
+  const listable = customProtocols.filter(p => !p._isInd && !p._override && !builtinOrders.has(p.epic_order));
   if (listable.length === 0) {
     el.innerHTML = '<div class="no-custom">No custom protocols added yet.</div>';
     return;
@@ -1830,10 +1831,7 @@ function renderCustomList() {
         <div class="custom-row-title">${p.indication}</div>
         <div class="custom-row-sub">${p.epic_order} &nbsp;|&nbsp; ${CAT_LABELS[p.category]}</div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:4px;">
-        <button class="btn-delete" onclick="deleteCustom(${realIdx})">Remove indication</button>
-        <button class="btn-delete" style="background:#f1f5f9;color:#475569;border:1px solid #cbd5e1;" onclick="hideFromList(${realIdx})">Hide from list</button>
-      </div>
+      <button class="btn-delete" onclick="deleteCustom(${realIdx})">Remove</button>
     </div>`;
   }).join('');
 }
