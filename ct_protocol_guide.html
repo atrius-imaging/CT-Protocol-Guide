@@ -1267,7 +1267,7 @@ const CAT_BADGE  = { head:'badge-head', chest:'badge-chest', abdomen:'badge-abdo
 
 function ivLabel(iv, epic_order) {
   const isCTA = epic_order && epic_order.toUpperCase().includes('CTA');
-  if (iv === 'with')  return { css:'cp-iv',    text: isCTA ? 'I+ CTA' : 'I+ (With Contrast)' };
+  if (iv === 'with')  return { css:'cp-iv',    text: isCTA ? 'I+ CTA' : 'I+ — IV Contrast per guidelines' };
   if (iv === 'wo_w')  return { css:'cp-iv-wo', text: isCTA ? 'I- then I+ CTA' : 'I- then I+ (W/O & W/ Contrast)' };
   return { css:'cp-none', text:'I- (Without Contrast)' };
 }
@@ -1275,7 +1275,7 @@ function ivLabel(iv, epic_order) {
 function oralLabel(oral, oral_type) {
   if (oral === 'yes') {
     const type = oral_type ? ` \u2014 ${oral_type}` : ' (per criteria)';
-    return { css:'cp-oral', text:`Oral Contrast${type}` };
+    return { css:'cp-oral', text: oral_type ? `Oral Contrast \u2014 ${oral_type}` : 'Oral Contrast per criteria' };
   }
   if (oral === 'oral_only') {
     const type = oral_type ? ` \u2014 ${oral_type}` : '';
