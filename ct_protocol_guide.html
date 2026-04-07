@@ -183,10 +183,6 @@
   .edit-proto-btn:hover { background:#eff6ff; }
   body.admin-mode .edit-proto-btn { display:inline; }
 
-  /* EDIT SPECIAL BUTTON */
-  .edit-special-btn { display:none; background:none; border:1px solid #fcd34d; border-radius:4px; color:#92400e; font-size:11px; cursor:pointer; padding:1px 6px; margin-left:6px; vertical-align:middle; white-space:nowrap; }
-  .edit-special-btn:hover { background:#fef3c7; }
-  body.admin-mode .edit-special-btn { display:inline; }
   .special-edit-row { display:none; margin-top:6px; }
   body.admin-mode .special-edit-row { display:flex; gap:6px; align-items:flex-start; }
   .special-edit-row textarea { flex:1; font-size:12px; font-family:inherit; border:1.5px solid #fcd34d; border-radius:6px; padding:6px 8px; resize:vertical; min-height:48px; outline:none; }
@@ -1326,8 +1322,8 @@ function renderGroup(g) {
   const displayText = [infoText, pulmonaryNote].filter(Boolean).join('\n');
   const sIdx = _specialKeys.push(cardKey) - 1;
   const infoHtml = displayText
-    ? `<div class="item-note" style="white-space:pre-line;">${highlightProtocol(displayText)}<button class="edit-special-btn" onclick="toggleSpecialEdit(${sIdx})">&#9998; Edit</button></div>`
-    : `<div class="item-note" style="color:#94a3b8;font-style:italic;"><button class="edit-special-btn" style="margin-left:0;" onclick="toggleSpecialEdit(${sIdx})">&#9998; Add notes</button></div>`;
+    ? `<div class="item-note" style="white-space:pre-line;">${highlightProtocol(displayText)}</div>`
+    : `<div class="item-note" style="color:#94a3b8;font-style:italic;"></div>`;
   const editHtml = `<div class="special-edit-row" id="spedit-${sIdx}">
     <textarea id="sptext-${sIdx}" placeholder="Enter notes and instructions..." rows="3">${infoText}</textarea>
     <div style="display:flex;flex-direction:column;gap:4px;">
@@ -1361,11 +1357,6 @@ function removeIndicationByIdx(idx) {
   removeIndication(_removeKeys[idx]);
 }
 
-function toggleSpecialEdit(idx) {
-  const row = document.getElementById('spedit-' + idx);
-  row.style.display = row.style.display === 'flex' ? 'none' : 'flex';
-  if (row.style.display === 'flex') document.getElementById('sptext-' + idx).focus();
-}
 
 let _undoStack = null;
 let _undoTimer = null;
