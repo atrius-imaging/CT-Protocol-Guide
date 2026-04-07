@@ -1267,7 +1267,7 @@ const CAT_BADGE  = { head:'badge-head', chest:'badge-chest', abdomen:'badge-abdo
 
 function ivLabel(iv, epic_order) {
   const isCTA = epic_order && epic_order.toUpperCase().includes('CTA');
-  if (iv === 'with')  return { css:'cp-iv',    text: isCTA ? 'I+ CTA' : 'I+ — IV Contrast per guidelines' };
+  if (iv === 'with')  return { css:'cp-iv',    text: isCTA ? 'I+ CTA' : 'I+ / IV Contrast per guidelines' };
   if (iv === 'wo_w')  return { css:'cp-iv-wo', text: isCTA ? 'I- then I+ CTA' : 'I- then I+ (W/O & W/ Contrast)' };
   return { css:'cp-none', text:'I- (Without Contrast)' };
 }
