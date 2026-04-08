@@ -1336,7 +1336,9 @@ function renderGroup(g) {
     ? 'Breeza berry flavor does not contain real berry — appropriate for all patients including those with berry allergies.' : '';
   const readiCatNote = (p.oral_type === 'Readi-Cat')
     ? 'Readi-Cat contraindicated if suspected GI perforation or barium allergy — give Omnipaque Solution instead.' : '';
-  const displayText = [infoText, pulmonaryNote, breezaNote, readiCatNote].filter(Boolean).join('\n');
+  const ctuNote = (p.epic_order && p.epic_order.includes('CTU'))
+    ? 'CTU Indication Guidelines:\nCTU is indicated as INITIAL work-up in HIGH-RISK patients (any of the following):\n  \u2022 Age > 60 yrs (women and men)\n  \u2022 Smoking > 30 pack-years\n  \u2022 Gross hematuria or > 25 RBC/hpf on urinalysis\nCTU is also indicated if hematuria persists after negative retroperitoneal (renal) ultrasound.' : '';
+  const displayText = [infoText, pulmonaryNote, breezaNote, readiCatNote, ctuNote].filter(Boolean).join('\n');
   const sIdx = _specialKeys.push(cardKey) - 1;
   const infoHtml = displayText
     ? `<div class="item-note" style="white-space:pre-line;">${highlightProtocol(displayText)}</div>`
