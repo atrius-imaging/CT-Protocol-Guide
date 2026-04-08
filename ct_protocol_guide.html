@@ -1210,6 +1210,23 @@ function normalize(str) {
     .replace(/\s+/g, ' ').trim();
 }
 
+const SYNONYMS = [
+  ['renal', 'kidney'],
+];
+
+function expandTerms(terms) {
+  const expanded = [];
+  for (const t of terms) {
+    expanded.push(t);
+    for (const group of SYNONYMS) {
+      if (group.includes(t)) {
+        group.forEach(s => { if (s !== t && !expanded.includes(s)) expanded.push(s); });
+      }
+    }
+  }
+  return expanded;
+}
+
 // Levenshtein distance for typo tolerance
 function editDistance(a, b) {
   if (a.length === 0) return b.length;
@@ -1243,9 +1260,15 @@ function scoreMatch(p, terms) {
   let score = 0;
   let matched = 0;
   for (const t of terms) {
-    if (fuzzyIncludes(ind, t))                      { score += 3; matched++; }
-    else if (fuzzyIncludes(order, t))               { score += 2; matched++; }
-    else if (fields.some(f => fuzzyIncludes(f, t))) { score += 1; matched++; }
+    // Expand to include synonyms — term matches if any synonym matches
+    const variants = expandTerms([t]);
+    const termScore = variants.reduce((best, v) => {
+      if (fuzzyIncludes(ind, v))                      return Math.max(best, 3);
+      if (fuzzyIncludes(order, v))                    return Math.max(best, 2);
+      if (fields.some(f => fuzzyIncludes(f, v)))      return Math.max(best, 1);
+      return best;
+    }, 0);
+    if (termScore > 0) { score += termScore; matched++; }
   }
   // All terms must match (AND logic).
   return matched === terms.length ? score : 0;
