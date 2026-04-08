@@ -1194,41 +1194,11 @@ let protocols = [
     notes:"No contrast. Right: 73700CRT, Left: 73700CLT, Bilateral: 73700CBL.", source:"atrius" },
 
   // ── UPPER EXTREMITY ──────────────────────────────────────────────────────
-  { indication:"Shoulder - Fracture / Bone / Dislocation / Pre-op", category:"spine", epic_order:"CT Upper Extremity Shoulder Right W/O Contrast", epic_id:"", cpt:"73200",
-    iv:"none", oral:"none", labs:false, arrival:20, slot:20, notes:"No contrast. Specify laterality.", source:"atrius" },
-  { indication:"Shoulder - Fracture / Bone / Dislocation / Pre-op", category:"spine", epic_order:"CT Upper Extremity Shoulder Left W/O Contrast", epic_id:"", cpt:"73200",
-    iv:"none", oral:"none", labs:false, arrival:20, slot:20, notes:"No contrast. Specify laterality.", source:"atrius" },
-  { indication:"Shoulder - Infection / Mass / Post-op", category:"spine", epic_order:"CT Upper Extremity Shoulder Right W/ Contrast", epic_id:"", cpt:"73201",
-    iv:"with", oral:"none", labs:true, arrival:20, slot:20, notes:"IV contrast.", source:"atrius" },
-  { indication:"Shoulder - Infection / Mass / Post-op", category:"spine", epic_order:"CT Upper Extremity Shoulder Left W/ Contrast", epic_id:"", cpt:"73201",
-    iv:"with", oral:"none", labs:true, arrival:20, slot:20, notes:"IV contrast.", source:"atrius" },
+  { indication:"Shoulder / Humerus / Forearm / Hand - Fracture / Bone / Pre-op", category:"spine", epic_order:"CT Upper Extremity W/O Contrast (specify body part + side)", epic_id:"", cpt:"73200",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20, notes:"No contrast. Specify body part and laterality in order.", source:"atrius" },
 
-  { indication:"Humerus - Fracture / Bone / Pre-op", category:"spine", epic_order:"CT Upper Extremity Humerus Right W/O Contrast", epic_id:"", cpt:"73200",
-    iv:"none", oral:"none", labs:false, arrival:20, slot:20, notes:"No contrast. Specify laterality.", source:"atrius" },
-  { indication:"Humerus - Fracture / Bone / Pre-op", category:"spine", epic_order:"CT Upper Extremity Humerus Left W/O Contrast", epic_id:"", cpt:"73200",
-    iv:"none", oral:"none", labs:false, arrival:20, slot:20, notes:"No contrast. Specify laterality.", source:"atrius" },
-  { indication:"Humerus - Infection / Mass / Post-op", category:"spine", epic_order:"CT Upper Extremity Humerus Right W/ Contrast", epic_id:"", cpt:"73201",
-    iv:"with", oral:"none", labs:true, arrival:20, slot:20, notes:"IV contrast.", source:"atrius" },
-  { indication:"Humerus - Infection / Mass / Post-op", category:"spine", epic_order:"CT Upper Extremity Humerus Left W/ Contrast", epic_id:"", cpt:"73201",
-    iv:"with", oral:"none", labs:true, arrival:20, slot:20, notes:"IV contrast.", source:"atrius" },
-
-  { indication:"Forearm - Fracture / Bone / Pre-op", category:"spine", epic_order:"CT Upper Extremity Forearm Right W/O Contrast", epic_id:"", cpt:"73200",
-    iv:"none", oral:"none", labs:false, arrival:20, slot:20, notes:"No contrast. Specify laterality.", source:"atrius" },
-  { indication:"Forearm - Fracture / Bone / Pre-op", category:"spine", epic_order:"CT Upper Extremity Forearm Left W/O Contrast", epic_id:"", cpt:"73200",
-    iv:"none", oral:"none", labs:false, arrival:20, slot:20, notes:"No contrast. Specify laterality.", source:"atrius" },
-  { indication:"Forearm - Infection / Mass / Post-op", category:"spine", epic_order:"CT Upper Extremity Forearm Right W/ Contrast", epic_id:"", cpt:"73201",
-    iv:"with", oral:"none", labs:true, arrival:20, slot:20, notes:"IV contrast.", source:"atrius" },
-  { indication:"Forearm - Infection / Mass / Post-op", category:"spine", epic_order:"CT Upper Extremity Forearm Left W/ Contrast", epic_id:"", cpt:"73201",
-    iv:"with", oral:"none", labs:true, arrival:20, slot:20, notes:"IV contrast.", source:"atrius" },
-
-  { indication:"Hand / Wrist - Fracture / Bone / Pre-op", category:"spine", epic_order:"CT Upper Extremity Hand Right W/O Contrast", epic_id:"", cpt:"73200",
-    iv:"none", oral:"none", labs:false, arrival:20, slot:20, notes:"No contrast. Specify laterality.", source:"atrius" },
-  { indication:"Hand / Wrist - Fracture / Bone / Pre-op", category:"spine", epic_order:"CT Upper Extremity Hand Left W/O Contrast", epic_id:"", cpt:"73200",
-    iv:"none", oral:"none", labs:false, arrival:20, slot:20, notes:"No contrast. Specify laterality.", source:"atrius" },
-  { indication:"Hand / Wrist - Infection / Mass / Post-op", category:"spine", epic_order:"CT Upper Extremity Hand Right W/ Contrast", epic_id:"", cpt:"73201",
-    iv:"with", oral:"none", labs:true, arrival:20, slot:20, notes:"IV contrast.", source:"atrius" },
-  { indication:"Hand / Wrist - Infection / Mass / Post-op", category:"spine", epic_order:"CT Upper Extremity Hand Left W/ Contrast", epic_id:"", cpt:"73201",
-    iv:"with", oral:"none", labs:true, arrival:20, slot:20, notes:"IV contrast.", source:"atrius" },
+  { indication:"Shoulder / Humerus / Forearm / Hand - Infection / Mass / Post-op", category:"spine", epic_order:"CT Upper Extremity W/ Contrast (specify body part + side)", epic_id:"", cpt:"73201",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20, notes:"IV contrast. Specify body part and laterality in order.", source:"atrius" },
 
 ];
 
