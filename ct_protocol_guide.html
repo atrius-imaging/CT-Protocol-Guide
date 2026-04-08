@@ -1337,7 +1337,7 @@ function renderGroup(g) {
   const readiCatNote = (p.oral_type === 'Readi-Cat')
     ? 'Readi-Cat contraindicated if suspected GI perforation or barium allergy — give Omnipaque Solution instead.' : '';
   const ctuNote = (p.epic_order && p.epic_order.includes('CTU'))
-    ? 'CTU Indication Guidelines:\nCTU is indicated as INITIAL work-up in HIGH-RISK patients (any of the following):\n  \u2022 Age > 60 yrs (women and men)\n  \u2022 Smoking > 30 pack-years\n  \u2022 Gross hematuria or > 25 RBC/hpf on urinalysis\nCTU is also indicated if hematuria persists after negative retroperitoneal (renal) ultrasound.' : '';
+    ? 'CTU Indication Guidelines:\nCTU is indicated as INITIAL work-up in HIGH-RISK patients (any of the following):\n  \u2022 Age > 60 yrs (women and men)\n  \u2022 Smoking > 30 pack-years\n  \u2022 Gross hematuria or > 25 RBC/hpf on urinalysis\nCTU is also indicated if hematuria persists after negative retroperitoneal (renal) ultrasound.\nIf the CTU order does not meet criteria for contrast exam, use referral message to contact the ordering clinician using SmartPhrase: .CTU' : '';
   const displayText = [infoText, pulmonaryNote, breezaNote, readiCatNote, ctuNote].filter(Boolean).join('\n');
   const sIdx = _specialKeys.push(cardKey) - 1;
   const infoHtml = displayText
