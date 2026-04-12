@@ -1407,6 +1407,72 @@ const ACR_CRITERIA = [
     ],
     ref: 'ACR AC: Cerebrovascular Diseases \u2014 Stroke / Carotid'
   },
+  {
+    scenario: 'Abdominal Aortic Aneurysm (AAA) Follow-Up / Surveillance',
+    url: 'https://acsearch.acr.org/docs/3102391/Narrative/',
+    match: ['aaa follow', 'aaa surveillance', 'abdominal aortic follow', 'abdominal aneurysm follow', 'aortic aneurysm follow', 'aneurysm surveillance', 'aorta surveillance', 'aorta follow', 'aorta measurement', 'aneurysm measurement', 'aortic measurement'],
+    suggestions: [
+      { order: 'Ultrasound Duplex Doppler Aorta (Abdomen)', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'Preferred first-line for AAA surveillance \u2014 no radiation, widely available, adequate for size monitoring' },
+      { order: 'CTA Abdomen/Pelvis W/ Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'Use when ultrasound inadequate (obesity, bowel gas) or pre-operative planning needed' },
+      { order: 'CT Abdomen/Pelvis W/O Contrast', rating: 'May Be Appropriate', css: 'acr-mba',
+        note: 'Acceptable for size measurement only when IV contrast is contraindicated' },
+    ],
+    ref: 'ACR AC: Abdominal Aortic Aneurysm Follow-Up (Without Repair)'
+  },
+  {
+    scenario: 'Thoracic Aortic Aneurysm / Dissection Follow-Up',
+    url: 'https://acsearch.acr.org/docs/3099659/Narrative/',
+    match: ['thoracic aortic follow', 'thoracic aneurysm follow', 'thoracic aorta follow', 'thoracic aorta surveillance', 'thoracic dilation follow', 'thoracic aneurysm surveillance', 'thoracic aorta measurement'],
+    suggestions: [
+      { order: 'CTA Chest W/ Contrast (Gated when available)', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'Preferred for thoracic aortic surveillance; gated acquisition reduces motion artifact' },
+      { order: 'CT Chest W/O Contrast', rating: 'May Be Appropriate', css: 'acr-mba',
+        note: 'Acceptable for size-only follow-up when IV contrast is contraindicated' },
+    ],
+    ref: 'ACR AC: Thoracic Aortic Aneurysm / Dissection \u2014 Treatment Planning and Follow-Up'
+  },
+  {
+    scenario: 'Right Upper Quadrant Pain / Cholecystitis / Biliary Disease',
+    url: 'https://acsearch.acr.org/docs/69474/Narrative',
+    match: ['right upper quadrant', 'ruq', 'cholecystitis', 'gallbladder', 'biliary colic', 'cholelithiasis', 'gallstone', 'choledocholithiasis', 'biliary', 'bile duct', 'cholangitis'],
+    suggestions: [
+      { order: 'Ultrasound Abdomen', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'First-line for all RUQ pain \u2014 detects stones, wall thickening, pericholecystic fluid. No radiation.' },
+      { order: 'CT Abdomen/Pelvis W/ Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'When ultrasound equivocal or negative with high clinical suspicion; evaluates complications and alternative diagnoses' },
+      { order: 'Nuclear Medicine Hepatobiliary Scan (HIDA)', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'For suspected acalculous cholecystitis or equivocal ultrasound with fever / elevated WBC' },
+    ],
+    ref: 'ACR AC: Right Upper Quadrant Pain'
+  },
+  {
+    scenario: 'Acute Chest Pain / Possible Acute Coronary Syndrome (ACS)',
+    url: 'https://acsearch.acr.org/docs/69403/Narrative/',
+    match: ['chest pain', 'acute chest pain', 'coronary artery disease', 'acs', 'acute coronary', 'angina', 'chest tightness', 'chest pressure', 'myocardial', 'nstemi', 'stemi', 'troponin'],
+    suggestions: [
+      { order: 'Cardiac Coronary CTA', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'Preferred CT for low-to-intermediate probability ACS; high negative predictive value for CAD' },
+      { order: 'CT Chest W/ Contrast', rating: 'May Be Appropriate', css: 'acr-mba',
+        note: 'To evaluate alternative causes (PE, aortic dissection, pneumonia) when ACS less likely' },
+    ],
+    ref: 'ACR AC: Chest Pain \u2014 Possible Acute Coronary Syndrome'
+  },
+  {
+    scenario: 'Jaundice / Biliary Obstruction',
+    url: 'https://acsearch.acr.org/docs/69497/Narrative/',
+    match: ['jaundice', 'jaundiced', 'biliary obstruction', 'obstructive jaundice', 'elevated bilirubin', 'icteric', 'cholestasis'],
+    suggestions: [
+      { order: 'Ultrasound Abdomen', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'First-line \u2014 detects biliary dilation, stones, and liver/pancreatic masses. No radiation.' },
+      { order: 'CT Abdomen/Pelvis W/ Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'For staging and lesion characterization when ultrasound identifies a mass or obstruction' },
+      { order: 'MRI Abdomen W/ MRCP', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'Superior for biliary tree evaluation \u2014 preferred over CT when available for choledocholithiasis' },
+    ],
+    ref: 'ACR AC: Jaundice'
+  },
 ];
 
 // â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
