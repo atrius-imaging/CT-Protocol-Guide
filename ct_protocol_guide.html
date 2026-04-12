@@ -1068,14 +1068,14 @@ let protocols = [
     notes:"IV contrast CTA. Must be performed as GATED Chest CTA if done at Kenmore. If dissection extends to abdomen, also order Abd/Pel CTA.", source:"atrius",
     special:"GATED study required at Kenmore site." },
 
-  { indication:"Thoracic Aortic Aneurysm / Dilation (Initial) / Coarctation / Size Measurement", category:"cta", epic_order:"Chest CTA Gated", epic_id:"71275G", cpt:"71275",
+  { indication:"Thoracic Aortic Aneurysm / Dilation — Initial Diagnosis / Coarctation", category:"cta", epic_order:"Chest CTA Gated", epic_id:"71275G", cpt:"71275",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
-    notes:"Gated CTA preferred for initial diagnosis. Available at Kenmore and Plymouth. At non-gated sites use Chest CTA Aorta (71275AO).", source:"atrius",
+    notes:"Gated CTA for initial diagnosis. Available at Kenmore and Plymouth. At non-gated sites use Chest CTA Aorta (71275AO). For follow-up use Chest CT W/O (71250C).", source:"atrius",
     special:"EKG leads required. Kenmore / Plymouth only. Non-gated sites: order Chest CTA Aorta (71275AO)." },
 
-  { indication:"Thoracic Aortic Aneurysm / Dilation Follow-Up / Surveillance", category:"cta", epic_order:"Chest CT W/O Contrast", epic_id:"71250C", cpt:"71250",
+  { indication:"Thoracic Aortic Aneurysm / Dilation — Follow-Up / Surveillance / Serial Imaging", category:"cta", epic_order:"Chest CT W/O Contrast", epic_id:"71250C", cpt:"71250",
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
-    notes:"No contrast. Gated when possible (Kenmore / Plymouth). Serial surveillance of known thoracic aortic aneurysm or dilation.", source:"atrius",
+    notes:"No contrast. Gated when possible (Kenmore / Plymouth). For initial diagnosis use Chest CTA Gated (71275G).", source:"atrius",
     special:"Gated when possible. EKG leads at Kenmore / Plymouth." },
 
   { indication:"Abdominal Aortic Aneurysm (AAA) / R/O / Follow-Up / Surveillance / Serial Imaging / Size Measurement", category:"cta", epic_order:"Abdomen/Pelvis CTA", epic_id:"74174AA", cpt:"74174",
