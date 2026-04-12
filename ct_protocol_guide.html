@@ -922,7 +922,7 @@ let protocols = [
     special:"40-min slot. CTC prep from Endoscopy RN. No routine Fridays." },
 
   // â"€â"€ ABDOMEN / PELVIS â"€â"€
-  { indication:"Trauma - Abdomen/Pelvis", oral_type:"", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/ Contrast", epic_id:"74177A", cpt:"74177",
+  { indication:"Trauma - Abdomen/Pelvis / Spleen Laceration / Renal Laceration / Solid Organ Injury", oral_type:"", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/ Contrast", epic_id:"74177A", cpt:"74177",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"IV contrast only \u2014 no oral prep. Portal venous phase at 85-second delay.", source:"atrius",
     special:"Use hypervascular protocol if any of the following indications are present: Breast Cancer, Thyroid Cancer, Carcinoid Tumor, Renal Cell Carcinoma, Hepatoma / HCC, Neuroendocrine Tumor (NET), Melanoma, Choriocarcinoma, Leiomyosarcoma. IV contrast only." },
@@ -983,9 +983,6 @@ let protocols = [
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"IV contrast only. No oral prep. 85-second delay (portal venous phase).", source:"atrius" },
 
-  { indication:"Spleen Laceration / Abdominal Trauma", oral_type:"", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/ Contrast", epic_id:"74177A", cpt:"74177",
-    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
-    notes:"IV contrast only. No oral prep. 85-second delay (portal venous phase).", source:"atrius" },
 
   { indication:"Kidney / Ureteral Stones - R/O (Flank Pain)", category:"abdomen", epic_order:"Abdomen/Pelvis CT W/O Contrast", epic_id:"74176A", cpt:"74176",
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
