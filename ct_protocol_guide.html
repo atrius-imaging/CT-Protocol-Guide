@@ -1549,19 +1549,24 @@ function expandTerms(terms) {
 
 
 // Levenshtein distance for typo tolerance
+// Damerau-Levenshtein: counts adjacent transpositions as 1 edit (catches "pnuemonia", "anurysm")
 function editDistance(a, b) {
   if (a.length === 0) return b.length;
   if (b.length === 0) return a.length;
   const dp = Array.from({length: a.length + 1}, (_, i) => [i]);
   for (let j = 1; j <= b.length; j++) dp[0][j] = j;
   for (let i = 1; i <= a.length; i++)
-    for (let j = 1; j <= b.length; j++)
-      dp[i][j] = a[i-1] === b[j-1] ? dp[i-1][j-1]
-        : 1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]);
+    for (let j = 1; j <= b.length; j++) {
+      if (a[i-1] === b[j-1]) { dp[i][j] = dp[i-1][j-1]; continue; }
+      dp[i][j] = 1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]);
+      if (i > 1 && j > 1 && a[i-1] === b[j-2] && a[i-2] === b[j-1])
+        dp[i][j] = Math.min(dp[i][j], dp[i-2][j-2] + 1);
+    }
   return dp[a.length][b.length];
 }
 
-// Returns true if term fuzzy-matches any word in text (1 typo allowed for 5+ char words)
+// Returns true if term fuzzy-matches any word in text
+// Thresholds: 4-8 chars → 1 edit, 9-12 chars → 2 edits, 13+ chars → 3 edits
 function fuzzyIncludes(text, term) {
   // Use word-boundary check so "renal" doesn't match inside "adrenal"
   const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -1569,7 +1574,7 @@ function fuzzyIncludes(text, term) {
   // No fuzzy matching for numeric/CPT-style terms — must match exactly
   if (/^\d[\dA-Z]*$/i.test(term)) return false;
   if (term.length < 4) return false;
-  const allowed = term.length >= 9 ? 2 : 1;
+  const allowed = term.length >= 13 ? 3 : term.length >= 9 ? 2 : 1;
   const words = text.split(/\s+/);
   return words.some(w => w.length >= term.length - allowed && editDistance(w, term) <= allowed);
 }
