@@ -637,6 +637,24 @@ let protocols = [
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
     notes:"No contrast. Non-contrast CT for rib fracture counting, pneumothorax, and hemothorax evaluation.", source:"atrius" },
 
+  { indication:"Chest Pain - R/O PE / Pulmonary Embolism", category:"chest", epic_order:"Chest CTA PE", epic_id:"71275PE", cpt:"71275",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA. Bolus tracking technique. Use when PE is the primary clinical concern.", source:"atrius" },
+
+  { indication:"Chest Pain - R/O Aortic Dissection / Acute Aortic Syndrome", category:"cta", epic_order:"Chest CTA Aorta", epic_id:"71275AO", cpt:"71275",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast CTA. GATED at Kenmore. Cover chest; extend to abdomen/pelvis if dissection suspected to extend.", source:"atrius",
+    special:"GATED study required at Kenmore site." },
+
+  { indication:"Chest Pain - R/O ACS / Coronary Artery Disease / Cardiac", category:"cardiac", epic_order:"Cardiac Coronary CTA", epic_id:"75574A", cpt:"75574",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast. Ordered by cardiology or ED. Low-to-intermediate probability ACS.", source:"atrius",
+    special:"No caffeine or exercise 12 hrs prior. No erectile dysfunction meds 4 days prior. If heart rate > 80 bpm, request beta blockers from ordering provider before scheduling." },
+
+  { indication:"Chest Pain - Non-Cardiac / General / Pleuritic / Musculoskeletal", category:"chest", epic_order:"Chest CT W/ Contrast", epic_id:"71260", cpt:"71260",
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
+    notes:"IV contrast. For pleuritic, musculoskeletal, or non-specific chest pain when PE and dissection not suspected.", source:"atrius" },
+
   { indication:"Pulmonary Embolism / PE / R/O PE", category:"chest", epic_order:"Chest CTA PE", epic_id:"71275PE", cpt:"71275",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"IV contrast CTA. Bolus tracking technique.", source:"atrius" },
@@ -772,7 +790,7 @@ let protocols = [
   // â"€â"€ ABDOMEN / PELVIS â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 
   // â"€â"€ ABDOMEN ONLY â"€â"€
-  { indication:"Abdominal Pain - Upper Quadrant Only (above iliac crest)", oral_type:"", category:"abdomen", epic_order:"Abdomen CT W/ Contrast", epic_id:"74160ABD", cpt:"74160",
+  { indication:"Abdominal Pain - Upper Quadrant / RUQ / LUQ / Cholecystitis / Biliary / Gallbladder / Gallstone", oral_type:"", category:"abdomen", epic_order:"Abdomen CT W/ Contrast", epic_id:"74160ABD", cpt:"74160",
     iv:"with", oral:"yes", labs:true, arrival:60, slot:20,
     notes:"IV contrast + oral prep per criteria. Pelvis not included.", source:"atrius" },
 
