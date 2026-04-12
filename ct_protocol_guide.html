@@ -487,13 +487,9 @@ let protocols = [
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
     notes:"No contrast. If sudden severe (thunderclap) headache, consider CTA Head to r/o aneurysm.", source:"atrius" },
 
-  { indication:"CVA / Stroke / TIA — Acute / Rule Out Hemorrhage", category:"head", epic_order:"Head CT W/O Contrast", epic_id:"70450", cpt:"70450",
+  { indication:"CVA / Stroke / TIA — Acute", category:"head", epic_order:"Head CT W/O Contrast", epic_id:"70450", cpt:"70450",
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
-    notes:"No contrast. Urgent/STAT — first step to rule out hemorrhage before thrombolytics.", source:"atrius" },
-
-  { indication:"Acute Stroke / CVA — Large Vessel Occlusion / Thrombectomy Evaluation / Acute TIA", category:"cta", epic_order:"Head / Neck CTA", epic_id:"70496HN", cpt:"70496 / 70498",
-    iv:"with", oral:"none", labs:true, arrival:20, slot:20,
-    notes:"IV contrast CTA. Add for LVO assessment, thrombectomy candidacy, or acute TIA carotid evaluation.", source:"atrius" },
+    notes:"No contrast. Urgent/STAT. Head CT W/O is always the first order. Head/Neck CTA (70496HN) may be ordered separately by provider for large vessel occlusion evaluation or thrombectomy workup.", source:"atrius" },
 
   { indication:"Trauma (Head)", category:"head", epic_order:"Head CT W/O Contrast", epic_id:"70450", cpt:"70450",
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
