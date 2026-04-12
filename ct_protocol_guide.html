@@ -1038,7 +1038,7 @@ let protocols = [
     notes:"IV contrast CTA. Must be performed as GATED Chest CTA if done at Kenmore. If dissection extends to abdomen, also order Abd/Pel CTA.", source:"atrius",
     special:"GATED study required at Kenmore site." },
 
-  { indication:"Thoracic Aortic Aneurysm / Dilation (Initial) / Coarctation", category:"cta", epic_order:"Chest CTA Gated", epic_id:"71275G", cpt:"71275",
+  { indication:"Thoracic Aortic Aneurysm / Dilation (Initial) / Coarctation / Size Measurement", category:"cta", epic_order:"Chest CTA Gated", epic_id:"71275G", cpt:"71275",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"Gated CTA preferred for initial diagnosis. Available at Kenmore and Plymouth. At non-gated sites use Chest CTA Aorta (71275AO).", source:"atrius",
     special:"EKG leads required. Kenmore / Plymouth only. Non-gated sites: order Chest CTA Aorta (71275AO)." },
@@ -1048,7 +1048,7 @@ let protocols = [
     notes:"No contrast. Gated when possible (Kenmore / Plymouth). Serial surveillance of known thoracic aortic aneurysm or dilation.", source:"atrius",
     special:"Gated when possible. EKG leads at Kenmore / Plymouth." },
 
-  { indication:"Abdominal Aortic Aneurysm (AAA) / R/O / Follow-Up / Surveillance / Serial Imaging", category:"cta", epic_order:"Abdomen/Pelvis CTA", epic_id:"74174AA", cpt:"74174",
+  { indication:"Abdominal Aortic Aneurysm (AAA) / R/O / Follow-Up / Surveillance / Serial Imaging / Size Measurement", category:"cta", epic_order:"Abdomen/Pelvis CTA", epic_id:"74174AA", cpt:"74174",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"IV contrast only. Arterial phase for aortic aneurysm diagnosis and surveillance.", source:"atrius" },
 
@@ -1298,7 +1298,7 @@ const ACR_CRITERIA = [
   {
     scenario: 'Intracranial Aneurysm / Subarachnoid Hemorrhage (SAH)',
     url: 'https://acsearch.acr.org/docs/3149013/Narrative/',
-    match: ['aneurysm', 'subarachnoid', 'sah', 'thunderclap', 'worst headache'],
+    match: ['intracranial aneurysm', 'cerebral aneurysm', 'brain aneurysm', 'subarachnoid', 'sah', 'thunderclap', 'worst headache'],
     suggestions: [
       { order: 'Head CT W/O Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
         note: 'Immediate non-contrast CT; sensitivity >95% within 6 hrs of symptom onset' },
