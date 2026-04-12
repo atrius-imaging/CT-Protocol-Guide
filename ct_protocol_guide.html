@@ -1769,7 +1769,7 @@ function render() {
 
   const totalIndications = groups.reduce((n, g) => n + g.indications.length, 0);
   count.innerHTML = `<strong>${groups.length}</strong> protocol${groups.length !== 1 ? 's' : ''} &nbsp;&bull;&nbsp; <strong>${totalIndications}</strong> matched indication${totalIndications !== 1 ? 's' : ''}`;
-  renderACRPanel(matchACRScenarios(currentSearch));
+  document.getElementById('acrPanel').innerHTML = '';
   grid.innerHTML = groups.map(renderGroup).join('');
 }
 
