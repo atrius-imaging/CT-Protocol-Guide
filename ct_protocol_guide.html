@@ -1647,16 +1647,16 @@ function renderACRPanel(scenarios) {
               <div class="acr-row-note">${s.note}</div>
             </div>
           </div>`).join('')}
-        <div class="acr-scen-ref">${crit.ref}</div>
+        <div class="acr-scen-ref"><a href="https://acsearch.acr.org/list" target="_blank" style="color:#94a3b8;text-decoration:none;" title="Open ACR Appropriateness Criteria search">${crit.ref.replace(/ \u2014 20\d\d$/, '')} &#x2197;</a></div>
       </div>`).join('');
-    bodyHtml += `<div class="acr-footer">ACR Appropriateness Criteria are general evidence-based guidelines. Verify against Atrius site protocols and ordering clinician context.</div>`;
+    bodyHtml += `<div class="acr-footer">ACR Appropriateness Criteria are updated biannually (April &amp; October &mdash; <a href="https://acsearch.acr.org/list" target="_blank" style="color:#64748b;">acsearch.acr.org</a>). Verify current recommendations before use. These are general guidelines &mdash; follow Atrius site protocols.</div>`;
   } else {
     title = '&#x2139;&#xFE0F; No Atrius Protocol Found';
     bodyHtml = `
       <div style="font-size:12px;color:#0f2d55;margin-bottom:8px;">This indication is not currently mapped to an Atrius protocol.</div>
       <div style="font-size:12px;color:#374151;line-height:1.9;">
         &bull; Consult the ordering radiologist for protocol guidance<br>
-        &bull; Check <a href="https://www.acr.org/Clinical-Resources/ACR-Appropriateness-Criteria" target="_blank" style="color:#1d4ed8;font-weight:600;">ACR Appropriateness Criteria</a> for evidence-based recommendations<br>
+        &bull; Check <a href="https://acsearch.acr.org/list" target="_blank" style="color:#1d4ed8;font-weight:600;">ACR Appropriateness Criteria (acsearch.acr.org)</a> for evidence-based recommendations<br>
         &bull; Use <strong>+ Add Protocol</strong> to add this indication to the guide
       </div>`;
   }
