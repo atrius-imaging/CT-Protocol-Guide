@@ -1788,12 +1788,7 @@ function render() {
 
   if (groups.length === 0) {
     renderACRPanel(matchACRScenarios(currentSearch));
-    grid.innerHTML = `
-      <div class="empty-state">
-        <div class="icon">&#128269;</div>
-        <h3>No results found</h3>
-        <p>Try different keywords or check the ACR CT Appropriateness Criteria for less common indications.</p>
-      </div>`;
+    grid.innerHTML = '';
     count.innerHTML = '';
     return;
   }
