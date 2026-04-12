@@ -1745,6 +1745,7 @@ let _acrOpen = true;
 function renderACRPanel(scenarios) {
   const el = document.getElementById('acrPanel');
   if (scenarios === null) { el.innerHTML = ''; return; }
+  if (scenarios.length > 0) _acrOpen = true; // always expand when suggestions exist
   let bodyHtml;
   let title;
   if (scenarios.length > 0) {
