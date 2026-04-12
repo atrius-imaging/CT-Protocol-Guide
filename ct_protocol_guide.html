@@ -633,6 +633,10 @@ let protocols = [
     special:"No iodinated contrast before RAI treatment. Confirm with ordering provider if contrast-free neck protocol is appropriate." },
 
   // â"€â"€ CHEST â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+  { indication:"Chest Trauma / Rib Fractures / Pneumothorax / Hemothorax", category:"chest", epic_order:"Chest CT W/O Contrast", epic_id:"71250C", cpt:"71250",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast. Non-contrast CT for rib fracture counting, pneumothorax, and hemothorax evaluation.", source:"atrius" },
+
   { indication:"Pulmonary Embolism / PE / R/O PE", category:"chest", epic_order:"Chest CTA PE", epic_id:"71275PE", cpt:"71275",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"IV contrast CTA. Bolus tracking technique.", source:"atrius" },
