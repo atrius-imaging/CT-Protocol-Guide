@@ -1249,6 +1249,7 @@ let protocols = [
 const ACR_CRITERIA = [
   {
     scenario: 'Deep Vein Thrombosis (DVT) / Venous Thrombosis',
+    url: 'https://acsearch.acr.org/docs/69416/Narrative/',
     match: ['dvt', 'deep vein thrombosis', 'venous thrombosis', 'venous clot', 'iliac vein', 'iliofemoral', 'femoral vein', 'popliteal vein', 'mesenteric vein', 'portal vein thrombosis', 'venous occlusion'],
     suggestions: [
       { order: 'Lower Extremity Duplex Ultrasound', rating: 'Usually Appropriate', css: 'acr-ua',
@@ -1258,30 +1259,33 @@ const ACR_CRITERIA = [
       { order: 'CTA Abdomen/Pelvis', rating: 'May Be Appropriate', css: 'acr-mba',
         note: 'When concurrent arterial pathology is suspected or pelvic venous anatomy requires full evaluation' },
     ],
-    ref: 'ACR AC: Deep Vein Thrombosis \u2014 2020'
+    ref: 'ACR AC: Suspected Lower Extremity Deep Vein Thrombosis'
   },
   {
     scenario: 'Suspected Pulmonary Embolism (PE)',
+    url: 'https://acsearch.acr.org/docs/69404/narrative/',
     match: ['pulmonary embolism', 'pe', 'ctpa', 'hypoxia'],
     suggestions: [
       { order: 'Chest CTA (CTPA)', rating: 'Usually Appropriate', css: 'acr-ua',
-        note: 'First-line test — obtain if Wells score \u22652 or D-dimer positive' },
+        note: 'First-line test \u2014 obtain if Wells score \u22652 or D-dimer positive' },
       { order: 'V/Q Scan (Nuclear Medicine)', rating: 'May Be Appropriate', css: 'acr-mba',
         note: 'Alternative when CTA contraindicated (renal failure, allergy, pregnancy)' },
     ],
-    ref: 'ACR AC: Suspected Pulmonary Embolism \u2014 2022'
+    ref: 'ACR AC: Suspected Pulmonary Embolism'
   },
   {
     scenario: 'Acute Aortic Syndrome / Dissection',
+    url: 'https://acsearch.acr.org/docs/69402/narrative/',
     match: ['aortic dissection', 'dissection', 'aortic syndrome', 'intramural hematoma', 'aortic rupture'],
     suggestions: [
       { order: 'CTA Chest / Abdomen / Pelvis', rating: 'Usually Appropriate', css: 'acr-ua',
         note: 'Covers Type A (ascending) and Type B (descending); arterial phase, no oral contrast' },
     ],
-    ref: 'ACR AC: Suspected Aortic Dissection \u2014 2021'
+    ref: 'ACR AC: Suspected Acute Aortic Syndrome'
   },
   {
     scenario: 'Acute Stroke / TIA / Large Vessel Occlusion',
+    url: 'https://acsearch.acr.org/docs/3149012/Narrative/',
     match: ['stroke', 'cva', 'tia', 'large vessel occlusion', 'hemiplegia', 'hemiparesis', 'aphasia', 'neuro deficit', 'facial droop'],
     suggestions: [
       { order: 'Head CT W/O Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
@@ -1291,10 +1295,11 @@ const ACR_CRITERIA = [
       { order: 'CT Perfusion (Head)', rating: 'May Be Appropriate', css: 'acr-mba',
         note: 'For extended time window (up to 24 hrs) or unknown symptom onset' },
     ],
-    ref: 'ACR AC: Acute Stroke \u2014 2022'
+    ref: 'ACR AC: Cerebrovascular Diseases \u2014 Stroke'
   },
   {
     scenario: 'Intracranial Aneurysm / Subarachnoid Hemorrhage (SAH)',
+    url: 'https://acsearch.acr.org/docs/3149013/Narrative/',
     match: ['aneurysm', 'subarachnoid', 'sah', 'thunderclap', 'worst headache'],
     suggestions: [
       { order: 'Head CT W/O Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
@@ -1302,10 +1307,11 @@ const ACR_CRITERIA = [
       { order: 'Head CTA', rating: 'Usually Appropriate', css: 'acr-ua',
         note: 'For aneurysm detection; if CT negative but high clinical suspicion, perform LP before CTA' },
     ],
-    ref: 'ACR AC: Headache \u2014 2021'
+    ref: 'ACR AC: Cerebrovascular Diseases \u2014 Aneurysm'
   },
   {
     scenario: 'Acute Non-Localized Abdominal / Pelvic Pain',
+    url: 'https://acsearch.acr.org/docs/69467/Narrative/',
     match: ['abdominal pain', 'abdominal discomfort', 'pelvic pain', 'belly pain', 'acute abdomen', 'peritonitis'],
     suggestions: [
       { order: 'Abdomen/Pelvis CT W/ Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
@@ -1313,37 +1319,41 @@ const ACR_CRITERIA = [
       { order: 'Abdomen/Pelvis CT W/O & W/ Contrast', rating: 'May Be Appropriate', css: 'acr-mba',
         note: 'Add unenhanced phase when renal or adrenal pathology is suspected' },
     ],
-    ref: 'ACR AC: Acute Nonlocalized Abdominal Pain \u2014 2022'
+    ref: 'ACR AC: Acute Nonlocalized Abdominal Pain'
   },
   {
     scenario: 'Suspected Appendicitis (RLQ Pain)',
+    url: 'https://acsearch.acr.org/docs/69357/Narrative/',
     match: ['appendicitis', 'appendix', 'rlq', 'right lower quadrant', 'mcburney'],
     suggestions: [
       { order: 'Abdomen/Pelvis CT W/ Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
         note: 'IV \u00b1 oral contrast; CT is first-line in adults. Ultrasound preferred in children and pregnant patients.' },
     ],
-    ref: 'ACR AC: Right Lower Quadrant Pain \u2014 2021'
+    ref: 'ACR AC: Right Lower Quadrant Pain \u2014 Suspected Appendicitis'
   },
   {
     scenario: 'Suspected Diverticulitis (LLQ Pain)',
+    url: 'https://acsearch.acr.org/docs/69356/Narrative/',
     match: ['diverticulitis', 'diverticular', 'llq', 'left lower quadrant', 'sigmoid pain'],
     suggestions: [
       { order: 'Abdomen/Pelvis CT W/ Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
         note: 'IV \u00b1 oral contrast; first-line for diagnosis and complication staging' },
     ],
-    ref: 'ACR AC: Left Lower Quadrant Pain \u2014 2022'
+    ref: 'ACR AC: Left Lower Quadrant Pain \u2014 Suspected Diverticulitis'
   },
   {
     scenario: 'Renal Colic / Urolithiasis / Flank Pain',
+    url: 'https://acsearch.acr.org/docs/69362/narrative/',
     match: ['kidney stone', 'renal colic', 'urolithiasis', 'nephrolithiasis', 'ureteral stone', 'ureter stone', 'flank pain'],
     suggestions: [
       { order: 'Abdomen/Pelvis CT W/O Contrast (Low Dose \u2014 Stone Protocol)', rating: 'Usually Appropriate', css: 'acr-ua',
         note: 'Low-dose non-contrast CT is first-line; no IV or oral contrast needed' },
     ],
-    ref: 'ACR AC: Acute Onset Flank Pain / Urolithiasis \u2014 2021'
+    ref: 'ACR AC: Acute Onset Flank Pain \u2014 Suspicion of Stone Disease'
   },
   {
     scenario: 'Hematuria (Gross or Microscopic)',
+    url: 'https://acsearch.acr.org/docs/69490/Narrative/',
     match: ['hematuria', 'blood in urine', 'gross hematuria', 'microscopic hematuria'],
     suggestions: [
       { order: 'CTU (CT Urography)', rating: 'Usually Appropriate', css: 'acr-ua',
@@ -1351,10 +1361,11 @@ const ACR_CRITERIA = [
       { order: 'Abdomen/Pelvis CT W/ Contrast', rating: 'May Be Appropriate', css: 'acr-mba',
         note: 'When CTU criteria not met \u2014 discuss with ordering provider' },
     ],
-    ref: 'ACR AC: Hematuria \u2014 2020'
+    ref: 'ACR AC: Hematuria'
   },
   {
     scenario: 'Bowel Obstruction (SBO / LBO)',
+    url: 'https://acsearch.acr.org/docs/69476/Narrative/',
     match: ['bowel obstruction', 'sbo', 'lbo', 'small bowel obstruction', 'large bowel obstruction', 'bowel distension', 'volvulus'],
     suggestions: [
       { order: 'Abdomen/Pelvis CT W/ Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
@@ -1362,10 +1373,11 @@ const ACR_CRITERIA = [
       { order: 'Abdomen/Pelvis CT W/O Contrast', rating: 'May Be Appropriate', css: 'acr-mba',
         note: 'Use when IV contrast is contraindicated' },
     ],
-    ref: 'ACR AC: Suspected Small Bowel Obstruction \u2014 2022'
+    ref: 'ACR AC: Suspected Small-Bowel Obstruction'
   },
   {
     scenario: 'Pancreatitis / Pancreatic Complications',
+    url: 'https://acsearch.acr.org/docs/69468/Narrative/',
     match: ['pancreatitis', 'pancreatic necrosis', 'pancreatic abscess', 'pancreatic pseudocyst', 'pancreatic complication'],
     suggestions: [
       { order: 'Abdomen/Pelvis CT W/ Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
@@ -1373,10 +1385,11 @@ const ACR_CRITERIA = [
       { order: 'Abdomen/Pelvis CT W/O Contrast', rating: 'May Be Appropriate', css: 'acr-mba',
         note: 'Initial evaluation when IV contrast is contraindicated; add contrast at 48\u201372 hrs if necrosis suspected' },
     ],
-    ref: 'ACR AC: Acute Pancreatitis \u2014 2021'
+    ref: 'ACR AC: Acute Pancreatitis'
   },
   {
     scenario: 'Pulmonary Nodule Follow-Up / Lung Cancer Screening',
+    url: 'https://acsearch.acr.org/docs/69455/Narrative/',
     match: ['lung nodule', 'pulmonary nodule', 'nodule follow', 'nodule surveillance', 'lung cancer screening', 'ldct'],
     suggestions: [
       { order: 'Chest CT W/O Contrast (Low Dose)', rating: 'Usually Appropriate', css: 'acr-ua',
@@ -1384,16 +1397,17 @@ const ACR_CRITERIA = [
       { order: 'Chest CT W/ Contrast', rating: 'May Be Appropriate', css: 'acr-mba',
         note: 'For staging or characterization when malignancy is highly suspected' },
     ],
-    ref: 'ACR AC: Lung Cancer Screening / Pulmonary Nodule \u2014 2021'
+    ref: 'ACR AC: Incidentally Detected Indeterminate Pulmonary Nodule'
   },
   {
     scenario: 'Carotid Artery Disease / Stenosis',
+    url: 'https://acsearch.acr.org/docs/3149012/Narrative/',
     match: ['carotid', 'carotid stenosis', 'carotid artery disease'],
     suggestions: [
       { order: 'Head / Neck CTA', rating: 'Usually Appropriate', css: 'acr-ua',
         note: 'CTA neck is the preferred CT modality; >70% stenosis correlates with endarterectomy benefit' },
     ],
-    ref: 'ACR AC: Cerebrovascular Disease \u2014 2021'
+    ref: 'ACR AC: Cerebrovascular Diseases \u2014 Stroke / Carotid'
   },
 ];
 
@@ -1647,7 +1661,7 @@ function renderACRPanel(scenarios) {
               <div class="acr-row-note">${s.note}</div>
             </div>
           </div>`).join('')}
-        <div class="acr-scen-ref"><a href="https://acsearch.acr.org/list" target="_blank" style="color:#94a3b8;text-decoration:none;" title="Open ACR Appropriateness Criteria search">${crit.ref.replace(/ \u2014 20\d\d$/, '')} &#x2197;</a></div>
+        <div class="acr-scen-ref"><a href="${crit.url}" target="_blank" style="color:#94a3b8;text-decoration:none;" title="Open ACR Appropriateness Criteria for this topic">${crit.ref} &#x2197;</a></div>
       </div>`).join('');
     bodyHtml += `<div class="acr-footer">ACR Appropriateness Criteria are updated biannually (April &amp; October &mdash; <a href="https://acsearch.acr.org/list" target="_blank" style="color:#64748b;">acsearch.acr.org</a>). Verify current recommendations before use. These are general guidelines &mdash; follow Atrius site protocols.</div>`;
   } else {
