@@ -1041,10 +1041,14 @@ let protocols = [
     notes:"IV contrast CTA. Must be performed as GATED Chest CTA if done at Kenmore. If dissection extends to abdomen, also order Abd/Pel CTA.", source:"atrius",
     special:"GATED study required at Kenmore site." },
 
-  { indication:"Thoracic Aortic Aneurysm / Follow-Up / Surveillance / Coarctation", category:"cta", epic_order:"Chest CTA Aorta", epic_id:"71275AO", cpt:"71275",
+  { indication:"Thoracic Aortic Aneurysm / Dilation (Initial) / Coarctation", category:"cta", epic_order:"Chest CTA Gated", epic_id:"71275G", cpt:"71275",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
-    notes:"IV contrast CTA. GATED at Kenmore. Use for initial diagnosis and serial surveillance of thoracic aortic aneurysm.", source:"atrius",
-    special:"GATED study required at Kenmore site." },
+    notes:"Gated CTA preferred for initial diagnosis. Available at Kenmore and Plymouth. At non-gated sites use Chest CTA Aorta (71275AO).", source:"atrius",
+    special:"EKG leads required. Kenmore / Plymouth only. Non-gated sites: order Chest CTA Aorta (71275AO)." },
+
+  { indication:"Thoracic Aortic Aneurysm / Dilation Follow-Up / Surveillance", category:"cta", epic_order:"Chest CT W/O Contrast", epic_id:"71250C", cpt:"71250",
+    iv:"none", oral:"none", labs:false, arrival:20, slot:20,
+    notes:"No contrast for serial surveillance of known thoracic aortic aneurysm or dilation. Initial study should be CTA Gated (71275G).", source:"atrius" },
 
   { indication:"Abdominal Aortic Aneurysm (AAA) / R/O / Follow-Up / Surveillance / Serial Imaging", category:"cta", epic_order:"Abdomen/Pelvis CTA", epic_id:"74174AA", cpt:"74174",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
