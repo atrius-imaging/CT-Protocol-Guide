@@ -198,6 +198,25 @@
   .special-save-btn { background:#0f2d55; color:white; border:none; border-radius:6px; padding:6px 12px; font-size:12px; cursor:pointer; white-space:nowrap; }
   .special-clear-btn { background:#fee2e2; color:#dc2626; border:none; border-radius:6px; padding:6px 10px; font-size:12px; cursor:pointer; white-space:nowrap; }
 
+  /* ACR APPROPRIATENESS PANEL */
+  .acr-suggest { background: #f0f9ff; border: 1px solid #7dd3fc; border-radius: 8px; margin-bottom: 12px; overflow: hidden; }
+  .acr-suggest-header { padding: 9px 14px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; }
+  .acr-suggest-title { font-size: 12px; font-weight: 700; color: #0369a1; display: flex; align-items: center; gap: 5px; }
+  .acr-suggest-toggle { font-size: 11px; color: #0284c7; background: none; border: none; cursor: pointer; padding: 2px 6px; }
+  .acr-suggest-body { padding: 2px 14px 10px; }
+  .acr-scen { margin-bottom: 6px; }
+  .acr-scen + .acr-scen { border-top: 1px solid #e0f2fe; padding-top: 8px; margin-top: 2px; }
+  .acr-scen-name { font-size: 12px; font-weight: 700; color: #0369a1; margin-bottom: 6px; }
+  .acr-row { display: flex; align-items: flex-start; gap: 8px; padding: 3px 0; font-size: 12px; color: #1e293b; }
+  .acr-badge { font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 3px; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+  .acr-ua   { background: #dcfce7; color: #166534; }
+  .acr-mba  { background: #fef9c3; color: #854d0e; }
+  .acr-row-content { flex: 1; }
+  .acr-row-order { font-weight: 600; color: #0f2d55; }
+  .acr-row-note  { font-size: 11px; color: #475569; margin-top: 1px; }
+  .acr-scen-ref  { font-size: 10px; color: #94a3b8; margin-top: 3px; font-style: italic; }
+  .acr-footer    { font-size: 11px; color: #64748b; font-style: italic; margin-top: 8px; padding-top: 6px; border-top: 1px solid #e0f2fe; }
+
 </style>
 </head>
 <body>
@@ -301,6 +320,7 @@
 
 <div class="main" id="mainPanel">
   <div class="results-count" id="resultsCount"></div>
+  <div id="acrPanel"></div>
   <div class="results-list" id="resultsGrid"></div>
 </div>
 
@@ -1218,6 +1238,148 @@ let protocols = [
 
 ];
 
+// ────────────────────────────────────────────────────────────────────────────
+// ACR APPROPRIATENESS CRITERIA — Clinical Decision Support
+// Shown as a suggestion panel above results when search matches known scenarios
+// ────────────────────────────────────────────────────────────────────────────
+const ACR_CRITERIA = [
+  {
+    scenario: 'Suspected Pulmonary Embolism (PE)',
+    match: ['pulmonary embolism', 'pe', 'dvt', 'ctpa', 'hypoxia'],
+    suggestions: [
+      { order: 'Chest CTA (CTPA)', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'First-line test — obtain if Wells score \u22652 or D-dimer positive' },
+      { order: 'V/Q Scan (Nuclear Medicine)', rating: 'May Be Appropriate', css: 'acr-mba',
+        note: 'Alternative when CTA contraindicated (renal failure, allergy, pregnancy)' },
+    ],
+    ref: 'ACR AC: Suspected Pulmonary Embolism \u2014 2022'
+  },
+  {
+    scenario: 'Acute Aortic Syndrome / Dissection',
+    match: ['aortic dissection', 'dissection', 'aortic syndrome', 'intramural hematoma', 'aortic rupture'],
+    suggestions: [
+      { order: 'CTA Chest / Abdomen / Pelvis', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'Covers Type A (ascending) and Type B (descending); arterial phase, no oral contrast' },
+    ],
+    ref: 'ACR AC: Suspected Aortic Dissection \u2014 2021'
+  },
+  {
+    scenario: 'Acute Stroke / TIA / Large Vessel Occlusion',
+    match: ['stroke', 'cva', 'tia', 'large vessel occlusion', 'hemiplegia', 'hemiparesis', 'aphasia', 'neuro deficit', 'facial droop'],
+    suggestions: [
+      { order: 'Head CT W/O Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'First-line to rule out hemorrhage before thrombolytics' },
+      { order: 'Head CTA', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'Add for large-vessel occlusion assessment (thrombectomy candidacy)' },
+      { order: 'CT Perfusion (Head)', rating: 'May Be Appropriate', css: 'acr-mba',
+        note: 'For extended time window (up to 24 hrs) or unknown symptom onset' },
+    ],
+    ref: 'ACR AC: Acute Stroke \u2014 2022'
+  },
+  {
+    scenario: 'Intracranial Aneurysm / Subarachnoid Hemorrhage (SAH)',
+    match: ['aneurysm', 'subarachnoid', 'sah', 'thunderclap', 'worst headache'],
+    suggestions: [
+      { order: 'Head CT W/O Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'Immediate non-contrast CT; sensitivity >95% within 6 hrs of symptom onset' },
+      { order: 'Head CTA', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'For aneurysm detection; if CT negative but high clinical suspicion, perform LP before CTA' },
+    ],
+    ref: 'ACR AC: Headache \u2014 2021'
+  },
+  {
+    scenario: 'Acute Non-Localized Abdominal / Pelvic Pain',
+    match: ['abdominal pain', 'abdominal discomfort', 'pelvic pain', 'belly pain', 'acute abdomen', 'peritonitis'],
+    suggestions: [
+      { order: 'Abdomen/Pelvis CT W/ Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'IV contrast standard; oral contrast per criteria' },
+      { order: 'Abdomen/Pelvis CT W/O & W/ Contrast', rating: 'May Be Appropriate', css: 'acr-mba',
+        note: 'Add unenhanced phase when renal or adrenal pathology is suspected' },
+    ],
+    ref: 'ACR AC: Acute Nonlocalized Abdominal Pain \u2014 2022'
+  },
+  {
+    scenario: 'Suspected Appendicitis (RLQ Pain)',
+    match: ['appendicitis', 'appendix', 'rlq', 'right lower quadrant', 'mcburney'],
+    suggestions: [
+      { order: 'Abdomen/Pelvis CT W/ Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'IV \u00b1 oral contrast; CT is first-line in adults. Ultrasound preferred in children and pregnant patients.' },
+    ],
+    ref: 'ACR AC: Right Lower Quadrant Pain \u2014 2021'
+  },
+  {
+    scenario: 'Suspected Diverticulitis (LLQ Pain)',
+    match: ['diverticulitis', 'diverticular', 'llq', 'left lower quadrant', 'sigmoid pain'],
+    suggestions: [
+      { order: 'Abdomen/Pelvis CT W/ Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'IV \u00b1 oral contrast; first-line for diagnosis and complication staging' },
+    ],
+    ref: 'ACR AC: Left Lower Quadrant Pain \u2014 2022'
+  },
+  {
+    scenario: 'Renal Colic / Urolithiasis / Flank Pain',
+    match: ['kidney stone', 'renal colic', 'urolithiasis', 'nephrolithiasis', 'ureteral stone', 'ureter stone', 'flank pain'],
+    suggestions: [
+      { order: 'Abdomen/Pelvis CT W/O Contrast (Low Dose \u2014 Stone Protocol)', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'Low-dose non-contrast CT is first-line; no IV or oral contrast needed' },
+    ],
+    ref: 'ACR AC: Acute Onset Flank Pain / Urolithiasis \u2014 2021'
+  },
+  {
+    scenario: 'Hematuria (Gross or Microscopic)',
+    match: ['hematuria', 'blood in urine', 'gross hematuria', 'microscopic hematuria'],
+    suggestions: [
+      { order: 'CTU (CT Urography)', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'For gross hematuria or high-risk microscopic hematuria (age >40, smoking, >25 RBC/hpf)' },
+      { order: 'Abdomen/Pelvis CT W/ Contrast', rating: 'May Be Appropriate', css: 'acr-mba',
+        note: 'When CTU criteria not met \u2014 discuss with ordering provider' },
+    ],
+    ref: 'ACR AC: Hematuria \u2014 2020'
+  },
+  {
+    scenario: 'Bowel Obstruction (SBO / LBO)',
+    match: ['bowel obstruction', 'sbo', 'lbo', 'small bowel obstruction', 'large bowel obstruction', 'bowel distension', 'volvulus'],
+    suggestions: [
+      { order: 'Abdomen/Pelvis CT W/ Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'Best for transition point localization, closed-loop obstruction, and strangulation assessment' },
+      { order: 'Abdomen/Pelvis CT W/O Contrast', rating: 'May Be Appropriate', css: 'acr-mba',
+        note: 'Use when IV contrast is contraindicated' },
+    ],
+    ref: 'ACR AC: Suspected Small Bowel Obstruction \u2014 2022'
+  },
+  {
+    scenario: 'Pancreatitis / Pancreatic Complications',
+    match: ['pancreatitis', 'pancreatic necrosis', 'pancreatic abscess', 'pancreatic pseudocyst', 'pancreatic complication'],
+    suggestions: [
+      { order: 'Abdomen/Pelvis CT W/ Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'For complications (necrosis, abscess, pseudocyst); CT not needed for initial uncomplicated pancreatitis' },
+      { order: 'Abdomen/Pelvis CT W/O Contrast', rating: 'May Be Appropriate', css: 'acr-mba',
+        note: 'Initial evaluation when IV contrast is contraindicated; add contrast at 48\u201372 hrs if necrosis suspected' },
+    ],
+    ref: 'ACR AC: Acute Pancreatitis \u2014 2021'
+  },
+  {
+    scenario: 'Pulmonary Nodule Follow-Up / Lung Cancer Screening',
+    match: ['lung nodule', 'pulmonary nodule', 'nodule follow', 'nodule surveillance', 'lung cancer screening', 'ldct'],
+    suggestions: [
+      { order: 'Chest CT W/O Contrast (Low Dose)', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'Fleischner Society guidelines; low-dose non-contrast preferred for nodule surveillance' },
+      { order: 'Chest CT W/ Contrast', rating: 'May Be Appropriate', css: 'acr-mba',
+        note: 'For staging or characterization when malignancy is highly suspected' },
+    ],
+    ref: 'ACR AC: Lung Cancer Screening / Pulmonary Nodule \u2014 2021'
+  },
+  {
+    scenario: 'Carotid Artery Disease / Stenosis',
+    match: ['carotid', 'carotid stenosis', 'carotid artery disease'],
+    suggestions: [
+      { order: 'Head / Neck CTA', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'CTA neck is the preferred CT modality; >70% stenosis correlates with endarterectomy benefit' },
+    ],
+    ref: 'ACR AC: Cerebrovascular Disease \u2014 2021'
+  },
+];
+
 // â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 // STATE
 // â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
@@ -1316,6 +1478,21 @@ function getResults() {
     .filter(x => x.score > 0)
     .sort((a, b) => b.score - a.score)
     .map(x => x.p);
+}
+
+function matchACRScenarios(search) {
+  if (!search || search.trim().length < 3) return [];
+  const s = normalize(search);
+  return ACR_CRITERIA.filter(crit =>
+    crit.match.some(phrase => {
+      const p = normalize(phrase);
+      const words = p.split(/\s+/).filter(Boolean);
+      if (words.length === 1) {
+        return new RegExp('\\b' + p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b').test(s);
+      }
+      return s.includes(p);
+    })
+  );
 }
 
 // â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
@@ -1433,6 +1610,45 @@ function renderGroup(g) {
     </div>`;
 }
 
+let _acrOpen = true;
+
+function renderACRPanel(scenarios) {
+  const el = document.getElementById('acrPanel');
+  if (!scenarios || scenarios.length === 0) { el.innerHTML = ''; return; }
+  const bodyHtml = scenarios.map(crit => `
+    <div class="acr-scen">
+      <div class="acr-scen-name">&#x1F4CB; ${crit.scenario}</div>
+      ${crit.suggestions.map(s => `
+        <div class="acr-row">
+          <span class="acr-badge ${s.css}">${s.rating}</span>
+          <div class="acr-row-content">
+            <div class="acr-row-order">${s.order}</div>
+            <div class="acr-row-note">${s.note}</div>
+          </div>
+        </div>`).join('')}
+      <div class="acr-scen-ref">${crit.ref}</div>
+    </div>`).join('');
+  el.innerHTML = `
+    <div class="acr-suggest">
+      <div class="acr-suggest-header" onclick="toggleACRPanel()">
+        <span class="acr-suggest-title">&#x2139;&#xFE0F; ACR Appropriateness Criteria &mdash; Suggested Protocols</span>
+        <button class="acr-suggest-toggle" id="acrToggleBtn">${_acrOpen ? '&#9650; Hide' : '&#9660; Show'}</button>
+      </div>
+      <div class="acr-suggest-body" id="acrSuggestBody" style="display:${_acrOpen ? '' : 'none'};">
+        ${bodyHtml}
+        <div class="acr-footer">ACR Appropriateness Criteria are general evidence-based guidelines. Verify against Atrius site protocols and ordering clinician context.</div>
+      </div>
+    </div>`;
+}
+
+function toggleACRPanel() {
+  _acrOpen = !_acrOpen;
+  const body = document.getElementById('acrSuggestBody');
+  const btn  = document.getElementById('acrToggleBtn');
+  if (body) body.style.display = _acrOpen ? '' : 'none';
+  if (btn)  btn.innerHTML = _acrOpen ? '&#9650; Hide' : '&#9660; Show';
+}
+
 function removeIndicationByIdx(idx) {
   removeIndication(_removeKeys[idx]);
 }
@@ -1512,6 +1728,7 @@ function render() {
   const isFiltered  = currentCategory !== 'all';
 
   if (!isSearching && !isFiltered) {
+    document.getElementById('acrPanel').innerHTML = '';
     grid.innerHTML = `
       <div class="welcome">
         <div style="font-size:36px; margin-bottom:8px;">&#128203;</div>
@@ -1539,6 +1756,7 @@ function render() {
   const groups = groupResults(matched);
 
   if (groups.length === 0) {
+    renderACRPanel(matchACRScenarios(currentSearch));
     grid.innerHTML = `
       <div class="empty-state">
         <div class="icon">&#128269;</div>
@@ -1551,6 +1769,7 @@ function render() {
 
   const totalIndications = groups.reduce((n, g) => n + g.indications.length, 0);
   count.innerHTML = `<strong>${groups.length}</strong> protocol${groups.length !== 1 ? 's' : ''} &nbsp;&bull;&nbsp; <strong>${totalIndications}</strong> matched indication${totalIndications !== 1 ? 's' : ''}`;
+  renderACRPanel(matchACRScenarios(currentSearch));
   grid.innerHTML = groups.map(renderGroup).join('');
 }
 
