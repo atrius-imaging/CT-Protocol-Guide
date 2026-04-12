@@ -1248,8 +1248,21 @@ let protocols = [
 // ────────────────────────────────────────────────────────────────────────────
 const ACR_CRITERIA = [
   {
+    scenario: 'Deep Vein Thrombosis (DVT) / Venous Thrombosis',
+    match: ['dvt', 'deep vein thrombosis', 'venous thrombosis', 'venous clot', 'iliac vein', 'iliofemoral', 'femoral vein', 'popliteal vein', 'mesenteric vein', 'portal vein thrombosis', 'venous occlusion'],
+    suggestions: [
+      { order: 'Lower Extremity Duplex Ultrasound', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'Ultrasound is first-line for suspected extremity DVT; CT reserved for central/pelvic venous involvement' },
+      { order: 'CT Abdomen/Pelvis W/ Contrast (venous phase)', rating: 'May Be Appropriate', css: 'acr-mba',
+        note: 'For suspected pelvic DVT, iliac vein thrombosis, or mesenteric/portal vein thrombosis not visible on ultrasound' },
+      { order: 'CTA Abdomen/Pelvis', rating: 'May Be Appropriate', css: 'acr-mba',
+        note: 'When concurrent arterial pathology is suspected or pelvic venous anatomy requires full evaluation' },
+    ],
+    ref: 'ACR AC: Deep Vein Thrombosis \u2014 2020'
+  },
+  {
     scenario: 'Suspected Pulmonary Embolism (PE)',
-    match: ['pulmonary embolism', 'pe', 'dvt', 'ctpa', 'hypoxia'],
+    match: ['pulmonary embolism', 'pe', 'ctpa', 'hypoxia'],
     suggestions: [
       { order: 'Chest CTA (CTPA)', rating: 'Usually Appropriate', css: 'acr-ua',
         note: 'First-line test — obtain if Wells score \u22652 or D-dimer positive' },
@@ -1618,29 +1631,43 @@ let _acrOpen = true;
 
 function renderACRPanel(scenarios) {
   const el = document.getElementById('acrPanel');
-  if (!scenarios || scenarios.length === 0) { el.innerHTML = ''; return; }
-  const bodyHtml = scenarios.map(crit => `
-    <div class="acr-scen">
-      <div class="acr-scen-name">&#x1F4CB; ${crit.scenario}</div>
-      ${crit.suggestions.map(s => `
-        <div class="acr-row">
-          <span class="acr-badge ${s.css}">${s.rating}</span>
-          <div class="acr-row-content">
-            <div class="acr-row-order">${s.order}</div>
-            <div class="acr-row-note">${s.note}</div>
-          </div>
-        </div>`).join('')}
-      <div class="acr-scen-ref">${crit.ref}</div>
-    </div>`).join('');
+  if (scenarios === null) { el.innerHTML = ''; return; }
+  let bodyHtml;
+  let title;
+  if (scenarios.length > 0) {
+    title = '&#x2139;&#xFE0F; ACR Appropriateness Criteria &mdash; Suggested Protocols';
+    bodyHtml = scenarios.map(crit => `
+      <div class="acr-scen">
+        <div class="acr-scen-name">&#x1F4CB; ${crit.scenario}</div>
+        ${crit.suggestions.map(s => `
+          <div class="acr-row">
+            <span class="acr-badge ${s.css}">${s.rating}</span>
+            <div class="acr-row-content">
+              <div class="acr-row-order">${s.order}</div>
+              <div class="acr-row-note">${s.note}</div>
+            </div>
+          </div>`).join('')}
+        <div class="acr-scen-ref">${crit.ref}</div>
+      </div>`).join('');
+    bodyHtml += `<div class="acr-footer">ACR Appropriateness Criteria are general evidence-based guidelines. Verify against Atrius site protocols and ordering clinician context.</div>`;
+  } else {
+    title = '&#x2139;&#xFE0F; No Atrius Protocol Found';
+    bodyHtml = `
+      <div style="font-size:12px;color:#0f2d55;margin-bottom:8px;">This indication is not currently mapped to an Atrius protocol.</div>
+      <div style="font-size:12px;color:#374151;line-height:1.9;">
+        &bull; Consult the ordering radiologist for protocol guidance<br>
+        &bull; Check <a href="https://www.acr.org/Clinical-Resources/ACR-Appropriateness-Criteria" target="_blank" style="color:#1d4ed8;font-weight:600;">ACR Appropriateness Criteria</a> for evidence-based recommendations<br>
+        &bull; Use <strong>+ Add Protocol</strong> to add this indication to the guide
+      </div>`;
+  }
   el.innerHTML = `
     <div class="acr-suggest">
       <div class="acr-suggest-header" onclick="toggleACRPanel()">
-        <span class="acr-suggest-title">&#x2139;&#xFE0F; ACR Appropriateness Criteria &mdash; Suggested Protocols</span>
+        <span class="acr-suggest-title">${title}</span>
         <button class="acr-suggest-toggle" id="acrToggleBtn">${_acrOpen ? '&#9650; Hide' : '&#9660; Show'}</button>
       </div>
       <div class="acr-suggest-body" id="acrSuggestBody" style="display:${_acrOpen ? '' : 'none'};">
         ${bodyHtml}
-        <div class="acr-footer">ACR Appropriateness Criteria are general evidence-based guidelines. Verify against Atrius site protocols and ordering clinician context.</div>
       </div>
     </div>`;
 }
@@ -1732,7 +1759,7 @@ function render() {
   const isFiltered  = currentCategory !== 'all';
 
   if (!isSearching && !isFiltered) {
-    document.getElementById('acrPanel').innerHTML = '';
+    renderACRPanel(null);
     grid.innerHTML = `
       <div class="welcome">
         <div style="font-size:36px; margin-bottom:8px;">&#128203;</div>
