@@ -1765,8 +1765,11 @@ function renderACRPanel(scenarios) {
   let bodyHtml;
   let title;
   if (scenarios.length > 0) {
-    title = '&#x2139;&#xFE0F; ACR Appropriateness Criteria &mdash; Suggested Protocols';
-    bodyHtml = scenarios.map(crit => `
+    title = '&#x26A0;&#xFE0F; No Atrius Protocol Found &mdash; ACR Reference Only';
+    bodyHtml = `<div style="font-size:11px;background:#fef3c7;border:1px solid #fcd34d;border-radius:5px;padding:6px 10px;margin-bottom:10px;color:#92400e;font-weight:600;">
+      Atrius protocols are not available for this indication. The ACR Appropriateness Criteria below are for reference only &mdash; always follow Atrius site protocols when available. Consult the ordering radiologist if unsure.
+    </div>`;
+    bodyHtml += scenarios.map(crit => `
       <div class="acr-scen">
         <div class="acr-scen-name">&#x1F4CB; ${crit.scenario}</div>
         ${crit.suggestions.map(s => `
@@ -1779,9 +1782,9 @@ function renderACRPanel(scenarios) {
           </div>`).join('')}
         <div class="acr-scen-ref"><a href="${crit.url}" target="_blank" style="color:#94a3b8;text-decoration:none;" title="Open ACR Appropriateness Criteria for this topic">${crit.ref} &#x2197;</a></div>
       </div>`).join('');
-    bodyHtml += `<div class="acr-footer">ACR Appropriateness Criteria are updated biannually (April &amp; October &mdash; <a href="https://acsearch.acr.org/list" target="_blank" style="color:#64748b;">acsearch.acr.org</a>). Verify current recommendations before use. These are general guidelines &mdash; follow Atrius site protocols.</div>`;
+    bodyHtml += `<div class="acr-footer">ACR Appropriateness Criteria are updated biannually (April &amp; October &mdash; <a href="https://acsearch.acr.org/list" target="_blank" style="color:#64748b;">acsearch.acr.org</a>). Verify current recommendations before use.</div>`;
   } else {
-    title = '&#x2139;&#xFE0F; No Protocol Found';
+    title = '&#x26A0;&#xFE0F; No Atrius Protocol Found';
     bodyHtml = `
       <div style="font-size:12px;color:#334155;margin-bottom:6px;">No Atrius protocol or ACR Appropriateness Criteria match for this indication.</div>
       <div style="font-size:12px;color:#374151;line-height:1.9;">
