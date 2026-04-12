@@ -1665,14 +1665,19 @@ function renderACRPanel(scenarios) {
       </div>`).join('');
     bodyHtml += `<div class="acr-footer">ACR Appropriateness Criteria are updated biannually (April &amp; October &mdash; <a href="https://acsearch.acr.org/list" target="_blank" style="color:#64748b;">acsearch.acr.org</a>). Verify current recommendations before use. These are general guidelines &mdash; follow Atrius site protocols.</div>`;
   } else {
-    title = '&#x2139;&#xFE0F; No Atrius Protocol Found';
+    title = '&#x2139;&#xFE0F; No Atrius Protocol Found &mdash; ACR Appropriateness Criteria';
+    const listItems = ACR_CRITERIA.map(c =>
+      `<div class="acr-row" style="padding:4px 0;border-bottom:1px solid #e0f2fe;">
+        <div class="acr-row-content">
+          <a href="${c.url}" target="_blank" style="font-size:12px;font-weight:600;color:#0f2d55;text-decoration:none;" title="View ACR criteria for ${c.scenario}">${c.scenario} &#x2197;</a>
+          <div style="font-size:11px;color:#475569;margin-top:1px;">${c.suggestions.map(s => s.order).join(' &nbsp;&bull;&nbsp; ')}</div>
+        </div>
+      </div>`
+    ).join('');
     bodyHtml = `
-      <div style="font-size:12px;color:#0f2d55;margin-bottom:8px;">This indication is not currently mapped to an Atrius protocol.</div>
-      <div style="font-size:12px;color:#374151;line-height:1.9;">
-        &bull; Consult the ordering radiologist for protocol guidance<br>
-        &bull; Check <a href="https://acsearch.acr.org/list" target="_blank" style="color:#1d4ed8;font-weight:600;">ACR Appropriateness Criteria (acsearch.acr.org)</a> for evidence-based recommendations<br>
-        &bull; Use <strong>+ Add Protocol</strong> to add this indication to the guide
-      </div>`;
+      <div style="font-size:12px;color:#334155;margin-bottom:8px;">No Atrius protocol is mapped for this indication. Select a related ACR criteria topic below for evidence-based guidance, or use <strong>+ Add Protocol</strong> to add it.</div>
+      ${listItems}
+      <div class="acr-footer" style="margin-top:8px;">ACR Appropriateness Criteria updated biannually &mdash; <a href="https://acsearch.acr.org/list" target="_blank" style="color:#64748b;">browse all topics at acsearch.acr.org</a></div>`;
   }
   el.innerHTML = `
     <div class="acr-suggest">
