@@ -1048,7 +1048,8 @@ let protocols = [
 
   { indication:"Thoracic Aortic Aneurysm / Dilation Follow-Up / Surveillance", category:"cta", epic_order:"Chest CT W/O Contrast", epic_id:"71250C", cpt:"71250",
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
-    notes:"No contrast for serial surveillance of known thoracic aortic aneurysm or dilation. Initial study should be CTA Gated (71275G).", source:"atrius" },
+    notes:"No contrast. Gated when possible (Kenmore / Plymouth). Serial surveillance of known thoracic aortic aneurysm or dilation.", source:"atrius",
+    special:"Gated when possible. EKG leads at Kenmore / Plymouth." },
 
   { indication:"Abdominal Aortic Aneurysm (AAA) / R/O / Follow-Up / Surveillance / Serial Imaging", category:"cta", epic_order:"Abdomen/Pelvis CTA", epic_id:"74174AA", cpt:"74174",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
