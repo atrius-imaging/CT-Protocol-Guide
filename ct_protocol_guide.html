@@ -1822,17 +1822,17 @@ function preprocessSearch(raw) {
 // Clinical scenario map: symptom/context phrases → protocol indication keywords
 // Allows "rlq pain fever" or "coughing blood" to find the right protocol
 const CLINICAL_SCENARIOS = [
-  { context: ['right lower quadrant pain','rlq pain','right sided abdominal pain','right lower abdominal','mcburney','rebound tenderness rlq','acute abdomen right lower'],
+  { context: ['right lower quadrant pain','rlq pain','right sided abdominal pain','right lower abdominal','right lower belly','mcburney','rebound tenderness rlq','acute abdomen right lower','periumbilical pain right','right iliac fossa','migrating pain right lower','pain right lower abdomen','periumbilical migrating','right lower quadrant tenderness','rlq tenderness','right abdominal pain fever','right lower abdominal fever'],
     indication: 'appendicitis' },
-  { context: ['left lower quadrant pain','llq pain','left sided abdominal pain','left colon pain','sigmoid pain','left lower abdominal pain'],
+  { context: ['left lower quadrant pain','llq pain','left sided abdominal pain','left colon pain','sigmoid pain','left lower abdominal pain','left lower belly pain','left iliac pain','pain left lower abdomen','left colon tenderness','llq tenderness','left lower quadrant tenderness'],
     indication: 'diverticulitis' },
-  { context: ['shortness of breath','sob chest','dyspnea tachycardia','hypoxia sudden','pleuritic chest','chest pain shortness','chest pain dyspnea','acute dyspnea','sudden onset shortness','sharp pleuritic','oxygen saturation drop','desaturation','elevated ddimer','elevated d-dimer','positive ddimer','positive d-dimer','ddimer elevated','d-dimer elevated','ddimer positive','high ddimer','raised ddimer','chest pain ddimer','wells score','wells criteria'],
+  { context: ['shortness of breath','sob chest','dyspnea tachycardia','hypoxia sudden','pleuritic chest','chest pain shortness','chest pain dyspnea','acute dyspnea','sudden onset shortness','sharp pleuritic','oxygen saturation drop','desaturation','elevated ddimer','elevated d-dimer','positive ddimer','positive d-dimer','ddimer elevated','d-dimer elevated','ddimer positive','high ddimer','raised ddimer','chest pain ddimer','wells score','wells criteria','difficulty breathing','can\'t breathe','cannot breathe','breathing difficulty','low oxygen','low o2','respiratory distress','chest pain low oxygen','chest pain hypoxia','pleuritic pain breathing','pain with breathing','sharp pain inhale','sharp chest pain deep breath'],
     indication: 'pulmonary embolism' },
-  { context: ['tearing chest pain','ripping chest pain','tearing back pain','severe chest radiating to back','worst chest pain ever','tearing sensation chest','anterior chest back radiation','interscapular pain chest'],
+  { context: ['tearing chest pain','ripping chest pain','tearing back pain','severe chest radiating to back','worst chest pain ever','tearing sensation chest','anterior chest back radiation','interscapular pain chest','chest pain radiates back','chest pain going to back','sudden severe chest back pain','sharp ripping chest','sharp tearing chest','pain between shoulder blades chest','back pain and chest pain together','hypertensive chest pain back'],
     indication: 'aortic dissection' },
   { context: ['thunderclap headache','sudden severe headache','worst headache of life','explosive headache','sentinel headache','sudden onset severe headache','worst headache ever'],
     indication: 'subarachnoid hemorrhage' },
-  { context: ['flank pain groin','colicky flank pain','flank pain radiating','renal colic','flank pain nausea vomiting','hematuria flank pain','stone pain flank'],
+  { context: ['flank pain groin','colicky flank pain','flank pain radiating','renal colic','flank pain nausea vomiting','hematuria flank pain','stone pain flank','kidney stone','pain radiating to groin','pain from flank to groin','loin to groin pain','side pain radiating groin','severe side pain','wave like flank pain','intermittent flank pain','pain urinating flank','blood in urine flank'],
     indication: 'kidney stone nephrolithiasis' },
   { context: ['right upper quadrant pain','ruq pain','fatty food pain','murphy sign','biliary colic','right upper abdomen','right rib pain after eating','right shoulder pain after eating','pain after fatty meal'],
     indication: 'cholecystitis gallbladder' },
@@ -1913,6 +1913,18 @@ function expandTerms(terms) {
   return expanded;
 }
 
+// Partial match scorer: returns number of matched terms (no AND requirement)
+function scoreMatchPartial(p, terms, minMatch) {
+  const ind    = normalize(p.indication);
+  const order  = normalize(p.epic_order);
+  const fields = [p.indication, p.epic_order, p.notes, p.cpt, p.epic_id].map(normalize);
+  let matched = 0;
+  for (const t of terms) {
+    const variants = expandTerms([t]);
+    if (variants.some(v => fuzzyIncludes(ind, v) || fuzzyIncludes(order, v) || fields.some(f => fuzzyIncludes(f, v)))) matched++;
+  }
+  return matched >= minMatch ? matched : 0;
+}
 
 // Levenshtein distance for typo tolerance
 // Damerau-Levenshtein: counts adjacent transpositions as 1 edit (catches "pnuemonia", "anurysm")
@@ -2330,7 +2342,7 @@ function render() {
     .map(p => ({ p, score: isSearching ? scoreMatch(p, terms) : 1 }))
     .filter(x => x.score > 0);
 
-  // If no direct match, try clinical scenario mapping (symptom context → indication keywords)
+  // Phase 2: clinical scenario mapping (symptom context → indication keywords)
   let scenarioUsed = false;
   if (matched.length === 0 && isSearching) {
     const scenarioTerms = getClinicalScenarioTerms(currentSearch).map(normalize)
@@ -2340,6 +2352,25 @@ function render() {
         .map(p => ({ p, score: scoreMatch(p, scenarioTerms) }))
         .filter(x => x.score > 0);
       scenarioUsed = matched.length > 0;
+    }
+  }
+
+  // Phase 3: partial match — find protocols matching the most terms (min 2)
+  // Catches free-text clinical reasons where no single protocol contains all words
+  let partialUsed = false;
+  if (matched.length === 0 && isSearching && terms.length >= 2) {
+    const allTerms = [...new Set([
+      ...terms,
+      ...getClinicalScenarioTerms(currentSearch).map(normalize).filter(t => t.length > 1 && !STOPWORDS.has(t))
+    ])];
+    const minMatch = allTerms.length >= 6 ? 3 : 2;
+    const partialMatched = protocols
+      .map(p => ({ p, score: scoreMatchPartial(p, allTerms, minMatch) }))
+      .filter(x => x.score > 0)
+      .sort((a, b) => b.score - a.score);
+    if (partialMatched.length > 0) {
+      matched = partialMatched.slice(0, 6); // cap at top 6 to avoid noise
+      partialUsed = true;
     }
   }
 
@@ -2353,7 +2384,9 @@ function render() {
   }
 
   const totalIndications = groups.reduce((n, g) => n + g.indications.length, 0);
-  const scenarioNote = scenarioUsed ? ' &nbsp;&bull;&nbsp; <span style="color:#0369a1;font-style:italic;">matched by clinical context</span>' : '';
+  const scenarioNote = partialUsed
+    ? ' &nbsp;&bull;&nbsp; <span style="color:#b45309;font-style:italic;">best partial match — confirm with radiologist</span>'
+    : scenarioUsed ? ' &nbsp;&bull;&nbsp; <span style="color:#0369a1;font-style:italic;">matched by clinical context</span>' : '';
   count.innerHTML = `<strong>${groups.length}</strong> protocol${groups.length !== 1 ? 's' : ''} &nbsp;&bull;&nbsp; <strong>${totalIndications}</strong> matched indication${totalIndications !== 1 ? 's' : ''}${scenarioNote}`;
   document.getElementById('acrPanel').innerHTML = '';
   grid.innerHTML = groups.map(renderGroup).join('');
