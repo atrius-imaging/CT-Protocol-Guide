@@ -2203,22 +2203,10 @@ async function fetchACRLive(query) {
         </div>
       </div>`;
   } catch (_) {
-    // Final fallback: manual AI links
-    const aiQ = encodeURIComponent('CT imaging protocol for ' + q + ' ACR appropriateness criteria exam type contrast recommendation');
     el.innerHTML = `
-      <div style="padding:10px 12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;">
-        <div style="font-size:11px;font-weight:700;color:#334155;margin-bottom:6px;">&#x1F916; Get Protocol Guidance</div>
-        <div style="font-size:11px;color:#475569;margin-bottom:8px;">AI lookup unavailable. Open one of these for a direct answer:</div>
-        <div style="display:flex;flex-direction:column;gap:7px;">
-          <a href="https://www.perplexity.ai/search?q=${aiQ}" target="_blank"
-             style="display:inline-flex;align-items:center;gap:6px;padding:7px 13px;background:#7e22ce;color:#fff;border-radius:5px;font-size:11px;font-weight:600;text-decoration:none;">
-            &#x1F50D; Perplexity AI
-          </a>
-          <a href="https://copilot.microsoft.com/?q=${aiQ}" target="_blank"
-             style="display:inline-flex;align-items:center;gap:6px;padding:7px 13px;background:#0f2d55;color:#fff;border-radius:5px;font-size:11px;font-weight:600;text-decoration:none;">
-            &#x1F916; Microsoft Copilot
-          </a>
-        </div>
+      <div style="padding:10px 12px;background:#fef9c3;border:1px solid #fde68a;border-radius:6px;font-size:11px;color:#78350f;line-height:1.6;">
+        Protocol guidance unavailable — network may be blocking the AI lookup.<br>
+        Search <a href="https://acsearch.acr.org/list" target="_blank" style="color:#0369a1;font-weight:600;">acsearch.acr.org</a> for ACR Appropriateness Criteria, or consult the ordering radiologist.
       </div>`;
   }
 }
