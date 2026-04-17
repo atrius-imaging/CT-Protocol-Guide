@@ -232,7 +232,7 @@
 <div class="search-area">
   <div class="search-wrap">
     <span class="search-icon">&#128269;</span>
-    <input type="text" id="searchInput" placeholder="Search by clinical indication or protocol name (e.g. &ldquo;chest pain&rdquo;, &ldquo;PE&rdquo;, &ldquo;diverticulitis&rdquo;)..." autocomplete="off" />
+    <input type="text" id="searchInput" placeholder="Enter indication or reason for scan (e.g. &ldquo;r/o PE&rdquo;, &ldquo;eval for appendicitis&rdquo;, &ldquo;h/o DVT&rdquo;, &ldquo;diverticulitis&rdquo;)..." autocomplete="off" />
     <button class="clear-btn" id="clearBtn" onclick="clearSearch()">&#x2715;</button>
   </div>
   <div class="tabs">
@@ -1782,6 +1782,42 @@ function normalize(str) {
     .replace(/\s+/g, ' ').trim();
 }
 
+// Strip clinical order prefixes so "r/o PE", "eval for appendicitis", "h/o DVT" resolve to the core term
+const CLINICAL_PREFIX_RES = [
+  /\bpatients?\s+(?:with\b)?/gi,
+  /\bpt\.?\s+(?:with|c\/o\b)?/gi,
+  /\bpresenting\s+with\b/gi,
+  /\bconcern(?:ing)?\s+for\b/gi,
+  /\bsecondary\s+to\b/gi,
+  /\brule\s+out\b/gi,
+  /\beval(?:uate)?(?:\s+for)?\b/gi,
+  /\bworkup(?:\s+for)?\b/gi,
+  /\bhistory\s+of\b/gi,
+  /\bh\/o\b/gi,
+  /\bh\s*\.\s*o\b/gi,
+  /\bassessment\s+of\b/gi,
+  /\bevaluation\s+of\b/gi,
+  /\bsuspect(?:ed)?\b/gi,
+  /\bpossible\b/gi,
+  /\bprobable\b/gi,
+  /\bknown\b/gi,
+  /\bnew\s+onset\b/gi,
+  /\br\s*\/?\s*o\b/gi,
+  /\bc\s*\/?\s*o\b/gi,
+  /\breferral\s+for\b/gi,
+  /\bordered\s+for\b/gi,
+  /\bimaging\s+for\b/gi,
+];
+
+// Words that carry no clinical meaning and interfere with AND-logic matching
+const STOPWORDS = new Set(['and','with','the','a','an','in','of','to','is','or','at','vs','versus','per','as','due','on','by','was','has']);
+
+function preprocessSearch(raw) {
+  let s = raw;
+  for (const re of CLINICAL_PREFIX_RES) s = s.replace(re, ' ');
+  return s.replace(/\s+/g, ' ').trim();
+}
+
 const SYNONYMS = [
   ['renal', 'kidney'],
   ['cardiac', 'heart'],
@@ -1857,8 +1893,9 @@ function scoreMatch(p, terms) {
     }, 0);
     if (termScore > 0) { score += termScore; matched++; }
   }
-  // All terms must match (AND logic).
-  return matched === terms.length ? score : 0;
+  // Soft AND: 1-3 terms = all must match; 4-5 terms = all but 1; 6+ terms = all but 2
+  const allowed_miss = terms.length >= 6 ? 2 : terms.length >= 4 ? 1 : 0;
+  return matched >= terms.length - allowed_miss ? score : 0;
 }
 
 function getResults() {
@@ -1873,8 +1910,9 @@ function getResults() {
 }
 
 function matchACRScenarios(search) {
-  if (!search || search.trim().length < 3) return [];
-  const s = normalize(search);
+  if (!search || search.trim().length < 2) return [];
+  const s = normalize(preprocessSearch(search));
+  if (s.length < 2) return [];
   return ACR_CRITERIA.filter(crit =>
     crit.match.some(phrase => {
       const p = normalize(phrase);
@@ -2133,8 +2171,10 @@ function render() {
   _editProtos = [];
   const grid  = document.getElementById('resultsGrid');
   const count = document.getElementById('resultsCount');
-  const terms = currentSearch.trim().split(/\s+/).filter(Boolean).map(normalize);
-  const isSearching = terms.length > 0;
+  const processed = preprocessSearch(currentSearch);
+  const terms = processed.trim().split(/\s+/).filter(Boolean).map(normalize)
+    .filter(t => t.length > 1 && !STOPWORDS.has(t));
+  const isSearching = currentSearch.trim().length > 0;
   const isFiltered  = currentCategory !== 'all';
 
   if (!isSearching && !isFiltered) {
