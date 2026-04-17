@@ -1818,6 +1818,73 @@ function preprocessSearch(raw) {
   return s.replace(/\s+/g, ' ').trim();
 }
 
+// Clinical scenario map: symptom/context phrases → protocol indication keywords
+// Allows "rlq pain fever" or "coughing blood" to find the right protocol
+const CLINICAL_SCENARIOS = [
+  { context: ['right lower quadrant pain','rlq pain','right sided abdominal pain','right lower abdominal','mcburney','rebound tenderness rlq','acute abdomen right lower'],
+    indication: 'appendicitis' },
+  { context: ['left lower quadrant pain','llq pain','left sided abdominal pain','left colon pain','sigmoid pain','left lower abdominal pain'],
+    indication: 'diverticulitis' },
+  { context: ['shortness of breath','sob chest','dyspnea tachycardia','hypoxia sudden','pleuritic chest','chest pain shortness','chest pain dyspnea','acute dyspnea','sudden onset shortness','sharp pleuritic','oxygen saturation drop','desaturation'],
+    indication: 'pulmonary embolism' },
+  { context: ['tearing chest pain','ripping chest pain','tearing back pain','severe chest radiating to back','worst chest pain ever','tearing sensation chest','anterior chest back radiation','interscapular pain chest'],
+    indication: 'aortic dissection' },
+  { context: ['thunderclap headache','sudden severe headache','worst headache of life','explosive headache','sentinel headache','sudden onset severe headache','worst headache ever'],
+    indication: 'subarachnoid hemorrhage' },
+  { context: ['flank pain groin','colicky flank pain','flank pain radiating','renal colic','flank pain nausea vomiting','hematuria flank pain','stone pain flank'],
+    indication: 'kidney stone nephrolithiasis' },
+  { context: ['right upper quadrant pain','ruq pain','fatty food pain','murphy sign','biliary colic','right upper abdomen','right rib pain after eating','right shoulder pain after eating','pain after fatty meal'],
+    indication: 'cholecystitis gallbladder' },
+  { context: ['facial droop','arm weakness sudden','one sided weakness','unilateral weakness','arm leg weakness','sudden weakness','focal neuro deficit','speech difficulty sudden','sudden vision loss','balance loss dizziness fall','hemiparesis','hemisensory loss'],
+    indication: 'stroke cva' },
+  { context: ['blunt abdominal trauma','motor vehicle accident abdominal','mvc abd','seatbelt injury','fall abdominal trauma','pedestrian struck','trauma abdomen','abdominal trauma'],
+    indication: 'trauma abdomen pelvis' },
+  { context: ['abdominal distension cannot pass gas','nausea vomiting distension','unable to pass gas stool','obstipation vomiting','progressive distension pain'],
+    indication: 'bowel obstruction' },
+  { context: ['calf swelling pain','leg swelling unilateral','swollen red leg','calf pain tenderness','lower extremity swelling asymmetric','unilateral leg edema'],
+    indication: 'dvt deep vein thrombosis' },
+  { context: ['epigastric pain radiating to back','epigastric pain alcohol','elevated lipase','elevated amylase','nausea vomiting epigastric','upper abdominal pain radiating back','band like epigastric','acute pancreatitis'],
+    indication: 'pancreatitis' },
+  { context: ['burning urination fever','dysuria fever back pain','frequency urgency fever','costovertebral angle tenderness','flank pain fever chills','urinary symptoms flank pain fever','urine infection fever'],
+    indication: 'pyelonephritis' },
+  { context: ['painless hematuria','gross hematuria no pain','blood in urine no pain','visible blood urine painless','hematuria clots','total gross hematuria'],
+    indication: 'hematuria' },
+  { context: ['crushing chest pain','pressure chest left arm','chest pain jaw','diaphoresis chest pain','chest pain radiation arm','troponin elevated chest','chest pressure exertion','cardiac chest pain','retrosternal pressure'],
+    indication: 'acute coronary syndrome cardiac' },
+  { context: ['coughing up blood','blood in sputum','blood tinged sputum','spitting blood','bloody cough','hemoptysis'],
+    indication: 'hemoptysis' },
+  { context: ['jaundice dark urine','yellow skin eyes','painless jaundice','obstructive jaundice','bilirubin elevated','icteric','clay colored stool jaundice','scleral icterus'],
+    indication: 'jaundice biliary obstruction' },
+  { context: ['weight loss night sweats fever','b symptoms lymph','unexplained weight loss lymph node','lymph node enlargement fever','drenching night sweats weight loss'],
+    indication: 'lymphoma' },
+  { context: ['nausea vomiting right upper quadrant','fever right upper quadrant','chills right upper quadrant','right upper quadrant tenderness fever'],
+    indication: 'cholecystitis ruq pain' },
+  { context: ['blood coughing lung mass','lung mass history smoking','hemoptysis weight loss','coughing blood weight loss','lung nodule growing'],
+    indication: 'lung cancer hemoptysis' },
+  { context: ['severe abdominal pain peritoneal signs','board like abdomen','guarding rigidity abdomen','peritonitis','free air abdomen'],
+    indication: 'acute abdomen perforation' },
+  { context: ['intermittent claudication leg','leg pain walking','calf pain exertion','no pulse leg','cold leg pain','peripheral arterial disease leg'],
+    indication: 'peripheral arterial disease lower extremity cta' },
+  { context: ['worst headache life stiff neck','headache fever stiff neck','nuchal rigidity headache fever','meningismus headache'],
+    indication: 'meningitis subarachnoid hemorrhage' },
+  { context: ['back pain fever chills','vertebral tenderness fever','back pain elevated wbc','spine infection fever','discitis'],
+    indication: 'spinal infection discitis osteomyelitis' },
+  { context: ['pulsatile abdominal mass','abdominal bruit pulsatile','aortic aneurysm pulsatile'],
+    indication: 'aortic aneurysm aaa' },
+];
+
+// Return indication keywords if the raw search matches a clinical scenario context
+function getClinicalScenarioTerms(rawSearch) {
+  const s = rawSearch.toLowerCase();
+  const found = [];
+  for (const sc of CLINICAL_SCENARIOS) {
+    if (sc.context.some(phrase => s.includes(phrase))) {
+      found.push(...sc.indication.split(/\s+/));
+    }
+  }
+  return [...new Set(found)];
+}
+
 const SYNONYMS = [
   ['renal', 'kidney'],
   ['cardiac', 'heart'],
@@ -1913,15 +1980,18 @@ function matchACRScenarios(search) {
   if (!search || search.trim().length < 2) return [];
   const s = normalize(preprocessSearch(search));
   if (s.length < 2) return [];
+  // Also build a combined string that includes scenario-mapped indication keywords
+  const scenarioExtra = getClinicalScenarioTerms(search).join(' ');
+  const combined = (s + ' ' + normalize(scenarioExtra)).trim();
+
+  function testPhrase(phrase, str) {
+    const p = normalize(phrase);
+    const words = p.split(/\s+/).filter(Boolean);
+    if (words.length === 1) return new RegExp('\\b' + p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b').test(str);
+    return str.includes(p);
+  }
   return ACR_CRITERIA.filter(crit =>
-    crit.match.some(phrase => {
-      const p = normalize(phrase);
-      const words = p.split(/\s+/).filter(Boolean);
-      if (words.length === 1) {
-        return new RegExp('\\b' + p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b').test(s);
-      }
-      return s.includes(p);
-    })
+    crit.match.some(phrase => testPhrase(phrase, s) || testPhrase(phrase, combined))
   );
 }
 
@@ -2254,10 +2324,23 @@ function render() {
     return;
   }
 
-  const matched = protocols
+  let matched = protocols
     .filter(p => isSearching || p.category === currentCategory)
     .map(p => ({ p, score: isSearching ? scoreMatch(p, terms) : 1 }))
     .filter(x => x.score > 0);
+
+  // If no direct match, try clinical scenario mapping (symptom context → indication keywords)
+  let scenarioUsed = false;
+  if (matched.length === 0 && isSearching) {
+    const scenarioTerms = getClinicalScenarioTerms(currentSearch).map(normalize)
+      .filter(t => t.length > 1 && !STOPWORDS.has(t));
+    if (scenarioTerms.length) {
+      matched = protocols
+        .map(p => ({ p, score: scoreMatch(p, scenarioTerms) }))
+        .filter(x => x.score > 0);
+      scenarioUsed = matched.length > 0;
+    }
+  }
 
   const groups = groupResults(matched);
 
@@ -2269,7 +2352,8 @@ function render() {
   }
 
   const totalIndications = groups.reduce((n, g) => n + g.indications.length, 0);
-  count.innerHTML = `<strong>${groups.length}</strong> protocol${groups.length !== 1 ? 's' : ''} &nbsp;&bull;&nbsp; <strong>${totalIndications}</strong> matched indication${totalIndications !== 1 ? 's' : ''}`;
+  const scenarioNote = scenarioUsed ? ' &nbsp;&bull;&nbsp; <span style="color:#0369a1;font-style:italic;">matched by clinical context</span>' : '';
+  count.innerHTML = `<strong>${groups.length}</strong> protocol${groups.length !== 1 ? 's' : ''} &nbsp;&bull;&nbsp; <strong>${totalIndications}</strong> matched indication${totalIndications !== 1 ? 's' : ''}${scenarioNote}`;
   document.getElementById('acrPanel').innerHTML = '';
   grid.innerHTML = groups.map(renderGroup).join('');
 }
