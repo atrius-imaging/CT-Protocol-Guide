@@ -244,6 +244,7 @@
     <button class="tab" onclick="setCategory('cardiac')">&#9829; Cardiac</button>
     <button class="tab" onclick="setCategory('spine')">&#129460; Spine / Extremity</button>
     <button class="tab" id="addTab" onclick="showAddPanel()" style="margin-left:auto; background:#e0f2fe; color:#075985;">&#43; Add Protocol</button>
+    <button class="tab" onclick="runSearchTests()" title="Run search scenario tests" style="background:#fef9c3; color:#854d0e; padding:7px 11px;">&#x2714; Test</button>
     <button class="tab" id="settingsTab" onclick="openSettingsModal()" title="GitHub Settings" style="background:#f8fafc; color:#475569; padding:7px 11px;">&#9881;</button>
   </div>
 </div>
@@ -2784,6 +2785,116 @@ async function removeIndication(key) {
   await syncData();
   render();
   renderCustomList();
+}
+
+// ─── SEARCH TEST SUITE ────────────────────────────────────────────────────────
+const SEARCH_TESTS = [
+  // format: { search, expect } — expect is a substring of the matched epic_order (case-insensitive)
+  // Exact indications
+  { search:'diverticulitis',              expect:'abdomen',         label:'Diverticulitis → Abdomen CT' },
+  { search:'appendicitis',               expect:'abdomen',         label:'Appendicitis → Abdomen CT' },
+  { search:'pulmonary embolism',         expect:'cta pe',          label:'PE → Chest CTA PE' },
+  { search:'kidney stone',              expect:'stone',            label:'Kidney Stone → Stone Protocol' },
+  { search:'hematuria',                  expect:'ctu',             label:'Hematuria → CTU' },
+  { search:'stroke',                     expect:'head ct',         label:'Stroke → Head CT W/O' },
+  { search:'cholecystitis',             expect:'abdomen',          label:'Cholecystitis → Abdomen/Pelvis' },
+  { search:'pyelonephritis',            expect:'abdomen',          label:'Pyelonephritis → Abdomen/Pelvis' },
+  // Clinical prefixes stripped
+  { search:'r/o PE',                    expect:'cta pe',           label:'r/o PE → Chest CTA PE' },
+  { search:'rule out DVT',              expect:'dvt',              label:'rule out DVT → ACR/DVT' },
+  { search:'eval for appendicitis',     expect:'abdomen',          label:'eval for appendicitis → Abdomen CT' },
+  { search:'h/o lung cancer staging',   expect:'chest',            label:'h/o lung cancer → ACR Lung Cancer' },
+  { search:'suspected stroke',          expect:'head ct',          label:'suspected stroke → Head CT' },
+  { search:'patient with chest pain',   expect:'chest',            label:'patient with chest pain → Chest' },
+  { search:'known diverticulitis',      expect:'abdomen',          label:'known diverticulitis → Abdomen CT' },
+  // D-dimer / biomarkers
+  { search:'chest pain elevated ddimer',expect:'cta pe',           label:'chest pain elevated ddimer → Chest CTA PE' },
+  { search:'elevated d-dimer',          expect:'cta pe',           label:'elevated d-dimer → Chest CTA PE' },
+  { search:'chest pain wells score',    expect:'cta pe',           label:'chest pain wells score → Chest CTA PE' },
+  // Clinical context / scenario matching
+  { search:'right lower quadrant pain fever',    expect:'abdomen', label:'RLQ pain fever → Appendicitis/Abdomen' },
+  { search:'tearing chest pain radiating to back',expect:'aorta',  label:'Tearing chest → Aortic Dissection' },
+  { search:'thunderclap headache',      expect:'head ct',          label:'Thunderclap headache → Head CT (SAH)' },
+  { search:'colicky flank pain radiating to groin',expect:'stone', label:'Flank pain → Stone Protocol' },
+  { search:'fatty food pain right upper abdomen', expect:'abdomen',label:'Fatty food RUQ → Cholecystitis' },
+  { search:'shortness of breath tachycardia',     expect:'cta pe', label:'SOB tachycardia → Chest CTA PE' },
+  { search:'calf swelling unilateral',  expect:'dvt',              label:'Calf swelling → DVT (ACR)' },
+  { search:'painless blood in urine',   expect:'ctu',              label:'Painless hematuria → CTU' },
+  { search:'facial droop arm weakness', expect:'head ct',          label:'Facial droop → Stroke/Head CT' },
+  { search:'crushing chest pain left arm radiation', expect:'cardiac', label:'Crushing chest → Cardiac CTA' },
+  { search:'epigastric pain radiating to back',   expect:'abdomen',label:'Epigastric → Pancreatitis/Abdomen' },
+  // Spell variants
+  { search:'diverticulitus',            expect:'abdomen',          label:'Misspelling: diverticulitus' },
+  { search:'apendicitis',              expect:'abdomen',           label:'Misspelling: apendicitis' },
+  { search:'pnuemonia',                expect:'chest',             label:'Misspelling: pnuemonia' },
+  { search:'pyelonepritis',            expect:'abdomen',           label:'Misspelling: pyelonepritis' },
+];
+
+function runSearchTests() {
+  // Run all tests and collect results
+  const results = SEARCH_TESTS.map(test => {
+    const processed = preprocessSearch(test.search);
+    const terms = processed.trim().split(/\s+/).filter(Boolean).map(normalize)
+      .filter(t => t.length > 1 && !STOPWORDS.has(t));
+
+    let matched = protocols.map(p => ({ p, score: scoreMatch(p, terms) })).filter(x => x.score > 0);
+    if (matched.length === 0) {
+      const scenarioTerms = getClinicalScenarioTerms(test.search).map(normalize)
+        .filter(t => t.length > 1 && !STOPWORDS.has(t));
+      if (scenarioTerms.length)
+        matched = protocols.map(p => ({ p, score: scoreMatch(p, scenarioTerms) })).filter(x => x.score > 0);
+    }
+    const groups = groupResults(matched);
+    const topOrder = groups[0]?.proto?.epic_order?.toLowerCase() || '';
+    const topInd   = groups[0]?.indications?.[0]?.toLowerCase() || '';
+    const combined = topOrder + ' ' + topInd;
+    const pass = combined.includes(test.expect.toLowerCase());
+    return { ...test, pass, got: groups[0]?.proto?.epic_order || '(no result)' };
+  });
+
+  const passed = results.filter(r => r.pass).length;
+  const failed = results.filter(r => !r.pass);
+
+  // Build modal HTML
+  const rows = results.map(r => `
+    <tr style="border-bottom:1px solid #f1f5f9;">
+      <td style="padding:5px 8px;font-size:11px;color:#334155;">${r.label}</td>
+      <td style="padding:5px 8px;font-size:11px;font-family:monospace;color:#64748b;">"${r.search}"</td>
+      <td style="padding:5px 8px;font-size:11px;color:${r.pass ? '#166534' : '#991b1b'};font-weight:600;">${r.pass ? '✓ PASS' : '✗ FAIL'}</td>
+      <td style="padding:5px 8px;font-size:11px;color:#475569;">${r.got}</td>
+    </tr>`).join('');
+
+  const html = `
+    <div style="position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:flex-start;justify-content:center;padding-top:40px;overflow-y:auto;">
+      <div style="background:white;border-radius:10px;width:900px;max-width:95vw;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3);">
+        <div style="padding:16px 20px;border-bottom:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:white;z-index:1;">
+          <div>
+            <span style="font-size:16px;font-weight:700;color:#0f2d55;">Search Test Results</span>
+            <span style="margin-left:12px;font-size:13px;color:${failed.length===0?'#166534':'#991b1b'};font-weight:600;">${passed}/${results.length} passed</span>
+            ${failed.length ? `<span style="margin-left:8px;font-size:12px;color:#991b1b;">(${failed.length} failing)</span>` : '<span style="margin-left:8px;font-size:12px;color:#166534;">All passing ✓</span>'}
+          </div>
+          <button onclick="this.closest('div[style*=\"position:fixed\"]').remove()" style="border:none;background:#f1f5f9;border-radius:6px;padding:6px 12px;cursor:pointer;font-size:13px;">Close</button>
+        </div>
+        <div style="padding:12px 20px;">
+          ${failed.length ? `<div style="background:#fef2f2;border:1px solid #fecaca;border-radius:6px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:#991b1b;">
+            <strong>Failing:</strong> ${failed.map(f => f.label).join(' &bull; ')}
+          </div>` : ''}
+          <table style="width:100%;border-collapse:collapse;">
+            <thead><tr style="background:#f8fafc;text-align:left;">
+              <th style="padding:6px 8px;font-size:11px;color:#64748b;font-weight:600;">Test</th>
+              <th style="padding:6px 8px;font-size:11px;color:#64748b;font-weight:600;">Search Input</th>
+              <th style="padding:6px 8px;font-size:11px;color:#64748b;font-weight:600;">Result</th>
+              <th style="padding:6px 8px;font-size:11px;color:#64748b;font-weight:600;">Protocol Returned</th>
+            </tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+      </div>
+    </div>`;
+
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  document.body.appendChild(div.firstElementChild);
 }
 
 // Initial load
