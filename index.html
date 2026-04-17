@@ -2180,19 +2180,27 @@ async function fetchACRLive(query) {
     }
   } catch (_) { /* CORS or network — fall through */ }
 
-  // --- Stage 2: Perplexity AI fallback ---
-  const pQ = encodeURIComponent('CT imaging protocol for ' + q + '. What does ACR Appropriateness Criteria recommend? Include the exam type, contrast use, and clinical guideline source.');
+  // --- Stage 2: AI fallback (Perplexity + Copilot) ---
+  const aiQ = 'CT imaging protocol for ' + q + '. What does ACR Appropriateness Criteria recommend? Include the exam type, contrast use, and clinical guideline source.';
+  const pQ = encodeURIComponent(aiQ);
+  const cQ = encodeURIComponent(aiQ);
   el.innerHTML = `
-    <div style="padding:10px 12px;background:#fdf4ff;border:1px solid #e9d5ff;border-radius:6px;">
-      <div style="font-size:11px;font-weight:700;color:#7e22ce;margin-bottom:6px;">&#x1F916; Perplexity AI — Protocol Guidance</div>
-      <div style="font-size:11px;color:#334155;line-height:1.6;margin-bottom:8px;">
-        No ACR criteria found. Perplexity AI will search medical literature and return a direct answer with cited sources.
+    <div style="padding:10px 12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;">
+      <div style="font-size:11px;font-weight:700;color:#334155;margin-bottom:6px;">&#x1F916; AI Protocol Guidance</div>
+      <div style="font-size:11px;color:#475569;line-height:1.6;margin-bottom:10px;">
+        No ACR criteria found. Use an AI assistant to get protocol recommendations with cited sources:
       </div>
-      <a href="https://www.perplexity.ai/search?q=${pQ}" target="_blank"
-         style="display:inline-flex;align-items:center;gap:5px;padding:7px 13px;background:#7e22ce;color:#fff;border-radius:5px;font-size:11px;font-weight:600;text-decoration:none;">
-        &#x1F50D; Get Answer from Perplexity AI
-      </a>
-      <div style="font-size:10px;color:#94a3b8;margin-top:6px;">Opens Perplexity AI &mdash; returns a direct answer with ACR / RSNA / clinical sources cited.</div>
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <a href="https://www.perplexity.ai/search?q=${pQ}" target="_blank"
+           style="display:inline-flex;align-items:center;gap:6px;padding:7px 13px;background:#7e22ce;color:#fff;border-radius:5px;font-size:11px;font-weight:600;text-decoration:none;">
+          &#x1F50D; Ask Perplexity AI
+        </a>
+        <a href="https://copilot.microsoft.com/?q=${cQ}" target="_blank"
+           style="display:inline-flex;align-items:center;gap:6px;padding:7px 13px;background:#0f2d55;color:#fff;border-radius:5px;font-size:11px;font-weight:600;text-decoration:none;">
+          &#x1F916; Ask Microsoft Copilot
+        </a>
+      </div>
+      <div style="font-size:10px;color:#94a3b8;margin-top:8px;">Both return direct answers with ACR / RSNA / clinical sources cited. Use Copilot if Perplexity is blocked on your network.</div>
     </div>`;
 }
 
