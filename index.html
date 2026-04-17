@@ -672,9 +672,9 @@ let protocols = [
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
     notes:"IV contrast CTA.", source:"atrius" },
 
-  { indication:"Shortness of Breath / SOB - NOT R/O PE / Dyspnea", category:"chest", epic_order:"Chest CT W/O Contrast", epic_id:"71250C", cpt:"71250",
+  { indication:"Shortness of Breath / SOB / Dyspnea (Non-Embolism)", category:"chest", epic_order:"Chest CT W/O Contrast", epic_id:"71250C", cpt:"71250",
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
-    notes:"No contrast when PE not suspected.", source:"atrius" },
+    notes:"No contrast. Use for dyspnea not suspected to be pulmonary embolism.", source:"atrius" },
 
   { indication:"Hemoptysis", category:"chest", epic_order:"Chest CT W/ Contrast", epic_id:"71260", cpt:"71260",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
@@ -1980,9 +1980,9 @@ function scoreMatch(p, terms) {
   for (const t of terms) {
     const variants = expandTerms([t]);
     const termScore = variants.reduce((best, v) => {
-      if (fuzzyIncludes(ind, v))                    return Math.max(best, 3);
-      if (fuzzyIncludes(order, v))                  return Math.max(best, 2);
-      if (fields.some(f => fuzzyIncludes(f, v)))    return Math.max(best, 1);
+      if (fuzzyIncludes(ind, v))                                          return Math.max(best, 3);
+      if (fuzzyIncludes(order, v))                                        return Math.max(best, 2);
+      if (v.length >= 4 && fields.some(f => fuzzyIncludes(f, v)))        return Math.max(best, 1);
       return best;
     }, 0);
     if (termScore > 0) { score += termScore; matched++; }
@@ -2139,56 +2139,6 @@ function renderGroup(g) {
 }
 
 let _acrOpen = true;
-const _pubmedCache = {};
-let _pubmedTimer = null;
-
-async function fetchPubMedResults(query) {
-  const key = query.toLowerCase().trim();
-  if (_pubmedCache[key]) return _pubmedCache[key];
-  try {
-    const q = encodeURIComponent(key + ' CT imaging radiology guideline OR "appropriateness criteria" OR protocol');
-    const searchRes = await fetch(
-      `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=${q}&retmax=5&retmode=json&sort=relevance&datetype=pdat&mindate=2018`
-    );
-    const searchData = await searchRes.json();
-    const ids = searchData.esearchresult?.idlist || [];
-    if (!ids.length) { _pubmedCache[key] = []; return []; }
-
-    const summaryRes = await fetch(
-      `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=${ids.join(',')}&retmode=json`
-    );
-    const summaryData = await summaryRes.json();
-    const results = ids.map(id => {
-      const d = summaryData.result?.[id];
-      if (!d) return null;
-      const authors = (d.authors || []).slice(0, 3).map(a => a.name).join(', ') + ((d.authors||[]).length > 3 ? ' et al.' : '');
-      return { title: d.title, authors, journal: d.fulljournalname || d.source, year: (d.pubdate || '').substring(0, 4), url: `https://pubmed.ncbi.nlm.nih.gov/${id}/` };
-    }).filter(Boolean);
-    _pubmedCache[key] = results;
-    return results;
-  } catch { return []; }
-}
-
-async function triggerPubMedSearch(query) {
-  const el = document.getElementById('pubmedResults');
-  if (!el) return;
-  const q = preprocessSearch(query).trim();
-  if (q.length < 3) { el.innerHTML = ''; return; }
-  const results = await fetchPubMedResults(q);
-  if (!document.getElementById('pubmedResults')) return; // panel replaced while loading
-  const el2 = document.getElementById('pubmedResults');
-  if (!el2) return;
-  if (results.length === 0) {
-    el2.innerHTML = `<div style="font-size:11px;color:#94a3b8;font-style:italic;">No relevant imaging literature found on PubMed for this search.</div>`;
-    return;
-  }
-  el2.innerHTML = `<div style="font-size:11px;font-weight:700;color:#0369a1;margin-bottom:6px;">&#x1F4DA; Medical Literature (PubMed)</div>` +
-    results.map(r => `
-      <div style="margin-bottom:7px;padding:6px 8px;background:#f0f9ff;border-radius:5px;border-left:3px solid #7dd3fc;">
-        <a href="${r.url}" target="_blank" style="font-size:11px;font-weight:600;color:#0f2d55;text-decoration:none;line-height:1.4;">${r.title}</a>
-        <div style="font-size:10px;color:#64748b;margin-top:2px;">${r.authors}${r.journal ? ' &mdash; ' + r.journal : ''}${r.year ? ' ' + r.year : ''}</div>
-      </div>`).join('');
-}
 
 function renderACRPanel(scenarios, searchQuery) {
   const el = document.getElementById('acrPanel');
@@ -2217,19 +2167,21 @@ function renderACRPanel(scenarios, searchQuery) {
     bodyHtml += `<div class="acr-footer">ACR Appropriateness Criteria are updated biannually (April &amp; October &mdash; <a href="https://acsearch.acr.org/list" target="_blank" style="color:#64748b;">acsearch.acr.org</a>). Verify current recommendations before use.</div>`;
   } else {
     title = '&#x26A0;&#xFE0F; No Atrius Protocol Found';
+    const aiQ = encodeURIComponent('CT imaging protocol ' + (searchQuery || ''));
     bodyHtml = `
-      <div style="font-size:12px;color:#334155;margin-bottom:8px;">No Atrius protocol or ACR Appropriateness Criteria found for this indication.</div>
-      <div id="pubmedResults" style="margin-bottom:8px;">
-        <div style="font-size:11px;color:#64748b;font-style:italic;">&#x1F50D; Searching medical literature&hellip;</div>
+      <div style="font-size:12px;color:#334155;margin-bottom:10px;">No Atrius protocol or ACR Appropriateness Criteria found for this indication.</div>
+      <div style="margin-bottom:10px;">
+        <a href="https://copilot.microsoft.com/?q=${aiQ}" target="_blank"
+           style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:#0f2d55;color:#fff;border-radius:6px;font-size:12px;font-weight:600;text-decoration:none;">
+          &#x1F916; Ask Copilot AI for protocol guidance
+        </a>
+        <div style="font-size:10px;color:#94a3b8;margin-top:5px;">Opens Microsoft Copilot with your search pre-filled &mdash; AI-generated guidance only, not a substitute for radiologist review.</div>
       </div>
       <div style="font-size:12px;color:#374151;line-height:1.9;border-top:1px solid #e2e8f0;padding-top:8px;margin-top:4px;">
         &bull; Search <a href="https://acsearch.acr.org/list" target="_blank" style="color:#1d4ed8;font-weight:600;">acsearch.acr.org</a> for evidence-based imaging guidance<br>
         &bull; Consult the ordering radiologist for protocol direction<br>
         &bull; Use <strong>+ Add Protocol</strong> to add this indication to the guide
       </div>`;
-    // Debounce so rapid keystrokes don't hammer PubMed API
-    clearTimeout(_pubmedTimer);
-    _pubmedTimer = setTimeout(() => triggerPubMedSearch(searchQuery || ''), 700);
   }
   el.innerHTML = `
     <div class="acr-suggest">
