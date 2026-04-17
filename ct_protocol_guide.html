@@ -1515,6 +1515,256 @@ const ACR_CRITERIA = [
     ],
     ref: 'ACR AC: Jaundice'
   },
+  {
+    scenario: 'Hemoptysis',
+    url: 'https://acsearch.acr.org/docs/69488/Narrative/',
+    match: ['hemoptysis', 'coughing blood', 'bloody sputum', 'blood in sputum', 'spitting blood'],
+    suggestions: [
+      { order: 'CT Chest W/ Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'First-line CT for moderate or massive hemoptysis; identifies source, mass, bronchiectasis' },
+      { order: 'CT Chest W/O Contrast', rating: 'May Be Appropriate', css: 'acr-mba',
+        note: 'Acceptable when contrast is contraindicated; lower sensitivity for vascular causes' },
+    ],
+    ref: 'ACR AC: Hemoptysis'
+  },
+  {
+    scenario: 'Liver Mass / Hepatic Lesion Characterization',
+    url: 'https://acsearch.acr.org/docs/69477/Narrative/',
+    match: ['liver mass', 'liver lesion', 'hepatic mass', 'hepatic lesion', 'liver cyst', 'liver nodule', 'hepatic nodule', 'hcc', 'hepatocellular', 'liver tumor', 'liver metastasis', 'liver met', 'hepatoma'],
+    suggestions: [
+      { order: 'CT Abdomen/Pelvis W/ Contrast (multiphase)', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'Triple-phase CT (unenhanced, arterial, portal venous) for HCC characterization and staging; use liver mass protocol' },
+      { order: 'MRI Abdomen W/ Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'Preferred over CT for definitive lesion characterization, especially indeterminate lesions on CT' },
+      { order: 'CT Abdomen/Pelvis W/O Contrast', rating: 'May Be Appropriate', css: 'acr-mba',
+        note: 'Limited — use only if contrast contraindicated; insufficient for HCC or metastasis characterization' },
+    ],
+    ref: 'ACR AC: Liver Lesion Characterization'
+  },
+  {
+    scenario: 'Adrenal Mass / Incidentaloma',
+    url: 'https://acsearch.acr.org/docs/3096929/Narrative/',
+    match: ['adrenal mass', 'adrenal lesion', 'adrenal nodule', 'adrenal incidentaloma', 'incidentaloma', 'adrenal adenoma', 'adrenal tumor', 'adrenal cyst', 'pheochromocytoma', 'adrenocortical'],
+    suggestions: [
+      { order: 'CT Abdomen W/O Contrast (Adrenal Protocol)', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'Unenhanced CT: HU ≤10 confirms adenoma. Attenuation measurement guides further workup — no contrast needed for initial characterization' },
+      { order: 'CT Abdomen W/O & W/ Contrast (Adrenal Washout Protocol)', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'For indeterminate adrenal masses on unenhanced CT; washout ≥60% (absolute) confirms adenoma' },
+    ],
+    ref: 'ACR AC: Adrenal Incidentaloma'
+  },
+  {
+    scenario: 'Low Back Pain / Lumbar Spine',
+    url: 'https://acsearch.acr.org/docs/69483/Narrative/',
+    match: ['low back pain', 'lumbar pain', 'lumbar spine', 'lumbago', 'back pain', 'lower back', 'lumbar', 'sciatica', 'radiculopathy', 'herniated disc', 'disc herniation', 'lumbar stenosis', 'spinal stenosis'],
+    suggestions: [
+      { order: 'No CT Imaging (< 6 weeks, no red flags)', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'ACR does not recommend CT for uncomplicated low back pain < 6 weeks; MRI preferred if imaging needed' },
+      { order: 'CT Lumbar Spine W/O Contrast', rating: 'May Be Appropriate', css: 'acr-mba',
+        note: 'Indicated only with red flags (new neurologic deficit, bowel/bladder change, suspected fracture, failed conservative tx ≥6 weeks, cancer history)' },
+    ],
+    ref: 'ACR AC: Low Back Pain'
+  },
+  {
+    scenario: 'Neck Mass / Cervical Lymphadenopathy',
+    url: 'https://acsearch.acr.org/docs/69423/Narrative/',
+    match: ['neck mass', 'neck lump', 'cervical lymph', 'cervical lymphadenopathy', 'lymphadenopathy', 'lymph node neck', 'neck lymph node', 'parotid mass', 'submandibular mass', 'thyroglossal', 'branchial cleft'],
+    suggestions: [
+      { order: 'CT Neck W/ Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'First-line CT for neck mass evaluation; identifies node size, necrosis, and primary tumor in the upper aerodigestive tract' },
+      { order: 'Ultrasound Neck', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'Alternative first-line for superficial masses and lymph node assessment; no radiation, guides biopsy' },
+    ],
+    ref: 'ACR AC: Neck Mass / Adenopathy'
+  },
+  {
+    scenario: 'Pleural Effusion',
+    url: 'https://acsearch.acr.org/docs/69475/Narrative/',
+    match: ['pleural effusion', 'pleural fluid', 'pleural collection', 'empyema', 'hemothorax', 'parapneumonic', 'pleural disease', 'pleural thickening'],
+    suggestions: [
+      { order: 'Ultrasound Chest / Pleural', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'First-line for effusion characterization and thoracentesis guidance; superior to CT for loculation detection' },
+      { order: 'CT Chest W/ Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'For complex effusion, empyema, or suspected underlying malignancy/infection; identifies pleural enhancement and septations' },
+      { order: 'CT Chest W/O Contrast', rating: 'May Be Appropriate', css: 'acr-mba',
+        note: 'Acceptable when contrast contraindicated; reduced sensitivity for pleural pathology' },
+    ],
+    ref: 'ACR AC: Pleural Disease'
+  },
+  {
+    scenario: 'Pelvic Pain — Female',
+    url: 'https://acsearch.acr.org/docs/69503/Narrative/',
+    match: ['pelvic pain female', 'pelvic pain woman', 'pelvic pain', 'ovarian pain', 'adnexal pain', 'ovarian torsion', 'ectopic pregnancy', 'pid', 'pelvic inflammatory'],
+    suggestions: [
+      { order: 'Ultrasound Pelvis (Transvaginal)', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'First-line for female pelvic pain; evaluates uterus, ovaries, and free fluid without radiation' },
+      { order: 'CT Abdomen/Pelvis W/ Contrast', rating: 'May Be Appropriate', css: 'acr-mba',
+        note: 'For acute pelvic pain when ultrasound inconclusive, suspected appendicitis, or complex inflammatory process' },
+    ],
+    ref: 'ACR AC: Female Acute and Subacute Pelvic Pain'
+  },
+  {
+    scenario: 'Fever of Unknown Origin (FUO)',
+    url: 'https://acsearch.acr.org/docs/69418/Narrative/',
+    match: ['fever of unknown origin', 'fuo', 'unexplained fever', 'fever workup', 'prolonged fever', 'fever source', 'occult infection', 'bacteremia source'],
+    suggestions: [
+      { order: 'CT Chest/Abdomen/Pelvis W/ Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'Preferred CT for FUO workup; covers all body regions to identify occult infection, malignancy, or inflammatory source' },
+    ],
+    ref: 'ACR AC: Fever of Unknown Origin'
+  },
+  {
+    scenario: 'Bowel Obstruction / Small Bowel Obstruction',
+    url: 'https://acsearch.acr.org/docs/69468/Narrative/',
+    match: ['bowel obstruction', 'small bowel obstruction', 'sbo', 'large bowel obstruction', 'lbo', 'intestinal obstruction', 'ileus', 'volvulus', 'intussusception', 'colonic obstruction'],
+    suggestions: [
+      { order: 'CT Abdomen/Pelvis W/ Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'Standard for SBO/LBO — identifies transition point, degree of obstruction, and closed-loop or strangulation' },
+      { order: 'CT Abdomen/Pelvis W/O Contrast', rating: 'May Be Appropriate', css: 'acr-mba',
+        note: 'Acceptable when IV contrast contraindicated; reduced sensitivity for ischemia' },
+    ],
+    ref: 'ACR AC: Suspected Small Bowel Obstruction'
+  },
+  {
+    scenario: 'Mesenteric Ischemia / Bowel Ischemia',
+    url: 'https://acsearch.acr.org/docs/69469/Narrative/',
+    match: ['mesenteric ischemia', 'bowel ischemia', 'intestinal ischemia', 'mesenteric infarction', 'sma', 'mesenteric artery', 'ischemic colitis', 'colonic ischemia', 'mesenteric thrombosis'],
+    suggestions: [
+      { order: 'CTA Abdomen/Pelvis (Arterial Phase)', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'CTA is first-line — directly visualizes SMA/IMA patency, bowel wall enhancement, and pneumatosis; emergent if suspected' },
+      { order: 'CT Abdomen/Pelvis W/ Contrast', rating: 'May Be Appropriate', css: 'acr-mba',
+        note: 'Standard portal venous phase if CTA not immediately available; less sensitive for arterial occlusion' },
+    ],
+    ref: 'ACR AC: Acute Mesenteric Ischemia'
+  },
+  {
+    scenario: 'Cancer Staging — Colorectal / Colon Cancer',
+    url: 'https://acsearch.acr.org/docs/69458/Narrative/',
+    match: ['colon cancer', 'colorectal cancer', 'rectal cancer staging', 'colon cancer staging', 'colorectal staging', 'colorectal metastasis', 'colon mass staging'],
+    suggestions: [
+      { order: 'CT Chest/Abdomen/Pelvis W/ Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'Standard staging for colorectal cancer — evaluates liver metastases, peritoneal disease, and lymph node involvement' },
+    ],
+    ref: 'ACR AC: Colorectal Cancer Staging'
+  },
+  {
+    scenario: 'Cancer Staging — Lung Cancer / Pulmonary Mass',
+    url: 'https://acsearch.acr.org/docs/69452/Narrative/',
+    match: ['lung cancer staging', 'lung mass staging', 'pulmonary mass staging', 'lung tumor staging', 'nsclc', 'sclc', 'non small cell', 'small cell lung', 'lung cancer metastasis'],
+    suggestions: [
+      { order: 'CT Chest/Abdomen/Pelvis W/ Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'Complete staging CT — chest for primary/nodes, abdomen/pelvis for adrenal and hepatic metastases' },
+      { order: 'CT Chest W/ Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'For local thoracic staging when abdominal involvement already excluded' },
+    ],
+    ref: 'ACR AC: Lung Cancer Staging'
+  },
+  {
+    scenario: 'Ovarian / Pelvic Mass Characterization',
+    url: 'https://acsearch.acr.org/docs/69503/Narrative/',
+    match: ['ovarian mass', 'ovarian cyst', 'adnexal mass', 'pelvic mass', 'ovarian tumor', 'ovarian lesion', 'ovarian cancer', 'tubo ovarian', 'tuboovarian'],
+    suggestions: [
+      { order: 'Ultrasound Pelvis (Transvaginal)', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'First-line — best initial characterization of ovarian and adnexal masses; use IOTA or O-RADS criteria' },
+      { order: 'CT Abdomen/Pelvis W/ Contrast', rating: 'May Be Appropriate', css: 'acr-mba',
+        note: 'For staging known or suspected ovarian malignancy, or when ultrasound is inconclusive for complex mass' },
+    ],
+    ref: 'ACR AC: Ovarian Adnexal Mass'
+  },
+  {
+    scenario: 'Lymphoma Staging / Lymphadenopathy',
+    url: 'https://acsearch.acr.org/docs/69454/Narrative/',
+    match: ['lymphoma', 'lymphoma staging', 'hodgkin', 'non hodgkin', 'nhl', 'lymphadenopathy staging', 'mediastinal lymph', 'abdominal lymph', 'lymph node staging', 'lymphoma follow'],
+    suggestions: [
+      { order: 'CT Chest/Abdomen/Pelvis W/ Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'Standard staging — evaluates all nodal stations and organ involvement (spleen, liver, bone marrow pattern)' },
+      { order: 'CT Neck W/ Contrast', rating: 'May Be Appropriate', css: 'acr-mba',
+        note: 'Add when Waldeyer\'s ring or cervical nodal disease is suspected or for head/neck primary' },
+    ],
+    ref: 'ACR AC: Hodgkin and Non-Hodgkin Lymphoma'
+  },
+  {
+    scenario: 'Headache — Non-Thunderclap / Chronic',
+    url: 'https://acsearch.acr.org/docs/69477/Narrative/',
+    match: ['headache workup', 'chronic headache', 'recurrent headache', 'migraine workup', 'headache evaluation', 'new onset headache', 'cluster headache', 'tension headache imaging'],
+    suggestions: [
+      { order: 'Head CT W/O Contrast', rating: 'May Be Appropriate', css: 'acr-mba',
+        note: 'For new onset headache or change in pattern; MRI preferred for comprehensive evaluation without radiation' },
+      { order: 'Head CT W/ Contrast', rating: 'May Be Appropriate', css: 'acr-mba',
+        note: 'When meningitis, abscess, or enhancing lesion suspected; MRI with contrast remains superior' },
+    ],
+    ref: 'ACR AC: Headache'
+  },
+  {
+    scenario: 'Sinusitis / Sinonasal Disease',
+    url: 'https://acsearch.acr.org/docs/69484/Narrative/',
+    match: ['sinusitis', 'sinus', 'sinonasal', 'chronic sinusitis', 'maxillary sinus', 'ethmoid sinus', 'frontal sinus', 'sphenoid sinus', 'nasal polyp', 'sinus congestion', 'pansinusitis'],
+    suggestions: [
+      { order: 'CT Sinuses W/O Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'Gold standard for sinonasal anatomy; no contrast needed for mucosal disease, polyps, or pre-surgical planning' },
+      { order: 'CT Sinuses W/ Contrast', rating: 'May Be Appropriate', css: 'acr-mba',
+        note: 'Add contrast when intracranial or orbital complication is suspected (abscess, meningitis extension)' },
+    ],
+    ref: 'ACR AC: Sinonasal Disease'
+  },
+  {
+    scenario: 'Splenomegaly / Splenic Mass',
+    url: 'https://acsearch.acr.org/docs/69472/Narrative/',
+    match: ['splenomegaly', 'enlarged spleen', 'splenic mass', 'splenic lesion', 'splenic cyst', 'splenic infarct', 'splenic abscess', 'spleen'],
+    suggestions: [
+      { order: 'Ultrasound Abdomen', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'First-line for splenomegaly — measures size, identifies lesions, and avoids radiation' },
+      { order: 'CT Abdomen/Pelvis W/ Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'For splenic lesion characterization, staging, or when ultrasound is inconclusive; identifies infarct, abscess, and lymphoma involvement' },
+    ],
+    ref: 'ACR AC: Splenomegaly'
+  },
+  {
+    scenario: 'Cervical Spine / Neck Trauma or Injury',
+    url: 'https://acsearch.acr.org/docs/69436/Narrative/',
+    match: ['cervical spine trauma', 'c spine trauma', 'neck trauma', 'cervical fracture', 'c spine fracture', 'neck injury', 'cervical spine injury', 'cervical instability', 'odontoid fracture'],
+    suggestions: [
+      { order: 'CT Cervical Spine W/O Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'First-line for trauma cervical spine evaluation (NEXUS or Canadian C-Spine criteria met); superior to plain films for fracture detection' },
+    ],
+    ref: 'ACR AC: Suspected Spine Trauma — Cervical'
+  },
+  {
+    scenario: 'Prostate Cancer Staging',
+    url: 'https://acsearch.acr.org/docs/69453/Narrative/',
+    match: ['prostate cancer staging', 'prostate cancer metastasis', 'psa elevated staging', 'prostate carcinoma staging', 'prostate lymph node', 'prostate bone metastasis'],
+    suggestions: [
+      { order: 'CT Abdomen/Pelvis W/ Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'Evaluates pelvic lymph node involvement and visceral metastases; used for intermediate/high-risk staging' },
+      { order: 'CT Chest W/ Contrast', rating: 'May Be Appropriate', css: 'acr-mba',
+        note: 'Add for high-risk or metastatic disease to evaluate thoracic nodes and pulmonary metastases' },
+    ],
+    ref: 'ACR AC: Prostate Cancer Staging'
+  },
+  {
+    scenario: 'Dysphagia / Swallowing Difficulty',
+    url: 'https://acsearch.acr.org/docs/69479/Narrative/',
+    match: ['dysphagia', 'difficulty swallowing', 'swallowing difficulty', 'odynophagia', 'esophageal', 'esophagus mass', 'esophageal cancer', 'globus', 'food impaction'],
+    suggestions: [
+      { order: 'Barium Swallow / Esophagram', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'First-line fluoroscopic study; evaluates swallowing mechanics, strictures, rings, and mucosal lesions' },
+      { order: 'CT Neck/Chest W/ Contrast', rating: 'May Be Appropriate', css: 'acr-mba',
+        note: 'For staging known esophageal mass, or when extrinsic compression or mediastinal involvement is suspected' },
+    ],
+    ref: 'ACR AC: Dysphagia'
+  },
+  {
+    scenario: 'Pulmonary Nodule Follow-Up',
+    url: 'https://acsearch.acr.org/docs/69455/Narrative/',
+    match: ['pulmonary nodule', 'lung nodule', 'pulmonary nodule follow', 'lung nodule follow', 'nodule surveillance', 'ground glass nodule', 'subsolid nodule', 'fleischner', 'lung nodule workup', 'incidental nodule'],
+    suggestions: [
+      { order: 'CT Chest W/O Contrast (Low Dose)', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'Follow-up per Fleischner Society or Lung-RADS guidelines based on nodule size, morphology, and risk factors; low-dose protocol preferred' },
+      { order: 'CT Chest W/ Contrast', rating: 'May Be Appropriate', css: 'acr-mba',
+        note: 'When nodule shows growth or features suspicious for malignancy requiring further characterization' },
+    ],
+    ref: 'ACR AC: Incidentally Detected Pulmonary Nodules'
+  },
 ];
 
 // â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
