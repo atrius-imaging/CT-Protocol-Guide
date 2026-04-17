@@ -583,13 +583,13 @@ let protocols = [
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
     notes:"No contrast.", source:"atrius" },
 
-  { indication:"Orbit - Cellulitis / Infection / Abscess / Pain / Mass / Tumor / Cancer", category:"head", epic_order:"Orbit CT W/ Contrast", epic_id:"70481O", cpt:"70481",
+  { indication:"Orbit - Cellulitis / Infection / Abscess / Pain / Mass / Tumor / Cancer / Proptosis / Exophthalmos", category:"head", epic_order:"Orbit CT W/ Contrast", epic_id:"70481O", cpt:"70481",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
-    notes:"IV contrast.", source:"atrius" },
+    notes:"IV contrast. Use for proptosis when cause unknown or mass/infection suspected.", source:"atrius" },
 
-  { indication:"Orbit - Graves Disease / Visual Defects", category:"head", epic_order:"Orbit CT W/O Contrast", epic_id:"70480O", cpt:"70480",
+  { indication:"Orbit - Graves Disease / Thyroid Eye Disease / Proptosis / Visual Defects", category:"head", epic_order:"Orbit CT W/O Contrast", epic_id:"70480O", cpt:"70480",
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
-    notes:"No contrast.", source:"atrius" },
+    notes:"No contrast. Use for known or suspected thyroid eye disease (Graves) with proptosis.", source:"atrius" },
 
   { indication:"Orbit - Trauma / Fracture / Bony Abnormality / Foreign Body", category:"head", epic_order:"Orbit CT W/O Contrast", epic_id:"70489O", cpt:"70489",
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
@@ -1765,6 +1765,18 @@ const ACR_CRITERIA = [
         note: 'When nodule shows growth or features suspicious for malignancy requiring further characterization' },
     ],
     ref: 'ACR AC: Incidentally Detected Pulmonary Nodules'
+  },
+  {
+    scenario: 'Proptosis / Exophthalmos — Orbital Imaging',
+    url: 'https://acsearch.acr.org/docs/69479/Narrative/',
+    match: ['proptosis', 'exophthalmos', 'exophthalmus', 'eye protrusion', 'bulging eye', 'orbital mass', 'orbital proptosis', 'thyroid eye disease', 'graves eye', 'graves orbit'],
+    suggestions: [
+      { order: 'Orbit CT W/ Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'First-line for proptosis of unknown cause — evaluates for orbital mass, vascular lesion, or infection; IV contrast required' },
+      { order: 'Orbit CT W/O Contrast', rating: 'Usually Appropriate', css: 'acr-ua',
+        note: 'Preferred for known or suspected thyroid eye disease (Graves) — bony changes and muscle enlargement well seen without contrast' },
+    ],
+    ref: 'ACR AC: Orbital Imaging — Proptosis / Exophthalmos'
   },
 ];
 
