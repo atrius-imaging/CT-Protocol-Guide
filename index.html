@@ -2145,6 +2145,57 @@ function renderGroup(g) {
 
 let _acrOpen = true;
 
+async function fetchACRLive(query) {
+  const el = document.getElementById('acrLiveResults');
+  if (!el) return;
+  const q = query.trim();
+  if (q.length < 2) { el.innerHTML = ''; return; }
+
+  // --- Stage 1: Try ACR Appropriateness Criteria search API ---
+  try {
+    const res = await fetch(
+      `https://acsearch.acr.org/api/search?keyword=${encodeURIComponent(q)}&topicId=0`,
+      { headers: { Accept: 'application/json' } }
+    );
+    if (res.ok) {
+      const data = await res.json();
+      const items = (data.data || data.results || data.Results || []).slice(0, 3);
+      if (items.length > 0) {
+        el.innerHTML = `
+          <div style="padding:10px 12px;background:#f0f9ff;border:1px solid #bae6fd;border-radius:6px;">
+            <div style="font-size:11px;font-weight:700;color:#0369a1;margin-bottom:8px;">&#x1F4CB; ACR Appropriateness Criteria</div>
+            ${items.map(it => {
+              const title = it.TopicName || it.Name || it.title || it.name || '';
+              const url   = it.DocumentUrl || it.Url || it.url || 'https://acsearch.acr.org/list';
+              const snip  = it.Summary || it.description || '';
+              return `<div style="margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #e0f2fe;">
+                <a href="${url}" target="_blank" style="font-size:12px;font-weight:600;color:#0f2d55;text-decoration:none;">${title} &#x2197;</a>
+                ${snip ? `<div style="font-size:11px;color:#475569;margin-top:3px;line-height:1.5;">${snip}</div>` : ''}
+              </div>`;
+            }).join('')}
+            <div style="font-size:10px;color:#94a3b8;margin-top:4px;">Source: <a href="https://acsearch.acr.org/list" target="_blank" style="color:#0369a1;">ACR Appropriateness Criteria</a> &mdash; updated biannually. Verify before clinical use.</div>
+          </div>`;
+        return;
+      }
+    }
+  } catch (_) { /* CORS or network — fall through */ }
+
+  // --- Stage 2: Perplexity AI fallback ---
+  const pQ = encodeURIComponent('CT imaging protocol for ' + q + '. What does ACR Appropriateness Criteria recommend? Include the exam type, contrast use, and clinical guideline source.');
+  el.innerHTML = `
+    <div style="padding:10px 12px;background:#fdf4ff;border:1px solid #e9d5ff;border-radius:6px;">
+      <div style="font-size:11px;font-weight:700;color:#7e22ce;margin-bottom:6px;">&#x1F916; Perplexity AI — Protocol Guidance</div>
+      <div style="font-size:11px;color:#334155;line-height:1.6;margin-bottom:8px;">
+        No ACR criteria found. Perplexity AI will search medical literature and return a direct answer with cited sources.
+      </div>
+      <a href="https://www.perplexity.ai/search?q=${pQ}" target="_blank"
+         style="display:inline-flex;align-items:center;gap:5px;padding:7px 13px;background:#7e22ce;color:#fff;border-radius:5px;font-size:11px;font-weight:600;text-decoration:none;">
+        &#x1F50D; Get Answer from Perplexity AI
+      </a>
+      <div style="font-size:10px;color:#94a3b8;margin-top:6px;">Opens Perplexity AI &mdash; returns a direct answer with ACR / RSNA / clinical sources cited.</div>
+    </div>`;
+}
+
 function renderACRPanel(scenarios, searchQuery) {
   const el = document.getElementById('acrPanel');
   if (scenarios === null) { el.innerHTML = ''; return; }
@@ -2172,24 +2223,16 @@ function renderACRPanel(scenarios, searchQuery) {
     bodyHtml += `<div class="acr-footer">ACR Appropriateness Criteria are updated biannually (April &amp; October &mdash; <a href="https://acsearch.acr.org/list" target="_blank" style="color:#64748b;">acsearch.acr.org</a>). Verify current recommendations before use.</div>`;
   } else {
     title = '&#x26A0;&#xFE0F; No Atrius Protocol Found';
-    const acrQ = encodeURIComponent('ACR appropriateness criteria CT ' + (searchQuery || ''));
     bodyHtml = `
       <div style="font-size:12px;color:#334155;margin-bottom:10px;">No Atrius protocol or ACR Appropriateness Criteria found for this indication.</div>
-      <div style="margin-bottom:10px;padding:10px 12px;background:#f0f9ff;border:1px solid #bae6fd;border-radius:6px;">
-        <div style="font-size:11px;font-weight:700;color:#0369a1;margin-bottom:6px;">&#x1F4CB; ACR Appropriateness Criteria</div>
-        <div style="font-size:11px;color:#334155;line-height:1.6;margin-bottom:8px;">
-          Search the ACR Appropriateness Criteria for evidence-based imaging recommendations for this indication:
-        </div>
-        <a href="https://www.google.com/search?q=${acrQ}" target="_blank"
-           style="display:inline-flex;align-items:center;gap:5px;padding:6px 12px;background:#0f2d55;color:#fff;border-radius:5px;font-size:11px;font-weight:600;text-decoration:none;margin-bottom:6px;">
-          &#x1F50D; Search ACR Criteria for &ldquo;${searchQuery || ''}&rdquo;
-        </a>
-        <div style="font-size:10px;color:#64748b;margin-top:4px;">Source: <a href="https://acsearch.acr.org/list" target="_blank" style="color:#0369a1;">ACR Appropriateness Criteria (acsearch.acr.org)</a> &mdash; updated biannually. Verify before use.</div>
+      <div id="acrLiveResults" style="margin-bottom:10px;">
+        <div style="font-size:11px;color:#64748b;font-style:italic;">&#x1F50D; Searching ACR guidelines&hellip;</div>
       </div>
       <div style="font-size:12px;color:#374151;line-height:1.9;border-top:1px solid #e2e8f0;padding-top:8px;margin-top:4px;">
         &bull; Consult the ordering radiologist for protocol direction<br>
         &bull; Use <strong>+ Add Protocol</strong> to add this indication to the guide
       </div>`;
+    setTimeout(() => fetchACRLive(searchQuery || ''), 50);
   }
   el.innerHTML = `
     <div class="acr-suggest">
