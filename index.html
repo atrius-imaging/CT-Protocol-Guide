@@ -1960,9 +1960,9 @@ function editDistance(a, b) {
 // Returns true if term fuzzy-matches any word in text
 // Thresholds: 4-8 chars → 1 edit, 9-12 chars → 2 edits, 13+ chars → 3 edits
 function fuzzyIncludes(text, term) {
-  // Use word-boundary check so "renal" doesn't match inside "adrenal"
+  // Use BOTH word boundaries so "pe" doesn't match inside "pelvis", "renal" doesn't match inside "adrenal"
   const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  if (new RegExp('\\b' + escaped).test(text)) return true;
+  if (new RegExp('\\b' + escaped + '\\b').test(text)) return true;
   // No fuzzy matching for numeric/CPT-style terms — must match exactly
   if (/^\d[\dA-Z]*$/i.test(term)) return false;
   if (term.length < 4) return false;
