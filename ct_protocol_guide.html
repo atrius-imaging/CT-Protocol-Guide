@@ -645,9 +645,9 @@ let protocols = [
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
     notes:"No contrast. Non-contrast CT for rib fracture counting, pneumothorax, and hemothorax evaluation.", source:"atrius" },
 
-  { indication:"Chest Pain - R/O PE / Pulmonary Embolism", category:"chest", epic_order:"Chest CTA PE", epic_id:"71275PE", cpt:"71275",
+  { indication:"Chest Pain - R/O PE / Pulmonary Embolism / Elevated D-Dimer / Wells Score", category:"chest", epic_order:"Chest CTA PE", epic_id:"71275PE", cpt:"71275",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
-    notes:"IV contrast CTA. Bolus tracking technique. Use when PE is the primary clinical concern.", source:"atrius" },
+    notes:"IV contrast CTA. Bolus tracking technique. Use when PE is the primary clinical concern, Wells score ≥2, or D-dimer is elevated.", source:"atrius" },
 
   { indication:"Chest Pain - R/O Aortic Dissection / Acute Aortic Syndrome", category:"cta", epic_order:"Chest CTA Aorta", epic_id:"71275AO", cpt:"71275",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
@@ -1292,7 +1292,7 @@ const ACR_CRITERIA = [
   {
     scenario: 'Suspected Pulmonary Embolism (PE)',
     url: 'https://acsearch.acr.org/docs/69404/narrative/',
-    match: ['pulmonary embolism', 'pe', 'ctpa', 'hypoxia'],
+    match: ['pulmonary embolism', 'pe', 'ctpa', 'hypoxia', 'ddimer', 'd-dimer', 'elevated ddimer', 'elevated d-dimer', 'positive ddimer', 'wells score', 'wells criteria'],
     suggestions: [
       { order: 'Chest CTA (CTPA)', rating: 'Usually Appropriate', css: 'acr-ua',
         note: 'First-line test \u2014 obtain if Wells score \u22652 or D-dimer positive' },
@@ -1825,7 +1825,7 @@ const CLINICAL_SCENARIOS = [
     indication: 'appendicitis' },
   { context: ['left lower quadrant pain','llq pain','left sided abdominal pain','left colon pain','sigmoid pain','left lower abdominal pain'],
     indication: 'diverticulitis' },
-  { context: ['shortness of breath','sob chest','dyspnea tachycardia','hypoxia sudden','pleuritic chest','chest pain shortness','chest pain dyspnea','acute dyspnea','sudden onset shortness','sharp pleuritic','oxygen saturation drop','desaturation'],
+  { context: ['shortness of breath','sob chest','dyspnea tachycardia','hypoxia sudden','pleuritic chest','chest pain shortness','chest pain dyspnea','acute dyspnea','sudden onset shortness','sharp pleuritic','oxygen saturation drop','desaturation','elevated ddimer','elevated d-dimer','positive ddimer','positive d-dimer','ddimer elevated','d-dimer elevated','ddimer positive','high ddimer','raised ddimer','chest pain ddimer','wells score','wells criteria'],
     indication: 'pulmonary embolism' },
   { context: ['tearing chest pain','ripping chest pain','tearing back pain','severe chest radiating to back','worst chest pain ever','tearing sensation chest','anterior chest back radiation','interscapular pain chest'],
     indication: 'aortic dissection' },
