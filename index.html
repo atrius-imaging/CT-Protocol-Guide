@@ -1848,7 +1848,7 @@ const CLINICAL_SCENARIOS = [
     indication: 'pancreatitis' },
   { context: ['burning urination fever','dysuria fever back pain','frequency urgency fever','costovertebral angle tenderness','flank pain fever chills','urinary symptoms flank pain fever','urine infection fever'],
     indication: 'pyelonephritis' },
-  { context: ['painless hematuria','gross hematuria no pain','blood in urine no pain','visible blood urine painless','hematuria clots','total gross hematuria'],
+  { context: ['painless hematuria','gross hematuria no pain','blood in urine no pain','blood in urine','painless blood','visible blood urine painless','hematuria clots','total gross hematuria','painless blood in urine','urine blood','blood urine','hematuria painless'],
     indication: 'hematuria' },
   { context: ['crushing chest pain','pressure chest left arm','chest pain jaw','diaphoresis chest pain','chest pain radiation arm','troponin elevated chest','chest pressure exertion','cardiac chest pain','retrosternal pressure'],
     indication: 'acute coronary syndrome cardiac' },
@@ -2059,7 +2059,8 @@ function groupResults(matched) {
     g.indications.push(p.indication);
     if (score > g.maxScore) g.maxScore = score;
   }
-  return [...map.values()].sort((a, b) => b.maxScore - a.maxScore);
+  // Primary sort: maxScore descending. Tiebreaker: number of matched indications (more = more relevant)
+  return [...map.values()].sort((a, b) => b.maxScore - a.maxScore || b.indications.length - a.indications.length);
 }
 
 let _removeKeys = [];
