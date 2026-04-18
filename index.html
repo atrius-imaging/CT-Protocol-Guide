@@ -674,7 +674,7 @@ let protocols = [
 
   { indication:"Shortness of Breath / SOB - NOT R/O PE / Dyspnea", category:"chest", epic_order:"Chest CT W/O Contrast", epic_id:"71250C", cpt:"71250",
     iv:"none", oral:"none", labs:false, arrival:20, slot:20,
-    notes:"No contrast when PE not suspected.", source:"atrius" },
+    notes:"No contrast when PE not suspected.", source:"atrius", negativeTerms:['pe'] },
 
   { indication:"Hemoptysis", category:"chest", epic_order:"Chest CT W/ Contrast", epic_id:"71260", cpt:"71260",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20,
@@ -1983,21 +1983,17 @@ function fuzzyIncludes(text, term) {
   return words.some(w => w.length >= term.length - allowed && editDistance(w, term) <= allowed);
 }
 
-// Remove negated clinical terms from indication text so "NOT R/O PE" doesn't score for "pe" searches
-function negationStrip(s) {
-  return s.replace(/\bnot\s+(?:r\s+o\s+)?\w+/g, '').replace(/\s+/g, ' ').trim();
-}
-
 function scoreMatch(p, terms) {
-  const ind   = negationStrip(normalize(p.indication));
+  const ind   = normalize(p.indication);
   const order = normalize(p.epic_order);
+  const negTerms = new Set((p.negativeTerms || []).map(t => normalize(t)));
   const fields = [p.indication, p.epic_order, p.notes, p.cpt, p.epic_id].map(normalize);
   let score = 0;
   let matched = 0;
   for (const t of terms) {
     const variants = expandTerms([t]);
     const termScore = variants.reduce((best, v) => {
-      if (fuzzyIncludes(ind, v))                                          return Math.max(best, 3);
+      if (!negTerms.has(v) && fuzzyIncludes(ind, v))                      return Math.max(best, 3);
       if (fuzzyIncludes(order, v))                                        return Math.max(best, 2);
       if (v.length >= 4 && fields.some(f => fuzzyIncludes(f, v)))        return Math.max(best, 1);
       return best;
@@ -2215,17 +2211,13 @@ async function fetchACRLive(query) {
         </div>
       </div>`;
   } catch (_) {
-    // Pollinations blocked — auto-open Copilot with the clinical question
     const copilotQ = encodeURIComponent(
       'CT imaging protocol for ' + q + '. What does ACR Appropriateness Criteria recommend? ' +
       'Include exam type, IV contrast requirement, and clinical notes.'
     );
-    const copilotUrl = 'https://copilot.microsoft.com/?q=' + copilotQ;
-    window.open(copilotUrl, '_blank');
     el.innerHTML = `
       <div style="padding:10px 12px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;font-size:11px;color:#1e40af;line-height:1.7;">
-        <strong>Microsoft Copilot is opening</strong> with your query for protocol guidance.<br>
-        If it did not open, <a href="${copilotUrl}" target="_blank" style="color:#1d4ed8;font-weight:600;">click here to open Copilot &#x2197;</a>
+        No ACR criteria found. <a href="https://copilot.microsoft.com/?q=${copilotQ}" target="_blank" style="color:#1d4ed8;font-weight:700;">Ask Microsoft Copilot for protocol guidance &#x2197;</a>
       </div>`;
   }
 }
