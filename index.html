@@ -81,6 +81,10 @@
   .ref-img-caption { font-size:11px; color:#64748b; margin-top:4px; text-align:center; word-break:break-word; }
   .ref-img-remove { display:none; position:absolute; top:3px; right:3px; background:#fee2e2; color:#dc2626; border:none; border-radius:50%; width:20px; height:20px; font-size:11px; line-height:1; cursor:pointer; }
   body.admin-mode .ref-img-remove { display:block; }
+  .ref-img-move { display:none; position:absolute; top:3px; left:3px; gap:3px; }
+  body.admin-mode .ref-img-move { display:flex; }
+  .ref-img-move button { background:#e0f2fe; color:#075985; border:none; border-radius:4px; width:22px; height:20px; font-size:10px; line-height:1; cursor:pointer; }
+  .ref-img-move button:disabled { opacity:0.35; cursor:default; }
   .lightbox-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:2000; align-items:center; justify-content:center; flex-direction:column; cursor:zoom-out; padding:24px; }
   .lightbox-overlay.show { display:flex; }
   .lightbox-overlay img { max-width:92vw; max-height:82vh; object-fit:contain; border-radius:6px; box-shadow:0 8px 40px rgba(0,0,0,0.5); }
@@ -3098,6 +3102,10 @@ function renderGroup(g) {
       <img src="${img.src}" alt="${(img.caption||'').replace(/"/g,'&quot;')}" onclick="openLightbox(this)" />
       <div class="ref-img-caption">${(img.caption||'').replace(/</g,'&lt;')}</div>
       <button class="ref-img-remove" onclick="removeReferenceImage(${riIdx},${i})">&#x2715;</button>
+      ${refImages.length > 1 ? `<div class="ref-img-move">
+        <button onclick="moveReferenceImage(${riIdx},${i},-1)" title="Move left" ${i === 0 ? 'disabled' : ''}>&#9664;</button>
+        <button onclick="moveReferenceImage(${riIdx},${i},1)" title="Move right" ${i === refImages.length - 1 ? 'disabled' : ''}>&#9654;</button>
+      </div>` : ''}
     </div>`).join('');
   const refImagesHtml = refImages.length
     ? `<div><button class="scan-guide-btn" onclick="var b=this.nextElementSibling;b.style.display=b.style.display==='block'?'none':'block';this.innerHTML=b.style.display==='block'?'&#9660; Reference Images':'&#9658; Reference Images'">&#9658; Reference Images</button><div class="ref-img-body"><div class="ref-img-grid">${refImagesGrid}</div></div></div>`
@@ -3372,6 +3380,20 @@ async function removeReferenceImage(idx, imgIdx) {
   await syncData();
   render();
   showUndoToast('Reference image removed.');
+}
+
+// Move a reference image one position left (dir = -1) or right (dir = +1)
+async function moveReferenceImage(idx, imgIdx, dir) {
+  const { cardKey, epicId, protocolButton } = _refImgKeys[idx];
+  const current = customReferenceImages.hasOwnProperty(cardKey)
+    ? customReferenceImages[cardKey].slice()
+    : (REFERENCE_IMAGES[epicId] || REFERENCE_IMAGES[protocolButton] || []).slice();
+  const target = imgIdx + dir;
+  if (target < 0 || target >= current.length) return;
+  [current[imgIdx], current[target]] = [current[target], current[imgIdx]];
+  customReferenceImages[cardKey] = current;
+  await syncData();
+  render();
 }
 
 async function clearReferenceImages(idx) {
