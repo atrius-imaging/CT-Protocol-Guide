@@ -2994,19 +2994,28 @@ function groupResults(matched, sorted) {
     if (!g.series_recon) g.series_recon = p.series_recon || guideLookup(SERIES_RECON, p) || '';
   }
   const groups = [...map.values()];
-  const name = g => (g.proto.epic_order || '') + ' ' + (g.proto.protocol_button || '');
-  const byName = (a, b) => name(a).localeCompare(name(b), undefined, { sensitivity: 'base', numeric: true });
-  // Browsing (no search): alphabetical, so similar orders sit next to each other
-  if (!sorted) return groups.sort(byName);
-  // Searching: keep relevance, but pull cards with the same order name (ignoring any
-  // "(... Protocol)" suffix) together, placed at the rank of that name's best match
-  const base = g => (g.proto.epic_order || '').replace(/\s*\(.*\)\s*$/, '').toLowerCase();
-  const bestForBase = new Map();
-  for (const g of groups) bestForBase.set(base(g), Math.max(bestForBase.get(base(g)) || 0, g.maxScore));
-  return groups.sort((a, b) =>
-    bestForBase.get(base(b)) - bestForBase.get(base(a)) ||
-    base(a).localeCompare(base(b)) ||
-    b.maxScore - a.maxScore || b.indications.length - a.indications.length || byName(a, b));
+  // Cards for the same exam sit together regardless of contrast, ordered W/O → W/ → W/O & W/,
+  // then variants such as "(Hypervascular Protocol)" or "Stealth" after the plain order.
+  const CONTRAST_RE = /\b(W\/O & W\/|W\/O|W\/)\s*Contrast\b/i;
+  const CONTRAST_RANK = { 'w/o': 0, 'w/': 1, 'w/o & w/': 2 };
+  const cmp = (x, y) => x.localeCompare(y, undefined, { sensitivity: 'base', numeric: true });
+  const sortKey = g => {
+    const order = g.proto.epic_order || '';
+    const m = order.match(CONTRAST_RE);
+    const variant = order.replace(CONTRAST_RE, ' ').match(/\(.*?\)|\bStealth\b/gi) || [];
+    const exam = order.replace(CONTRAST_RE, ' ').replace(/\(.*?\)|\bStealth\b/gi, ' ').replace(/\s+/g, ' ').trim().toLowerCase();
+    return { exam, rank: m ? CONTRAST_RANK[m[1].toLowerCase()] : 3, variant: variant.join(' '), btn: g.proto.protocol_button || '' };
+  };
+  const byExam = (a, b) => {
+    const ka = sortKey(a), kb = sortKey(b);
+    return cmp(ka.exam, kb.exam) || ka.rank - kb.rank || cmp(ka.variant, kb.variant) || cmp(ka.btn, kb.btn);
+  };
+  // Browsing (no search): alphabetical by exam
+  if (!sorted) return groups.sort(byExam);
+  // Searching: the exam with the best match comes first; all of that exam's cards follow it together
+  const bestForExam = new Map();
+  for (const g of groups) { const e = sortKey(g).exam; bestForExam.set(e, Math.max(bestForExam.get(e) || 0, g.maxScore)); }
+  return groups.sort((a, b) => bestForExam.get(sortKey(b).exam) - bestForExam.get(sortKey(a).exam) || byExam(a, b));
 }
 
 let _removeKeys = [];
