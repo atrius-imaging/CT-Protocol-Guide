@@ -3514,8 +3514,8 @@ function setCategory(cat) {
 // â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 // ADD PROTOCOL PANEL + GAS SYNC
 // â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
-const DATA_RAW = 'https://raw.githubusercontent.com/atrius-imaging/CT-Protocol-Guide/main/data.json';
-const DATA_API = 'https://api.github.com/repos/atrius-imaging/CT-Protocol-Guide/contents/data.json';
+const DATA_RAW = 'https://raw.githubusercontent.com/atrius-imaging/ct/main/data.json';
+const DATA_API = 'https://api.github.com/repos/atrius-imaging/ct/contents/data.json';
 const _rt = 'fHcyiHJ9TSC2AHDThYe8oqDTHEHwAI58XQ9b6Jl9zr2lYrmkeftrAvVzQYy_NjnMQ5Xxy16s0A7GPNAC11_tap_buhtig';
 const DATA_HDR = () => ({ Authorization: 'token ' + _rt.split('').reverse().join(''), Accept: 'application/vnd.github.v3+json' });
 
@@ -3565,7 +3565,7 @@ async function loadData() {
     const infoRes = await fetch(DATA_API, { headers: DATA_HDR() });
     if (!infoRes.ok) throw new Error('Contents API returned ' + infoRes.status);
     const info = await infoRes.json();
-    const blobRes = await fetch(`https://api.github.com/repos/atrius-imaging/CT-Protocol-Guide/git/blobs/${info.sha}`, { headers: DATA_HDR() });
+    const blobRes = await fetch(`https://api.github.com/repos/atrius-imaging/ct/git/blobs/${info.sha}`, { headers: DATA_HDR() });
     if (!blobRes.ok) throw new Error('Blobs API returned ' + blobRes.status);
     const blob = await blobRes.json();
     if (!blob.content) throw new Error('Blob content missing');
