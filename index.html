@@ -3592,17 +3592,22 @@ function applyCustomData() {
   // Build canonical category/button from builtins keyed by epic_id, so custom
   // entries saved under an old category (e.g. "cta" instead of "chest") don't
   // produce duplicate cards when the builtin category was later corrected.
+  // Keyed by epic_id + epic_order first: one epic_id can be shared by different orders
+  // (70486MF = Facial Bones, Stealth sinus...), and falling back to the first builtin with
+  // that epic_id alone gave custom entries the wrong protocol button (a duplicate card).
   const epicIdMeta = new Map();
   for (const p of protocols) {
-    if (p.epic_id && !epicIdMeta.has(p.epic_id)) {
-      epicIdMeta.set(p.epic_id, { category: p.category, protocol_button: p.protocol_button });
-    }
+    if (!p.epic_id) continue;
+    const meta = { category: p.category, protocol_button: p.protocol_button };
+    const exactKey = p.epic_id + '|' + p.epic_order;
+    if (!epicIdMeta.has(exactKey)) epicIdMeta.set(exactKey, meta);
+    if (!epicIdMeta.has(p.epic_id)) epicIdMeta.set(p.epic_id, meta);
   }
   protocols.push(...customProtocols
     .filter(p => !builtinKeys.has(p.indication + '|' + p.epic_order))
     .map(p => {
       if (p.epic_id && epicIdMeta.has(p.epic_id)) {
-        const canon = epicIdMeta.get(p.epic_id);
+        const canon = epicIdMeta.get(p.epic_id + '|' + p.epic_order) || epicIdMeta.get(p.epic_id);
         return Object.assign({}, p, {
           category: canon.category,
           protocol_button: p.protocol_button || canon.protocol_button
