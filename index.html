@@ -2998,20 +2998,28 @@ function groupResults(matched, sorted) {
   // then variants such as "(Hypervascular Protocol)" or "Stealth" after the plain order.
   const CONTRAST_RE = /\b(W\/O & W\/|W\/O|W\/)\s*Contrast\b/i;
   const CONTRAST_RANK = { 'w/o': 0, 'w/': 1, 'w/o & w/': 2 };
+  // Orders placed directly after another order's card (lowercase epic_order → order it follows)
+  const FOLLOWS = { 'ct sinus w/ contrast': 'maxillofacial ct w/o contrast stealth' };
+  // Exams shown first when browsing, in this order; all others follow alphabetically
+  const TOP_EXAMS = ['head ct', 'head cta', 'head / neck cta'];
   const cmp = (x, y) => x.localeCompare(y, undefined, { sensitivity: 'base', numeric: true });
   const sortKey = g => {
-    const order = g.proto.epic_order || '';
+    const own = g.proto.epic_order || '';
+    const followed = FOLLOWS[own.toLowerCase()];
+    const order = followed || own;
     const m = order.match(CONTRAST_RE);
     const variant = order.replace(CONTRAST_RE, ' ').match(/\(.*?\)|\bStealth\b/gi) || [];
     const exam = order.replace(CONTRAST_RE, ' ').replace(/\(.*?\)|\bStealth\b/gi, ' ').replace(/\s+/g, ' ').trim().toLowerCase();
-    return { exam, rank: m ? CONTRAST_RANK[m[1].toLowerCase()] : 3, variant: variant.join(' '), btn: g.proto.protocol_button || '' };
+    const top = TOP_EXAMS.indexOf(exam);
+    return { exam, top: top < 0 ? TOP_EXAMS.length : top, rank: m ? CONTRAST_RANK[m[1].toLowerCase()] : 3,
+             variant: variant.join(' '), after: followed ? 1 : 0, btn: g.proto.protocol_button || '' };
   };
   const byExam = (a, b) => {
     const ka = sortKey(a), kb = sortKey(b);
-    return cmp(ka.exam, kb.exam) || ka.rank - kb.rank || cmp(ka.variant, kb.variant) || cmp(ka.btn, kb.btn);
+    return cmp(ka.exam, kb.exam) || ka.rank - kb.rank || cmp(ka.variant, kb.variant) || ka.after - kb.after || cmp(ka.btn, kb.btn);
   };
-  // Browsing (no search): alphabetical by exam
-  if (!sorted) return groups.sort(byExam);
+  // Browsing (no search): head CT exams first, then alphabetical by exam
+  if (!sorted) return groups.sort((a, b) => sortKey(a).top - sortKey(b).top || byExam(a, b));
   // Searching: the exam with the best match comes first; all of that exam's cards follow it together
   const bestForExam = new Map();
   for (const g of groups) { const e = sortKey(g).exam; bestForExam.set(e, Math.max(bestForExam.get(e) || 0, g.maxScore)); }
