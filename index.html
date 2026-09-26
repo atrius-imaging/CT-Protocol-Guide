@@ -2968,7 +2968,7 @@ const SERIES_RECON = {
   '74263':     `Scouts + Supine STND: helical 0.5s, 40mm detector, 0.984:1/39.37, 1.25/1mm, kV120 mA210 (manual), ASIR30%, WW400/WL40.\nRecon 2 (TeraRecon) — Supine THINS [DMPR] 0.625/0.625mm, Plus IQ Enhance-ASIR30%, WW400/WL40.\nSeries 3 — Prone STND: helical 0.7s, 40mm, 1.25/1mm, kV120 mA80 (manual), Plus-ASIR30%, WW400/WL40.\nRecon 2 (TeraRecon) — Prone THINS [DMPR] 0.625/0.625mm, Plus IQ Enhance-ASIR30%, WW400/WL40.\nDMPR Sag/Cor (3x3) 3/3mm STND 400/40; Coronal MIP (prone only, 8x4) STND 400/40.`,
 };
 
-function groupResults(matched) {
+function groupResults(matched, sorted) {
   const map = new Map();
   for (const { p, score } of matched) {
     const baseKey = p.epic_order + '|' + p.iv + '|' + p.oral + '|' + p.category + '|' + (p.epic_id || '');
@@ -2993,8 +2993,20 @@ function groupResults(matched) {
     if (!g.scan_guide) g.scan_guide = p.scan_guide || guideLookup(SCAN_GUIDES, p) || '';
     if (!g.series_recon) g.series_recon = p.series_recon || guideLookup(SERIES_RECON, p) || '';
   }
-  // Primary sort: maxScore descending. Tiebreaker: number of matched indications
-  return [...map.values()].sort((a, b) => b.maxScore - a.maxScore || b.indications.length - a.indications.length);
+  const groups = [...map.values()];
+  const name = g => (g.proto.epic_order || '') + ' ' + (g.proto.protocol_button || '');
+  const byName = (a, b) => name(a).localeCompare(name(b), undefined, { sensitivity: 'base', numeric: true });
+  // Browsing (no search): alphabetical, so similar orders sit next to each other
+  if (!sorted) return groups.sort(byName);
+  // Searching: keep relevance, but pull cards with the same order name (ignoring any
+  // "(... Protocol)" suffix) together, placed at the rank of that name's best match
+  const base = g => (g.proto.epic_order || '').replace(/\s*\(.*\)\s*$/, '').toLowerCase();
+  const bestForBase = new Map();
+  for (const g of groups) bestForBase.set(base(g), Math.max(bestForBase.get(base(g)) || 0, g.maxScore));
+  return groups.sort((a, b) =>
+    bestForBase.get(base(b)) - bestForBase.get(base(a)) ||
+    base(a).localeCompare(base(b)) ||
+    b.maxScore - a.maxScore || b.indications.length - a.indications.length || byName(a, b));
 }
 
 let _removeKeys = [];
@@ -3514,7 +3526,7 @@ function render() {
     }
   }
 
-  const groups = groupResults(matched);
+  const groups = groupResults(matched, isSearching);
 
   if (groups.length === 0) {
     renderACRPanel(matchACRScenarios(currentSearch), currentSearch);
