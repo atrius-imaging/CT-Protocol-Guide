@@ -85,6 +85,9 @@
   body.admin-mode .ref-img-move { display:flex; }
   .ref-img-move button { background:#e0f2fe; color:#075985; border:none; border-radius:4px; width:22px; height:20px; font-size:10px; line-height:1; cursor:pointer; }
   .ref-img-move button:disabled { opacity:0.35; cursor:default; }
+  body.admin-mode .ref-img-tile { cursor:grab; }
+  .ref-img-tile.dragging { opacity:0.4; }
+  .ref-img-tile.drag-over { outline:2px dashed #0284c7; outline-offset:2px; }
   .lightbox-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:2000; align-items:center; justify-content:center; flex-direction:column; cursor:zoom-out; padding:24px; }
   .lightbox-overlay.show { display:flex; }
   .lightbox-overlay img { max-width:92vw; max-height:82vh; object-fit:contain; border-radius:6px; box-shadow:0 8px 40px rgba(0,0,0,0.5); }
@@ -3098,8 +3101,8 @@ function renderGroup(g) {
     ? customReferenceImages[cardKey]
     : (p.reference_images || REFERENCE_IMAGES[p.epic_id] || REFERENCE_IMAGES[p.protocol_button] || []);
   const refImagesGrid = refImages.map((img, i) => `
-    <div class="ref-img-tile">
-      <img src="${img.src}" alt="${(img.caption||'').replace(/"/g,'&quot;')}" onclick="openLightbox(this)" />
+    <div class="ref-img-tile" draggable="true" ondragstart="refImgDragStart(event,${riIdx},${i})" ondragover="refImgDragOver(event,${riIdx})" ondragleave="this.classList.remove('drag-over')" ondrop="refImgDrop(event,${riIdx},${i})" ondragend="refImgDragEnd()">
+      <img src="${img.src}" alt="${(img.caption||'').replace(/"/g,'&quot;')}" onclick="openLightbox(this)" draggable="false" />
       <div class="ref-img-caption">${(img.caption||'').replace(/</g,'&lt;')}</div>
       <button class="ref-img-remove" onclick="removeReferenceImage(${riIdx},${i})">&#x2715;</button>
       ${refImages.length > 1 ? `<div class="ref-img-move">
@@ -3107,8 +3110,10 @@ function renderGroup(g) {
         <button onclick="moveReferenceImage(${riIdx},${i},1)" title="Move right" ${i === refImages.length - 1 ? 'disabled' : ''}>&#9654;</button>
       </div>` : ''}
     </div>`).join('');
+  // Keep the section open after a reorder re-renders the page
+  const refOpen = riIdx === _refImgKeepOpen;
   const refImagesHtml = refImages.length
-    ? `<div><button class="scan-guide-btn" onclick="var b=this.nextElementSibling;b.style.display=b.style.display==='block'?'none':'block';this.innerHTML=b.style.display==='block'?'&#9660; Reference Images':'&#9658; Reference Images'">&#9658; Reference Images</button><div class="ref-img-body"><div class="ref-img-grid">${refImagesGrid}</div></div></div>`
+    ? `<div><button class="scan-guide-btn" onclick="var b=this.nextElementSibling;b.style.display=b.style.display==='block'?'none':'block';this.innerHTML=b.style.display==='block'?'&#9660; Reference Images':'&#9658; Reference Images'">${refOpen ? '&#9660;' : '&#9658;'} Reference Images</button><div class="ref-img-body"${refOpen ? ' style="display:block"' : ''}><div class="ref-img-grid">${refImagesGrid}</div></div></div>`
     : '';
   const refImagesEditHtml = `<div class="special-edit-row" id="riedit-${riIdx}" style="align-items:center;">
     <div style="flex:1;">
@@ -3382,18 +3387,45 @@ async function removeReferenceImage(idx, imgIdx) {
   showUndoToast('Reference image removed.');
 }
 
-// Move a reference image one position left (dir = -1) or right (dir = +1)
-async function moveReferenceImage(idx, imgIdx, dir) {
+// Reorder reference images: move the image at position `from` to position `to`
+var _refImgKeepOpen = -1; // var (not let): read by render(), which can run before this line
+async function moveReferenceImageTo(idx, from, to) {
   const { cardKey, epicId, protocolButton } = _refImgKeys[idx];
   const current = customReferenceImages.hasOwnProperty(cardKey)
     ? customReferenceImages[cardKey].slice()
     : (REFERENCE_IMAGES[epicId] || REFERENCE_IMAGES[protocolButton] || []).slice();
-  const target = imgIdx + dir;
-  if (target < 0 || target >= current.length) return;
-  [current[imgIdx], current[target]] = [current[target], current[imgIdx]];
+  if (from === to || to < 0 || to >= current.length) return;
+  current.splice(to, 0, current.splice(from, 1)[0]);
   customReferenceImages[cardKey] = current;
+  _refImgKeepOpen = idx;
+  render(); // show the new order immediately, then save
+  _refImgKeepOpen = -1;
   await syncData();
-  render();
+}
+function moveReferenceImage(idx, imgIdx, dir) { moveReferenceImageTo(idx, imgIdx, imgIdx + dir); }
+
+// Drag-and-drop (admin only); dragging is limited to images within the same card
+let _refDrag = null;
+function refImgDragStart(e, idx, imgIdx) {
+  if (!document.body.classList.contains('admin-mode')) { e.preventDefault(); return; }
+  _refDrag = { idx, imgIdx };
+  e.dataTransfer.effectAllowed = 'move';
+  e.currentTarget.classList.add('dragging');
+}
+function refImgDragOver(e, idx) {
+  if (!_refDrag || _refDrag.idx !== idx) return;
+  e.preventDefault();
+  e.currentTarget.classList.add('drag-over');
+}
+function refImgDrop(e, idx, imgIdx) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  if (_refDrag && _refDrag.idx === idx) moveReferenceImageTo(idx, _refDrag.imgIdx, imgIdx);
+  _refDrag = null;
+}
+function refImgDragEnd() {
+  _refDrag = null;
+  document.querySelectorAll('.ref-img-tile.dragging, .ref-img-tile.drag-over').forEach(t => t.classList.remove('dragging', 'drag-over'));
 }
 
 async function clearReferenceImages(idx) {
