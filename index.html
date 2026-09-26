@@ -1178,7 +1178,8 @@ let protocols = [
     notes:"IV contrast CTA aorta to feet. Standard runoff protocol for PAD evaluation.", source:"atrius" },
 
   { indication:"Upper Extremity Arterial / Vascular Evaluation", category:"cta", epic_order:"CTA Upper Extremity", epic_id:"", protocol_button:"ROUTINE", cpt:"73206",
-    iv:"with", oral:"none", labs:true, arrival:20, slot:20, notes:"IV contrast. Specify laterality in order.", source:"atrius" },
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20, notes:"IV contrast. Specify laterality in order.", source:"atrius",
+    scan_guide:"IV contrast per tech. SmartPrep — ROI on the descending aorta." },
 
   { indication:"Lower Extremity Arterial / Vascular Evaluation (without aorta)", category:"cta", epic_order:"CTA Lower Extremity W/O Aorta", epic_id:"", protocol_button:"CTA LOWER EXTREMITY", cpt:"73706",
     iv:"with", oral:"none", labs:true, arrival:20, slot:20, notes:"IV contrast. Does not include aorta.", source:"atrius",
@@ -1277,7 +1278,8 @@ let protocols = [
     iv:"none", oral:"none", labs:false, arrival:20, slot:20, notes:"No contrast. Specify body part and laterality in order.", source:"atrius" },
 
   { indication:"Hip / Femur / Tibia / Fibula / Foot / Ankle - Infection / Mass / Post-op", category:"spine", epic_order:"CT Lower Extremity W/ Contrast (specify body part + side)", epic_id:"", protocol_button:"ROUTINE", cpt:"73701",
-    iv:"with", oral:"none", labs:true, arrival:20, slot:20, notes:"IV contrast. Specify body part and laterality in order.", source:"atrius" },
+    iv:"with", oral:"none", labs:true, arrival:20, slot:20, notes:"IV contrast. Specify body part and laterality in order.", source:"atrius",
+    scan_guide:"IV contrast per tech (P3T), 70 sec delay (same volume and timing as routine Abdomen/Pelvis W/ Contrast)." },
 
   // ── UPPER EXTREMITY ──────────────────────────────────────────────────────
   { indication:"Shoulder / Elbow / Humerus / Forearm / Hand - Fracture / Bone / Pre-op", category:"spine", epic_order:"CT Upper Extremity W/O Contrast (specify body part + side)", epic_id:"", protocol_button:"ROUTINE", cpt:"73200",
@@ -2859,6 +2861,12 @@ const SCAN_GUIDES = {
   '70482T':    `IV contrast 75 mL, saline 40 mL (20 mL pre / 20 mL post), rate 2.5 mL/sec, 45 sec delay. Supine, head first. Coverage: top of ear lobe to bottom of ear lobe.`,
   'FACIAL BONES/TRAUMA': `No IV contrast. Supine, head first. Coverage: below mandible through orbits.`,
   '72193':     `IV contrast per tech (P3T), 70 sec delay (same timing as routine Abdomen/Pelvis W/ Contrast). Supine, feet first.`,
+  '72126':     `IV contrast per tech (P3T), 70 sec delay (same volume and timing as routine Abdomen/Pelvis W/ Contrast).`,
+  '72129':     `IV contrast per tech (P3T), 70 sec delay (same volume and timing as routine Abdomen/Pelvis W/ Contrast).`,
+  '72132':     `IV contrast per tech (P3T), 70 sec delay (same volume and timing as routine Abdomen/Pelvis W/ Contrast).`,
+  '72191':     `IV contrast per tech. SmartPrep — ROI on the descending aorta.`,
+  '74175RA':   `IV contrast per tech. SmartPrep — ROI on the descending aorta.`,
+  '71275G + 74174AA': `ECG-gated chest CTA — ECG lead placement required. Available at all sites.\nIV contrast per tech. SmartPrep — ROI on the descending aorta.\nPost-op endograft / post-TEVAR surveillance: IV contrast 100 mL, rate 4 mL/sec, 30 sec delay for the arterial phase; add a non-contrast series before and a delayed 2-min phase after, to assess for endoleak.`,
   'TOS':       `IV contrast 80 mL, saline 40 mL (20 mL pre / 20 mL post), rate 4 mL/sec — IV in the unaffected arm. SmartPrep — ROI on the aortic arch, then 70 sec delay.\nFour acquisitions: arms up — arterial (SmartPrep) then 70 sec; then affected arm down — arterial then 70 sec.`,
   '70491':     `IV contrast 75 mL, saline 40 mL (20 mL pre / 20 mL post), rate 2.5 mL/sec, 35 sec delay. Supine, head first. Coverage: OML to aortic arch.`,
   '70488MF':   `Non-contrast STND series first, then IV contrast 75 mL, saline 40 mL (20 mL pre / 20 mL post), rate 2.5 mL/sec, 35 sec delay for the post-contrast STND series. Supine, head first. Coverage: OML to aortic arch.`,
